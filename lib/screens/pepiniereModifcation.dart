@@ -159,8 +159,11 @@ class _PepiniereModificationState extends State<PepiniereModification> {
   var commune = TextEditingController();
   var agg = TextEditingController();
   var proprietaire = TextEditingController();
+  var projetAppuie = TextEditingController();
   var lat = TextEditingController();
   var long = TextEditingController();
+  var especes = TextEditingController();
+  var nbrPlant = TextEditingController();
 
   DatabaseHelper helper = DatabaseHelper.instance;
 
@@ -172,6 +175,9 @@ class _PepiniereModificationState extends State<PepiniereModification> {
     pepiniereEnCours.proprietaire = proprietaire.text;
     pepiniereEnCours.lat = lat.text;
     pepiniereEnCours.long = long.text;
+    pepiniereEnCours.projetAppuie = projetAppuie.text;
+    pepiniereEnCours.especes = especes.text;
+    pepiniereEnCours.nbrPlant = int.tryParse(nbrPlant.text);
 
     DatabaseHelper helper = DatabaseHelper.instance;
     int id = await helper.update(pepiniereEnCours);
@@ -200,6 +206,9 @@ class _PepiniereModificationState extends State<PepiniereModification> {
     proprietaire.text = widget.pepiniereEnCours.proprietaire;
     lat.text = widget.pepiniereEnCours.lat;
     long.text = widget.pepiniereEnCours.long;
+    projetAppuie.text = widget.pepiniereEnCours.projetAppuie;
+    especes.text = widget.pepiniereEnCours.especes;
+    nbrPlant.text = widget.pepiniereEnCours.nbrPlant.toString();
     
     return Scaffold(
       appBar: Navbar(
@@ -386,39 +395,102 @@ class _PepiniereModificationState extends State<PepiniereModification> {
             ),
 
             Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+              padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Type du pépiniaire",
+                    style: TextStyle(
+                        color: ArgonColors.text,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12)),
+              ),
+            ),  
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 4.0),
+              child: DropdownButton<String>(
+                style: TextStyle(
+                  fontSize: 12,
+                  color: ArgonColors.text,
+                  backgroundColor: Colors.white
+                ),
+                value: widget.pepiniereEnCours.type,
+                isExpanded: true,
+                onChanged: (String newValue) {
+                  setState(() {
+                    widget.pepiniereEnCours.type = newValue;
+                  });
+                },
+                items: listeTypePepiniere
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Projet d'appuie",
+                    style: TextStyle(
+                        color: ArgonColors.text,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12)),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 4.0),
+              child: Input(
+                  enable: true,
+                  placeholder: "Entrer le projet d'appuie",
+                  borderColor: ArgonColors.white,
+                  controller: projetAppuie,
+              )
+            ),
+
+            Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Type du pépiniaire",
+                  child: Text("Espèces",
                       style: TextStyle(
                           color: ArgonColors.text,
                           fontWeight: FontWeight.w500,
                           fontSize: 12)),
                 ),
-              ),  
+              ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: widget.pepiniereEnCours.type,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      widget.pepiniereEnCours.type = newValue;
-                    });
-                  },
-                  items: listeTypePepiniere
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                    enable: true,
+                    placeholder: "Entrer la liste des espèces",
+                    borderColor: ArgonColors.white,
+                    controller: especes,
+                )
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Nombre de plant",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
                 ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                    enable: true,
+                    placeholder: "Entrer le nombre de plan produits",
+                    borderColor: ArgonColors.white,
+                    controller: nbrPlant,
+                )
               ),
 
             Padding(

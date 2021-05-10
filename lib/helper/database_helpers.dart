@@ -130,6 +130,9 @@ final String columnGenreChoosedPepiniere = 'genreChoosed';
 final String columnTypePepiniere = 'type';
 final String columnLatPepiniere = 'lat';
 final String columnLongPepiniere = 'long';
+final String columnProjetAppuiePepiniere = 'projet_appuie';
+final String columnEspecesPepiniere = 'especes';
+final String columnNbrPlantPepiniere = 'nbrPlant';
 
 // Base Enity
 abstract class BaseEntity {
@@ -152,6 +155,9 @@ class PepiniereEntity extends BaseEntity {
   String type;
   String lat;
   String long;
+  String projetAppuie;
+  String especes;
+  int nbrPlant;
 
   PepiniereEntity();
 
@@ -172,6 +178,9 @@ class PepiniereEntity extends BaseEntity {
     type = map[columnTypePepiniere];
     lat = map[columnLatPepiniere];
     long = map[columnLongPepiniere];
+    projetAppuie = map[columnProjetAppuiePepiniere];
+    especes = map[columnEspecesPepiniere];
+    nbrPlant = map[columnNbrPlantPepiniere];
   }
 
   @override
@@ -192,7 +201,10 @@ class PepiniereEntity extends BaseEntity {
       columnGenreChoosedPepiniere : genreChoosed,
       columnTypePepiniere : type,
       columnLatPepiniere : lat,
-      columnLongPepiniere : long
+      columnLongPepiniere : long,
+      columnProjetAppuiePepiniere : projetAppuie,
+      columnEspecesPepiniere : especes,
+      columnNbrPlantPepiniere : nbrPlant,
     };
     if (id != null) {
       map[columnId] = id;
@@ -212,7 +224,10 @@ class PepiniereEntity extends BaseEntity {
       columnGenreChoosedPepiniere : genreChoosed,
       columnTypePepiniere : type,
       columnLatPepiniere : lat,
-      columnLongPepiniere : long
+      columnLongPepiniere : long,
+      columnProjetAppuiePepiniere : projetAppuie,
+      columnEspecesPepiniere : especes,
+      columnNbrPlantPepiniere : nbrPlant.toString(),
     };
     if (id != null) {
       map[columnId] = id;
@@ -1055,7 +1070,10 @@ class DatabaseHelper {
             $columnGenreChoosedPepiniere TEXT,
             $columnTypePepiniere TEXT,
             $columnLatPepiniere TEXT,
-            $columnLongPepiniere TEXT
+            $columnLongPepiniere TEXT,
+            $columnProjetAppuiePepiniere : TEXT,
+            $columnEspecesPepiniere : TEXT,
+            $columnNbrPlantPepiniere : INTEGER
           );
     ''');
 
@@ -1922,6 +1940,9 @@ class DatabaseHelper {
         columnTypePepiniere,
         columnLatPepiniere,
         columnLongPepiniere,
+        columnProjetAppuiePepiniere,
+        columnEspecesPepiniere,
+        columnNbrPlantPepiniere,
       ],
       where: '1=1');
     for (var c in map) {
@@ -1947,6 +1968,9 @@ class DatabaseHelper {
         columnTypePepiniere,
         columnLatPepiniere,
         columnLongPepiniere,
+        columnProjetAppuiePepiniere,
+        columnEspecesPepiniere,
+        columnNbrPlantPepiniere,
       ],
       where: '1=1');
     for (var c in map) {
@@ -1971,6 +1995,9 @@ class DatabaseHelper {
         columnTypePepiniere,
         columnLatPepiniere,
         columnLongPepiniere,
+        columnProjetAppuiePepiniere,
+        columnEspecesPepiniere,
+        columnNbrPlantPepiniere,
       ],
       where: '1=1');
   }

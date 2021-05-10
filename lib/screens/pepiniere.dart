@@ -157,8 +157,11 @@ class _PepiniereState extends State<Pepiniere> {
   var commune = TextEditingController();
   var agg = TextEditingController();
   var proprietaire = TextEditingController();
+  var projetAppuie = TextEditingController();
   var lat = TextEditingController();
   var long = TextEditingController();
+  var especes = TextEditingController();
+  var nbrPlant = TextEditingController();
 
   DatabaseHelper helper = DatabaseHelper.instance;
   PepiniereEntity ds = new PepiniereEntity();
@@ -188,6 +191,9 @@ class _PepiniereState extends State<Pepiniere> {
     ds.type = typeChoosed;
     ds.lat = lat.text;
     ds.long = long.text;
+    ds.projetAppuie = projetAppuie.text;
+    ds.especes = especes.text;
+    ds.nbrPlant = int.tryParse(nbrPlant.text);
 
     helper.insert(ds).then((value) => print(value));
   }
@@ -383,7 +389,7 @@ class _PepiniereState extends State<Pepiniere> {
                 padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Type du pépiniaire",
+                  child: Text("Type de pépiniériste",
                       style: TextStyle(
                           color: ArgonColors.text,
                           fontWeight: FontWeight.w500,
@@ -413,6 +419,69 @@ class _PepiniereState extends State<Pepiniere> {
                     );
                   }).toList(),
                 ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Projet d'appuie",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                    enable: true,
+                    placeholder: "Entrer le projet d'appuie",
+                    borderColor: ArgonColors.white,
+                    controller: projetAppuie,
+                )
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Espèces",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                    enable: true,
+                    placeholder: "Entrer la liste des espèces",
+                    borderColor: ArgonColors.white,
+                    controller: especes,
+                )
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Nombre de plant",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                    enable: true,
+                    placeholder: "Entrer le nombre de plan produits",
+                    borderColor: ArgonColors.white,
+                    controller: nbrPlant,
+                )
               ),
 
               Padding(

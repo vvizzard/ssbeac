@@ -220,11 +220,14 @@ class _ListePepiniereState extends State<ListePepiniere> {
                         'Unité d\'agglomeration',
                         'Commune',
                         'Agglomération',
-                        'Proprietaire',
+                        'Nom du proprietaire',
                         'Genre',
-                        'Type',
+                        'Type de pépiniériste',
+                        'Projet d\'appui',
                         'Latitude',
-                        'Longitude'
+                        'Longitude',
+                        'Espèces',
+                        'Nombre de Plant'
                       ]);
                       pepiniereEnCours.forEach((element) {
                         data.add([
@@ -237,8 +240,11 @@ class _ListePepiniereState extends State<ListePepiniere> {
                           element['proprietaire'],
                           element['genre'],
                           element['type'],
+                          element['projet_appuie'],
                           element['lat'],
-                          element['long']
+                          element['long'],
+                          element['especes'],
+                          element['nbrPlant']
                         ]);
                       });
 
