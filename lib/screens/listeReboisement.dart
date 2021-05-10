@@ -213,6 +213,8 @@ class _ListeReboisementState extends State<ListeReboisement> {
                         'Annee plantation',
                         'Densite',
                         'Taux remplissage',
+                        'Fertilisant',
+                        'Acteurs/Opérateurs'
                       ]);
                       reboisementEnCours.forEach((element) {
                         data.add([
@@ -234,7 +236,9 @@ class _ListeReboisementState extends State<ListeReboisement> {
                           element['travaux_sol'],
                           element['annee_plantation'].toString(),
                           element['densite'].toString(),
-                          element['taux_remplissage'].toString()
+                          element['taux_remplissage'].toString(),
+                          element['fertilisant'].toString(),
+                          element['acteur'].toString()
                         ]);
                       });
 

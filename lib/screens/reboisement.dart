@@ -141,31 +141,6 @@ List<String> listeCulture = [
   'Monoculture', 'Multiculture'
 ];
 
-List<String> listeEssence = [
-  'Eucalyptus robusta',
-  'Eucalyptus robusta + acacia spp',
-  'Eucalyptus camaldulensis + acacia spp',
-  'Eucalyptus camaldulensis + casuarina spp',
-  'Eucalyptus robusta + acacia spp + casuarina spp',
-  'Eucalyptus camaldulensis  + acacia spp + casuarina spp',
-  'Acacia leptocarpa + Eucalyptus spp',
-  'Acacia mangium + Eucalyptus spp',
-  'Eucalyptus camaldulensis',
-  'Eucalyptus grandis ',
-  'Acacia leptocarpa',
-  'Acacia mangium',
-  'Acacia auriculiformis',
-  'Acacia dealbata',
-  'Acacia crassicarpa',
-  'Acacia holocericea ',
-  'Casuarina cunninghamiana',
-  'Eucalyptus spp',
-  'Acacia senegaliensis',
-  'Acacia spp',
-  'Grevilea grandis',
-  'Grevilea banksii',
-];
-
 List<String> listeProvenanceSemmenceCulture = [
   'Etranger', 'Local', 'National',
 ];
@@ -195,7 +170,6 @@ class _ReboisementState extends State<Reboisement> {
   String genreChoosed;
   String pareFeuxChoosed;
   String cultureChoosed;
-  String essenceChoosed;
   String provenanceSemenceChoosed;
   String productiviteChoosed;
   String travauxSolChoosed;
@@ -207,7 +181,10 @@ class _ReboisementState extends State<Reboisement> {
   var anneePlantation = TextEditingController();
   var densite = TextEditingController();
   var tauxRemplissage = TextEditingController();
+  var essenceChoosed = TextEditingController();
+  var acteur = TextEditingController();
   bool pareFeux = false;
+  bool fertilisant = false;
 
   DatabaseHelper helper = DatabaseHelper.instance;
   ReboisementEntity ds = new ReboisementEntity();
@@ -238,13 +215,15 @@ class _ReboisementState extends State<Reboisement> {
     ds.pareFeux = pareFeux;
     ds.pareFeuxChoosed = pareFeuxChoosed;
     ds.cultureChoosed = cultureChoosed;
-    ds.essenceChoosed = essenceChoosed;
+    ds.essenceChoosed = essenceChoosed.text;
     ds.provenanceSemenceChoosed = provenanceSemenceChoosed;
     ds.productiviteChoosed = productiviteChoosed;
     ds.travauxSolChoosed = travauxSolChoosed;
     ds.anneePlantation = int.tryParse(anneePlantation.text);
     ds.densite = double.tryParse(densite.text);
     ds.tauxRemplissage = double.tryParse(tauxRemplissage.text);
+    ds.fertilisant = fertilisant;
+    ds.acteur = acteur.text;
 
     if(!ds.pareFeux) {
       ds.pareFeuxChoosed=null;
@@ -576,28 +555,13 @@ class _ReboisementState extends State<Reboisement> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: essenceChoosed,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      essenceChoosed = newValue;
-                    });
-                  },
-                  items: listeEssence
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                    enable: true,
+                    placeholder: "Entrer les essences utilisés",
+                    borderColor: ArgonColors.white,
+                    controller: essenceChoosed,
+                )
               ),
 
               Padding(
@@ -768,6 +732,50 @@ class _ReboisementState extends State<Reboisement> {
                     placeholder: "Entrer le taux de remplissage (%)",
                     borderColor: ArgonColors.white,
                     controller: tauxRemplissage,
+                )
+              ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0, top: 8),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Fertilisant",
+                          style: TextStyle(
+                              color: ArgonColors.text,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12)),
+                    ),
+                  ),
+                  Switch.adaptive(
+                    value: fertilisant,
+                    onChanged: (bool newValue) =>
+                        setState(() => fertilisant = newValue),
+                    activeColor: ArgonColors.primary,
+                  ),
+                ],
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Acteurs/Opérateurs",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                    enable: true,
+                    placeholder: "Entrer les acteurs ou opérateurs",
+                    borderColor: ArgonColors.white,
+                    controller: acteur,
                 )
               ),
 

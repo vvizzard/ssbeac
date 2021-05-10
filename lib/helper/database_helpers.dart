@@ -117,6 +117,8 @@ final String columnTravauxSolChoosedReboisement = 'travaux_sol';
 final String columnAnneePlantationReboisement = 'annee_plantation';
 final String columnDensiteReboisement = 'densite';
 final String columnTauxRemplissageReboisement = 'taux_remplissage';
+final String columnFertilisantReboisement = 'fertilisant';
+final String columnActeurReboisement = 'acteur';
 
 // Pepiniere
 final String tablePepiniere = 'pepiniere';
@@ -247,6 +249,7 @@ class ReboisementEntity extends BaseEntity {
   String genreChoosed;
   double superficie;
   bool pareFeux;
+  bool fertilisant;
   String pareFeuxChoosed;
   String cultureChoosed;
   String essenceChoosed;
@@ -256,6 +259,7 @@ class ReboisementEntity extends BaseEntity {
   int anneePlantation;
   double densite;
   double tauxRemplissage;
+  String acteur;
 
   ReboisementEntity();
 
@@ -275,6 +279,7 @@ class ReboisementEntity extends BaseEntity {
     genreChoosed = map[columnGenreChoosedReboisement];
     superficie = map[columnSuperficieReboisement];
     pareFeux = map[columnPareFeuxReboisement]==1;
+    fertilisant = map[columnFertilisantReboisement]==1;
     pareFeuxChoosed = map[columnPareFeuxChoosedReboisement];
     cultureChoosed = map[columnCultureChoosedReboisement];
     essenceChoosed = map[columnEssenceChoosedReboisement];
@@ -284,6 +289,7 @@ class ReboisementEntity extends BaseEntity {
     anneePlantation = map[columnAnneePlantationReboisement];
     densite = map[columnDensiteReboisement];
     tauxRemplissage = map[columnTauxRemplissageReboisement];
+    acteur = map[columnActeurReboisement];
   }
 
   @override
@@ -304,6 +310,7 @@ class ReboisementEntity extends BaseEntity {
       columnGenreChoosedReboisement : genreChoosed,
       columnSuperficieReboisement : superficie,
       columnPareFeuxReboisement : pareFeux?1:0,
+      columnFertilisantReboisement : fertilisant?1:0,
       columnPareFeuxChoosedReboisement : pareFeuxChoosed,
       columnCultureChoosedReboisement : cultureChoosed,
       columnEssenceChoosedReboisement : essenceChoosed,
@@ -313,6 +320,7 @@ class ReboisementEntity extends BaseEntity {
       columnAnneePlantationReboisement : anneePlantation,
       columnDensiteReboisement : densite,
       columnTauxRemplissageReboisement : tauxRemplissage,
+      columnActeurReboisement : acteur,
     };
     if (id != null) {
       map[columnIdDS] = id;
@@ -332,6 +340,7 @@ class ReboisementEntity extends BaseEntity {
       columnGenreChoosedReboisement : genreChoosed,
       columnSuperficieReboisement : superficie.toString(),
       columnPareFeuxReboisement : pareFeux?'1':'0',
+      columnFertilisantReboisement : fertilisant?'1':'0',
       columnPareFeuxChoosedReboisement : pareFeuxChoosed,
       columnCultureChoosedReboisement : cultureChoosed,
       columnEssenceChoosedReboisement : essenceChoosed,
@@ -341,6 +350,7 @@ class ReboisementEntity extends BaseEntity {
       columnAnneePlantationReboisement : anneePlantation.toString(),
       columnDensiteReboisement : densite.toString(),
       columnTauxRemplissageReboisement : tauxRemplissage.toString(),
+      columnActeurReboisement : acteur,
     };
     if (id != null) {
       map[columnIdDS] = id;
@@ -1844,6 +1854,7 @@ class DatabaseHelper {
         columnGenreChoosedReboisement,
         columnSuperficieReboisement,
         columnPareFeuxReboisement,
+        columnFertilisantReboisement,
         columnPareFeuxChoosedReboisement,
         columnCultureChoosedReboisement,
         columnEssenceChoosedReboisement,
@@ -1853,6 +1864,7 @@ class DatabaseHelper {
         columnAnneePlantationReboisement,
         columnDensiteReboisement,
         columnTauxRemplissageReboisement,
+        columnActeurReboisement,
       ],
       where: '1=1');
     for (var c in map) {
@@ -1877,6 +1889,7 @@ class DatabaseHelper {
         columnGenreChoosedReboisement,
         columnSuperficieReboisement,
         columnPareFeuxReboisement,
+        columnFertilisantReboisement,
         columnPareFeuxChoosedReboisement,
         columnCultureChoosedReboisement,
         columnEssenceChoosedReboisement,
@@ -1886,6 +1899,7 @@ class DatabaseHelper {
         columnAnneePlantationReboisement,
         columnDensiteReboisement,
         columnTauxRemplissageReboisement,
+        columnActeurReboisement,
       ],
       where: '1=1');
     for (var c in map) {
@@ -1909,6 +1923,7 @@ class DatabaseHelper {
         columnGenreChoosedReboisement,
         columnSuperficieReboisement,
         columnPareFeuxReboisement,
+        columnFertilisantReboisement,
         columnPareFeuxChoosedReboisement,
         columnCultureChoosedReboisement,
         columnEssenceChoosedReboisement,
@@ -1918,6 +1933,7 @@ class DatabaseHelper {
         columnAnneePlantationReboisement,
         columnDensiteReboisement,
         columnTauxRemplissageReboisement,
+        columnActeurReboisement,
       ],
       where: '1=1');
   }
