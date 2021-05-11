@@ -408,7 +408,7 @@ class _ForetNaturelState extends State<ForetNaturel> {
                   textColor: ArgonColors.text,
                   color: ArgonColors.success,
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/listereboisement');
+                    Navigator.pushReplacementNamed(context, '/listeforetnaturel');
                     _save();
                   },
                   shape: RoundedRectangleBorder(
