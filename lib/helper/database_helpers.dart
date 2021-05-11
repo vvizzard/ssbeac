@@ -136,6 +136,19 @@ final String columnProjetAppuiePepiniere = 'projet_appuie';
 final String columnEspecesPepiniere = 'especes';
 final String columnNbrPlantPepiniere = 'nbrPlant';
 
+// ForetNaturel
+final String tableForetNaturel = 'foret_naturel';
+final String columnIdForetNaturel = '_id';
+final String columnDateForetNaturel = 'date';
+final String columnDistrictForetNaturel = 'district';
+final String columnAgglomerationForetNaturel = 'agglomeration';
+final String columnCommuneForetNaturel = 'commune';
+final String columnAggForetNaturel = 'agg';
+final String columnSuperficieForetNaturel = 'superficie';
+final String columnPareFeuxForetNaturel = 'pare_feux';
+final String columnEssenceForetNaturel = 'essence';
+final String columnActeurForetNaturel = 'acteur';
+
 // Base Enity
 abstract class BaseEntity {
   int id;
@@ -143,6 +156,84 @@ abstract class BaseEntity {
   fromMap(Map<String, dynamic> map);
   toMap();
   toMapString();
+}
+
+// ForetNaturel
+class ForetNaturelEntity extends BaseEntity {
+  String date;
+  String district;
+  String agglomeration;
+  String commune;
+  String agg;
+  double superficie;
+  bool pareFeux;
+  String essence;
+  String acteur;
+
+  ForetNaturelEntity();
+
+  @override
+  getTable() {
+    return tableForetNaturel;
+  }
+
+  ForetNaturelEntity.fromMap(Map<String, dynamic> map) {
+    id = map[columnIdForetNaturel];
+    date = map[columnDateForetNaturel];
+    district = map[columnDistrictForetNaturel];
+    agglomeration = map[columnAgglomerationForetNaturel];
+    commune = map[columnCommuneForetNaturel];
+    agg = map[columnAggForetNaturel];
+    superficie = map[columnSuperficieForetNaturel];
+    pareFeux = map[columnPareFeuxForetNaturel]==1;
+    essence = map[columnEssenceForetNaturel];
+    acteur = map[columnActeurForetNaturel];
+  }
+
+  @override
+  fromMap(Map<String, dynamic> map) {
+    ForetNaturelEntity ds = ForetNaturelEntity.fromMap(map);
+    return ds;
+  }
+  
+  @override
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic> {
+      columnDistrictForetNaturel : district,
+      columnDateForetNaturel : date,
+      columnAgglomerationForetNaturel : agglomeration,
+      columnCommuneForetNaturel : commune,
+      columnAggForetNaturel : agg,
+      columnSuperficieForetNaturel : superficie,
+      columnPareFeuxForetNaturel : pareFeux?1:0,
+      columnEssenceForetNaturel : essence,
+      columnActeurForetNaturel : acteur,
+    };
+    if (id != null) {
+      map[columnIdDS] = id;
+    }
+    return map;
+  }
+
+  @override
+  Map<String, dynamic> toMapString() {
+    var map = <String, dynamic> {
+      columnDistrictForetNaturel : district,
+      columnDateForetNaturel : date,
+      columnAgglomerationForetNaturel : agglomeration,
+      columnCommuneForetNaturel : commune,
+      columnAggForetNaturel : agg,
+      columnSuperficieForetNaturel : superficie.toString(),
+      columnPareFeuxForetNaturel : pareFeux?'1':'0',
+      columnEssenceForetNaturel : essence,
+      columnActeurForetNaturel : acteur,
+    };
+    if (id != null) {
+      map[columnIdDS] = id;
+    }
+    return map;
+  }
+
 }
 
 // Pepiniere
@@ -1064,7 +1155,8 @@ class DatabaseHelper {
             $columnTravauxSolChoosedReboisement TEXT,
             $columnAnneePlantationReboisement INTEGER,
             $columnDensiteReboisement REAL,
-            $columnTauxRemplissageReboisement REAL
+            $columnTauxRemplissageReboisement REAL,
+            $columnActeurReboisement TEXT
           );
     ''');
 
@@ -1084,6 +1176,21 @@ class DatabaseHelper {
             $columnProjetAppuiePepiniere : TEXT,
             $columnEspecesPepiniere : TEXT,
             $columnNbrPlantPepiniere : INTEGER
+          );
+    ''');
+
+    await db.execute('''
+          CREATE TABLE $tableForetNaturel (
+            $columnIdForetNaturel INTEGER PRIMARY KEY,
+            $columnDateForetNaturel TEXT,
+            $columnDistrictForetNaturel TEXT,
+            $columnAgglomerationForetNaturel TEXT,
+            $columnCommuneForetNaturel TEXT,
+            $columnAggForetNaturel TEXT,
+            $columnSuperficieForetNaturel REAL,
+            $columnPareFeuxForetNaturel INTEGER,
+            $columnEssenceForetNaturel TEXT,
+            $columnActeurForetNaturel TEXT
           );
     ''');
 
@@ -2014,6 +2121,74 @@ class DatabaseHelper {
         columnProjetAppuiePepiniere,
         columnEspecesPepiniere,
         columnNbrPlantPepiniere,
+      ],
+      where: '1=1');
+  }
+
+  // ForetNaturel
+  Future<List<ForetNaturelEntity>> queryAllForetNaturelEntity() async {
+    Database db = await database;
+    List<ForetNaturelEntity> valiny = [];
+    List<Map> map = await db.query(
+      tableForetNaturel,
+      columns: [
+        columnIdForetNaturel,
+        columnDateForetNaturel,
+        columnDistrictForetNaturel,
+        columnAgglomerationForetNaturel,
+        columnCommuneForetNaturel,
+        columnAggForetNaturel,
+        columnSuperficieForetNaturel,
+        columnPareFeuxForetNaturel,
+        columnEssenceForetNaturel,
+        columnActeurForetNaturel,
+      ],
+      where: '1=1');
+    for (var c in map) {
+      valiny.add(ForetNaturelEntity.fromMap(c));
+    }
+    return valiny;
+  }
+
+  Future<List<Map>> queryAllForetNaturelString() async {
+    Database db = await database;
+    List<Map> valiny = [];
+    List<Map> map = await db.query(
+      tableForetNaturel,
+      columns: [
+        columnIdForetNaturel,
+        columnDateForetNaturel,
+        columnDistrictForetNaturel,
+        columnAgglomerationForetNaturel,
+        columnCommuneForetNaturel,
+        columnAggForetNaturel,
+        columnSuperficieForetNaturel,
+        columnPareFeuxForetNaturel,
+        columnEssenceForetNaturel,
+        columnActeurForetNaturel,
+      ],
+      where: '1=1');
+    for (var c in map) {
+      valiny.add(ForetNaturelEntity.fromMap(c).toMapString());
+    }
+    return valiny;
+  }
+
+  Future<List<Map>> queryAllForetNaturel() async {
+    Database db = await database;
+    return await db.query(
+      tableForetNaturel,
+      columns: [
+        columnIdForetNaturel,
+        columnDateForetNaturel,
+        columnDistrictForetNaturel,
+        columnAgglomerationForetNaturel,
+        columnCommuneForetNaturel,
+        columnAggForetNaturel,
+        columnSuperficieForetNaturel,
+        columnPareFeuxForetNaturel,
+        columnEssenceForetNaturel,
+        columnActeurForetNaturel,
       ],
       where: '1=1');
   }
