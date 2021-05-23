@@ -7,7 +7,6 @@ import 'package:argon_flutter/constants/Theme.dart';
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 import 'package:argon_flutter/widgets/input.dart';
-import 'package:argon_flutter/widgets/table-cell.dart';
 import 'package:intl/intl.dart';
 
 List<String> districts = ['Ambohidratrimo ',
@@ -133,9 +132,14 @@ List<String> typeMeule = [
   'Traditionnel', 'Amélioré'
 ];
 
-List<String> listeMeuleAmeliore = ['Non défini', 'MATI(Meule Amélioré à Tirage Inversée)', 'VMTP(Voay MiTaPy)', 'GMDR(Green Mad Dome Retort)', 'Autre'];
+List<String> listeMeuleAmeliore = [
+  'MATI(Meule Amélioré à Tirage Inversée)', 'VMTP(Voay MiTaPy)',
+  'GMDR(Green Mad Dome Retort)', 'Autre'
+];
 
-List<String> listeZonePrelevement = ['Forêt naturelle', 'Plantation', 'Mangrove', 'Arbre hors forêts'];
+List<String> listeZonePrelevement = [
+  'Forêt naturelle', 'Plantation', 'Mangrove', 'Arbre hors forêts'
+];
 List<String> listeDomainePrelevement = ['Domaine\'état', 'Domaine privé', 'TG'];
 
 class Charbonnier extends StatefulWidget {
@@ -198,8 +202,8 @@ class _CharbonnierState extends State<Charbonnier> {
     charbonnier.especeBoisCharbonnier = especeBois.text;
     // charbonnier.qteBoisCharbonnier = double.tryParse(qte.text);
     // charbonnier.qteCharbonCharbonnier = double.tryParse(qteC.text);
-    charbonnier.zonePrelevelementCharbonnier = zonePrelevementChoosed;
-    charbonnier.domainePrelevelementCharbonnier = domainePrelevementChoosed;
+    // charbonnier.zonePrelevelementCharbonnier = zonePrelevementChoosed;
+    // charbonnier.domainePrelevelementCharbonnier = domainePrelevementChoosed;
     charbonnier.autorisationCharbonnier = autorisation;
 
     List<MeuleEntity> listeMeules = [];
@@ -211,6 +215,8 @@ class _CharbonnierState extends State<Charbonnier> {
       meule.longueur = double.tryParse(value['longueur']);
       meule.largeur = double.tryParse(value['largeur']);
       meule.hauteur = double.tryParse(value['hauteur']);
+      meule.zonePrelevement = value['zone'];
+      meule.domaine = value['domaine'];
       meule.qteB = double.tryParse(value['qteB']);
       meule.qteC = double.tryParse(value['qteC']);
       listeMeules.add(meule);
@@ -449,6 +455,44 @@ class _CharbonnierState extends State<Charbonnier> {
                               ),
                               TableRow(
                                 children: <Widget>[
+                                  Text("Zone de prélèvement :", style: TextStyle(
+                                      color: ArgonColors.text,
+                                      fontSize: 12
+                                  )
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(2.0),
+                                    child: Text(e.value['zone'],
+                                        style: TextStyle(
+                                            color: ArgonColors.text,
+                                            fontSize: 12
+                                        ),
+                                        textAlign:TextAlign.end
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: <Widget>[
+                                  Text("Domaine :", style: TextStyle(
+                                      color: ArgonColors.text,
+                                      fontSize: 12
+                                  )
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(2.0),
+                                    child: Text(e.value['domaine'],
+                                        style: TextStyle(
+                                            color: ArgonColors.text,
+                                            fontSize: 12
+                                        ),
+                                        textAlign:TextAlign.end
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: <Widget>[
                                   Text("Qte bois :", style: TextStyle(
                                       color: ArgonColors.text,
                                       fontSize: 12
@@ -497,8 +541,6 @@ class _CharbonnierState extends State<Charbonnier> {
                             onPressed: () {
                               setState(() {
                                 meules.remove(e.key);
-                                // checkFoyer('BC') ? showFoyerBC=true : showFoyerBC=false;
-                                // checkFoyer('CB') ? showFoyerCB=true : showFoyerCB=false;
                               });
                             },
                           ),
@@ -534,7 +576,8 @@ class _CharbonnierState extends State<Charbonnier> {
                   onChanged: (String newValue) {
                     setState(() {
                       typeMeuleChoosed = newValue;
-                      typeMeuleChoosed.contains("Amélioré")?showMeuleAmeliore=true:showMeuleAmeliore=false;
+                      typeMeuleChoosed.contains("Amélioré")
+                          ?showMeuleAmeliore=true:showMeuleAmeliore=false;
                     });
                   },
                   items: typeMeule
@@ -653,6 +696,79 @@ class _CharbonnierState extends State<Charbonnier> {
                 )
               ),
               Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Zone de prélèvement",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
+                child: DropdownButton<String>(
+                  style: TextStyle(
+                      fontSize: 12,
+                      color: ArgonColors.text,
+                      backgroundColor: Colors.white
+                  ),
+                  value: zonePrelevementChoosed,
+                  isExpanded: true,
+                  onChanged: (String newValue) {
+                    setState(() {
+                      zonePrelevementChoosed = newValue;
+                    });
+                  },
+                  items: listeZonePrelevement
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ),
+
+              SizedBox(height: 8.0),
+
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Domaine de prélèvement",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
+                child: DropdownButton<String>(
+                  style: TextStyle(
+                      fontSize: 12,
+                      color: ArgonColors.text,
+                      backgroundColor: Colors.white
+                  ),
+                  value: domainePrelevementChoosed,
+                  isExpanded: true,
+                  onChanged: (String newValue) {
+                    setState(() {
+                      domainePrelevementChoosed = newValue;
+                    });
+                  },
+                  items: listeDomainePrelevement
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ),
+              Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
                   alignment: Alignment.centerLeft,
@@ -710,7 +826,9 @@ class _CharbonnierState extends State<Charbonnier> {
                           "largeur": largeurTemp.text,
                           "hauteur": hauteurTemp.text,
                           "qteB": qte.text,
-                          "qteC": qteC.text
+                          "qteC": qteC.text,
+                          "zone": zonePrelevementChoosed,
+                          "domaine": domainePrelevementChoosed
                         });
                       });
                     },
@@ -747,80 +865,6 @@ class _CharbonnierState extends State<Charbonnier> {
                     borderColor: ArgonColors.white,
                     controller: especeBois
                 )
-              ),
-
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Zone de prélèvement",
-                      style: TextStyle(
-                          color: ArgonColors.text,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12)),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: zonePrelevementChoosed,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      zonePrelevementChoosed = newValue;
-                    });
-                  },
-                  items: listeZonePrelevement
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-              ),
-
-              SizedBox(height: 8.0),
-
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Domaine de prélèvement",
-                      style: TextStyle(
-                          color: ArgonColors.text,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12)),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: domainePrelevementChoosed,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      domainePrelevementChoosed = newValue;
-                    });
-                  },
-                  items: listeDomainePrelevement
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
               ),
 
               SizedBox(height: 8.0),

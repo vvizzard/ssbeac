@@ -171,7 +171,6 @@ class _ListeCharbonnierState extends State<ListeCharbonnier> {
                   onPressed: () {
                     setState(() {
                       CsvHelper csvHelper = new CsvHelper();
-                      // Ménages
                       List<List<String>> data = [];
                       data.add([
                         'Id', 
@@ -179,32 +178,33 @@ class _ListeCharbonnierState extends State<ListeCharbonnier> {
                         'District',
                         'Unite agglomeration',
                         'Espece bois',
-                        'Zone prelevement',
-                        'Domaine prelevement',
                         'Autorisation',
-                        'Qte bois',
-                        'Qte charbon'
-
                       ]);
                       charbonniers.forEach((element) {
                         data.add([
-                          element['_id'].toString(), element['date'], element['district'], element['agglomeration'], 
-                          element['espece_bois'], element['zone_prelevement'], element['domaine_prelevement'],
-                          element['autorisation'].toString(), element['qte_bois'].toString(), element['qte_charbon'].toString()]);
+                          element['_id'].toString(), element['date'], element['district'],
+                          element['agglomeration'], element['espece_bois'],
+                          element['autorisation'].toString()
+                        ]);
                       });
 
                       csvHelper.generateCsv(data[1][0]+'_charbonnier_'+dateFormat.format(new DateTime.now())+'.csv', data);
 
                       // EnergieCuisson
                       data = [];
-                      data.add(['Id',	'IdCharbonnier',	'Type',	'Meule',	'Longueur',	'Largeur',	
-                          'Hauteur', 'quantité de bois',	'quantité de charbon']);
+                      data.add([
+                        'Id',	'IdCharbonnier',	'Type',	'Meule',
+                        'Longueur',	'Largeur',	'Hauteur', 'Zone prelevement',
+                        'Domaine prelevement', 'quantité de bois',
+                        'quantité de charbon','Qte bois', 'Qte charbon'
+                      ]);
                       helper.queryAllMeule().then((value) => {
                         value.forEach((element) {
                           data.add([
                             element.id.toString(), element.idCharbonnier.toString(), 
-                            element.typeMeule, element.meule, 
-                            element.longueur.toString(),element.largeur.toString(), element.hauteur.toString(),
+                            element.typeMeule, element.meule, element.longueur.toString(),
+                            element.largeur.toString(), element.hauteur.toString(),
+                            element.zonePrelevement, element.domaine,
                             element.qteB.toString(), element.qteC.toString()
                           ]);
                         }),

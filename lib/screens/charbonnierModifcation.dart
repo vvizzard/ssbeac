@@ -7,135 +7,139 @@ import 'package:argon_flutter/constants/Theme.dart';
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 import 'package:argon_flutter/widgets/input.dart';
-import 'package:argon_flutter/widgets/table-cell.dart';
 import 'package:intl/intl.dart';
 
 List<String> districts = ['Ambohidratrimo ',
-'Andramasina ',
-'Anjozorobe ',
-'Ankazobe ',
-'Antananarivo Atsimondrano ',
-'Antananarivo Avaradrano ',
-'Antananarivo Renivohitra ',
-'Manjakandriana ',
-'Antsirabe I ',
-'Betafo ',
-'Ambatolampy ',
-'Antanifotsy ',
-'Faratsiho ',
-'Antsirabe II ',
-'Mandoto ',
-'Soavinandriana ',
-'Arivonimamo ',
-'Miarinarivo ',
-'Tsiroanomandidy ',
-'Fenoarivobe ',
-'Ambalavao ',
-'Fianarantsoa I ',
-'Ambohimahasoa ',
-'Ikalamavony ',
-'Isandra ',
-'Lalangina ',
-'Vohibato ',
-'Ambatofinandrahana ',
-'Ambositra ',
-'Fandriana ',
-'Manandriana ',
-'Ifanadiana ',
-'Nosy-varika ',
-'Mananjary ',
-'Manakara atsimo ',
-'Ikongo ',
-'Vohipeno ',
-'Ihosy ',
-'Ivohibe ',
-'Iakora ',
-'Farafangana ',
-'Vangaindrano ',
-'Midongy-atsimo ',
-'Vondrozo ',
-'Befotaka ',
-'Toamasina I ',
-'Brickaville ',
-'Vatomandry ',
-'Mahanoro ',
-'Marolambo ',
-'Toamasina II ',
-'Antanambao manampontsy ',
-'Sainte Marie ',
-'Maroantsetra ',
-'Mananara-avaratra ',
-'FENERIVE EST ',
-'Soanierana Ivongo ',
-'Vavatenina ',
-'Amparafaravola ',
-'Ambatondrazaka ',
-'Moramanga ',
-'Andilamena ',
-'Anosibe-an’ala ',
-'Mahajanga I ',
-'Ambato boeni ',
-'Marovoay ',
-'Mitsinjo ',
-'Mahajanga II ',
-'Soalala ',
-'Port-Bergé(Boriziny-vaovao) ',
-'Mandritsara ',
-'Analalava ',
-'Befandriana nord ',
-'Antsohihy ',
-'Bealanana ',
-'Mampikony ',
-'Maevatanana ',
-'Tsaratanana ',
-'Kandreho ',
-'Ambatomainty ',
-'Antsalova ',
-'Maintirano ',
-'Morafenobe ',
-'Besalampy ',
-'Toliara-I ',
-'Toliara-II ',
-'Benenitra ',
-'Beroroha ',
-'Morombe ',
-'Ankazoabo ',
-'Betioky atsimo ',
-'Ampanihy ouest ',
-'Sakaraha ',
-'Beloha ',
-'Ambovombe-androy ',
-'Bekily ',
-'Tsihombe ',
-'Amboasary-atsimo ',
-'Taolagnaro ',
-'Betroka ',
-'Manja ',
-'Morondava ',
-'Mahabo ',
-'Belo sur Tsiribihina ',
-'Miandrivazo ',
-'Antsiranana II ',
-'Antsiranana I ',
-'Ambilobe ',
-'Nosy-Be ',
-'Ambanja ',
-'Antalaha ',
-'Sambava ',
-'Andapa ',
-'Vohemar ',''];
+  'Andramasina ',
+  'Anjozorobe ',
+  'Ankazobe ',
+  'Antananarivo Atsimondrano ',
+  'Antananarivo Avaradrano ',
+  'Antananarivo Renivohitra ',
+  'Manjakandriana ',
+  'Antsirabe I ',
+  'Betafo ',
+  'Ambatolampy ',
+  'Antanifotsy ',
+  'Faratsiho ',
+  'Antsirabe II ',
+  'Mandoto ',
+  'Soavinandriana ',
+  'Arivonimamo ',
+  'Miarinarivo ',
+  'Tsiroanomandidy ',
+  'Fenoarivobe ',
+  'Ambalavao ',
+  'Fianarantsoa I ',
+  'Ambohimahasoa ',
+  'Ikalamavony ',
+  'Isandra ',
+  'Lalangina ',
+  'Vohibato ',
+  'Ambatofinandrahana ',
+  'Ambositra ',
+  'Fandriana ',
+  'Manandriana ',
+  'Ifanadiana ',
+  'Nosy-varika ',
+  'Mananjary ',
+  'Manakara atsimo ',
+  'Ikongo ',
+  'Vohipeno ',
+  'Ihosy ',
+  'Ivohibe ',
+  'Iakora ',
+  'Farafangana ',
+  'Vangaindrano ',
+  'Midongy-atsimo ',
+  'Vondrozo ',
+  'Befotaka ',
+  'Toamasina I ',
+  'Brickaville ',
+  'Vatomandry ',
+  'Mahanoro ',
+  'Marolambo ',
+  'Toamasina II ',
+  'Antanambao manampontsy ',
+  'Sainte Marie ',
+  'Maroantsetra ',
+  'Mananara-avaratra ',
+  'FENERIVE EST ',
+  'Soanierana Ivongo ',
+  'Vavatenina ',
+  'Amparafaravola ',
+  'Ambatondrazaka ',
+  'Moramanga ',
+  'Andilamena ',
+  'Anosibe-an’ala ',
+  'Mahajanga I ',
+  'Ambato boeni ',
+  'Marovoay ',
+  'Mitsinjo ',
+  'Mahajanga II ',
+  'Soalala ',
+  'Port-Bergé(Boriziny-vaovao) ',
+  'Mandritsara ',
+  'Analalava ',
+  'Befandriana nord ',
+  'Antsohihy ',
+  'Bealanana ',
+  'Mampikony ',
+  'Maevatanana ',
+  'Tsaratanana ',
+  'Kandreho ',
+  'Ambatomainty ',
+  'Antsalova ',
+  'Maintirano ',
+  'Morafenobe ',
+  'Besalampy ',
+  'Toliara-I ',
+  'Toliara-II ',
+  'Benenitra ',
+  'Beroroha ',
+  'Morombe ',
+  'Ankazoabo ',
+  'Betioky atsimo ',
+  'Ampanihy ouest ',
+  'Sakaraha ',
+  'Beloha ',
+  'Ambovombe-androy ',
+  'Bekily ',
+  'Tsihombe ',
+  'Amboasary-atsimo ',
+  'Taolagnaro ',
+  'Betroka ',
+  'Manja ',
+  'Morondava ',
+  'Mahabo ',
+  'Belo sur Tsiribihina ',
+  'Miandrivazo ',
+  'Antsiranana II ',
+  'Antsiranana I ',
+  'Ambilobe ',
+  'Nosy-Be ',
+  'Ambanja ',
+  'Antalaha ',
+  'Sambava ',
+  'Andapa ',
+  'Vohemar '];
 
 List<String> agglomeration = [
-  'Urbaine', 'Rurale',''
+  'Urbaine', 'Rurale'
 ];
 
 List<String> typeMeule = [
   'Traditionnel', 'Amélioré'
 ];
 
-List<String> listeMeuleAmeliore = ['Non défini', 'MATI(Meule Amélioré à Tirage Inversée)', 'VMTP(Voay MiTaPy)', 'GMDR(Green Mad Dome Retort)', 'Autre'];
+List<String> listeMeuleAmeliore = [
+  'MATI(Meule Amélioré à Tirage Inversée)', 'VMTP(Voay MiTaPy)',
+  'GMDR(Green Mad Dome Retort)', 'Autre'
+];
 
-List<String> listeZonePrelevement = ['Forêt naturelle', 'Plantation', 'Mangrove', 'Arbre hors forêts'];
+List<String> listeZonePrelevement = [
+  'Forêt naturelle', 'Plantation', 'Mangrove', 'Arbre hors forêts'
+];
 List<String> listeDomainePrelevement = ['Domaine\'état', 'Domaine privé', 'TG'];
 
 class CharbonnierModification extends StatefulWidget {
@@ -169,26 +173,20 @@ class _CharbonnierModificationState extends State<CharbonnierModification> {
   var hauteurTemp = TextEditingController();
   var qte = TextEditingController();
   var qteC = TextEditingController();
+  String zonePrelevement = '';
+  String domainePrelevement = '';
   String typeMeuleChoosed;
   bool showMeuleAmeliore = false;
   String meuleAmelioreChoosed;
-  String zonePrelevementChoosed;
-  String domainePrelevementChoosed;
   bool autorisation = false;
 
   
   _save(CharbonnierEntity charbonnierEnCours) async {
     if(meules.length == 0) return null;
 
-    // charbonnierEnCours.districtCharbonnier = districtChoosed;
     String dateString = DateFormat('dd-MM-yyyy').format(date);
     dateString.compareTo(charbonnierEnCours.dateCharbonnier)!=0?charbonnierEnCours.dateCharbonnier=dateString:0;
     charbonnierEnCours.especeBoisCharbonnier = especeBois.text;
-    // charbonnierEnCours.qteBoisCharbonnier = double.tryParse(qte.text);
-    // charbonnierEnCours.qteCharbonCharbonnier = double.tryParse(qteC.text);
-    // charbonnierEnCours.zonePrelevelementCharbonnier = zonePrelevementChoosed;
-    // charbonnierEnCours.domainePrelevelementCharbonnier = domainePrelevementChoosed;
-    // charbonnierEnCours.autorisationCharbonnier = autorisation;
 
     List<MeuleEntity> listeMeules = [];
 
@@ -201,6 +199,8 @@ class _CharbonnierModificationState extends State<CharbonnierModification> {
       meule.hauteur = double.tryParse(value['hauteur']);
       meule.qteB = double.tryParse(value['qteB']);
       meule.qteC = double.tryParse(value['qteC']);
+      meule.zonePrelevement = value['zone'];
+      meule.domaine = value['domaine'];
       listeMeules.add(meule);
     });
 
@@ -227,8 +227,6 @@ class _CharbonnierModificationState extends State<CharbonnierModification> {
   @override
   Widget build(BuildContext context) {
     especeBois.text = widget.charbonnierEnCours.especeBoisCharbonnier.toString();
-    // qte.text = widget.charbonnierEnCours.qteBoisCharbonnier.toString();
-    // qteC.text = widget.charbonnierEnCours.qteCharbonCharbonnier.toString();
     dateLabel = widget.charbonnierEnCours.dateCharbonnier;
     
     for (var i = 0; i < widget.meules.length; i++) {
@@ -240,12 +238,11 @@ class _CharbonnierModificationState extends State<CharbonnierModification> {
         "hauteur": widget.meules[i].hauteur.toString(),
         "qteB": widget.meules[i].qteB.toString(),
         "qteC": widget.meules[i].qteC.toString(),
+        "zone": widget.meules[i].zonePrelevement,
+        "domaine" : widget.meules[i].domaine,
         "index": i.toString()
       });
     }
-
-    // print('energies');
-    // print(widget.energieCuissons);
     
     return Scaffold(
         appBar: Navbar(
@@ -357,7 +354,6 @@ class _CharbonnierModificationState extends State<CharbonnierModification> {
                 ),
               ),
 
-              // Saison sèche
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 16.0),
                 child: Align(
@@ -468,6 +464,44 @@ class _CharbonnierModificationState extends State<CharbonnierModification> {
                                         fontSize: 12
                                       ),
                                       textAlign:TextAlign.end
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: <Widget>[
+                                  Text("Zone de prélèvement :", style: TextStyle(
+                                      color: ArgonColors.text,
+                                      fontSize: 12
+                                  )
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(2.0),
+                                    child: Text(e.value['zone'],
+                                        style: TextStyle(
+                                            color: ArgonColors.text,
+                                            fontSize: 12
+                                        ),
+                                        textAlign:TextAlign.end
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: <Widget>[
+                                  Text("Domaine :", style: TextStyle(
+                                      color: ArgonColors.text,
+                                      fontSize: 12
+                                  )
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(2.0),
+                                    child: Text(e.value['domaine'],
+                                        style: TextStyle(
+                                            color: ArgonColors.text,
+                                            fontSize: 12
+                                        ),
+                                        textAlign:TextAlign.end
                                     ),
                                   ),
                                 ],
@@ -677,6 +711,79 @@ class _CharbonnierModificationState extends State<CharbonnierModification> {
                 )
               ),
               Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Zone de prélèvement",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
+                child: DropdownButton<String>(
+                  style: TextStyle(
+                      fontSize: 12,
+                      color: ArgonColors.text,
+                      backgroundColor: Colors.white
+                  ),
+                  value: zonePrelevement,
+                  isExpanded: true,
+                  onChanged: (String newValue) {
+                    setState(() {
+                      zonePrelevement = newValue;
+                    });
+                  },
+                  items: listeZonePrelevement
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ),
+
+              SizedBox(height: 8.0),
+
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Domaine de prélèvement",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
+                child: DropdownButton<String>(
+                  style: TextStyle(
+                      fontSize: 12,
+                      color: ArgonColors.text,
+                      backgroundColor: Colors.white
+                  ),
+                  value: domainePrelevement,
+                  isExpanded: true,
+                  onChanged: (String newValue) {
+                    setState(() {
+                      domainePrelevement = newValue;
+                    });
+                  },
+                  items: listeDomainePrelevement
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ),
+              Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
                   alignment: Alignment.centerLeft,
@@ -733,6 +840,8 @@ class _CharbonnierModificationState extends State<CharbonnierModification> {
                           "longueur": longueurTemp.text,
                           "largeur": largeurTemp.text,
                           "hauteur": hauteurTemp.text,
+                          "zone": zonePrelevement,
+                          "domaine": domainePrelevement,
                           "qteB": qte.text,
                           "qteC": qteC.text
                         });
@@ -770,80 +879,6 @@ class _CharbonnierModificationState extends State<CharbonnierModification> {
                     borderColor: ArgonColors.white,
                     controller: especeBois
                 )
-              ),
-
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Zone de prélèvement",
-                      style: TextStyle(
-                          color: ArgonColors.text,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12)),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: widget.charbonnierEnCours.zonePrelevelementCharbonnier,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      widget.charbonnierEnCours.zonePrelevelementCharbonnier = newValue;
-                    });
-                  },
-                  items: listeZonePrelevement
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-              ),
-
-              SizedBox(height: 8.0),
-
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Domaine de prélèvement",
-                      style: TextStyle(
-                          color: ArgonColors.text,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12)),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: widget.charbonnierEnCours.domainePrelevelementCharbonnier,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      widget.charbonnierEnCours.domainePrelevelementCharbonnier = newValue;
-                    });
-                  },
-                  items: listeDomainePrelevement
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
               ),
 
               SizedBox(height: 8.0),

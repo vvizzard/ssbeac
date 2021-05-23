@@ -13,24 +13,15 @@ final String columnAgglomerationMenage = 'agglomeration';
 final String columnTypeMenage = 'typeMenage';
 final String columnTailleMenage = 'tailleMenage';
 final String columnTypeGrosConsommateur= 'typeGrosConsommateur';
-// final String columnFrequenceRenouvellementBCTrad = 'frequenceRenouvellementBCTrad'; remove
-// final String columnPrixRenouvellementBCTrad = 'prixRenouvellementBCTrad'; remove
-// final String columnFrequenceRenouvellementBCAmeliore = 'frequenceRenouvellementBCAmeliore'; remove
-// final String columnPrixRenouvellementBCAmeliore = 'prixRenouvellementBCAmeliore'; remove
-// final String columnFrequenceRenouvellementCBTrad = 'frequenceRenouvellementCBTrad'; remove
-// final String columnPrixRenouvelementCBTrad = 'prixRenouvelementCBTrad'; remove
-// final String columnFrequenceRenouvellementCBAmeliore = 'frequenceRenouvellementCBAmeliore'; remove
-// final String columnPrixRenouvelementCBAmeliore = 'prixRenouvelementCBAmeliore'; remove
 
 // Energie de cuisson
 final String tableEnergieCuisson = 'energieCuisson';
 final String columnIdEnergieCuisson = '_id';
 final String columnIdMenageEnergieCuisson = '_idMenage';
 final String columnEnergieCuisson = 'energie';
-// final String columnAutreEnergieCuisson = 'autreEnergie'; Remove
-final String columnTypeFoyerEnergieCuisson = 'type_foyer'; //Ajouter
-final String columnFrequenceFoyerEnergieCuisson = 'frequence_foyer'; //Ajouter
-final String columnPUFoyerEnergieCuisson = 'pu_foyer'; //Ajouter
+final String columnTypeFoyerEnergieCuisson = 'type_foyer';
+final String columnFrequenceFoyerEnergieCuisson = 'frequence_foyer';
+final String columnPUFoyerEnergieCuisson = 'pu_foyer';
 final String columnQteEnergieCuisson = 'qte';
 final String columnPrixEnergieCuisson = 'prix';
 final String columnSaisonEnergieCuisson = 'saison';
