@@ -7,7 +7,6 @@ import 'package:argon_flutter/constants/Theme.dart';
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 import 'package:argon_flutter/widgets/input.dart';
-import 'package:argon_flutter/widgets/table-cell.dart';
 import 'package:intl/intl.dart';
 
 List<String> districts = ['Ambohidratrimo ',
@@ -123,10 +122,10 @@ List<String> districts = ['Ambohidratrimo ',
 'Antalaha ',
 'Sambava ',
 'Andapa ',
-'Vohemar ',''];
+'Vohemar '];
 
 List<String> agglomeration = [
-  'Urbaine', 'Rurale',''
+  'Urbaine', 'Rurale'
 ];
 
 List<String> listeGenre = [
@@ -146,7 +145,8 @@ List<String> listeProvenanceSemmenceCulture = [
 ];
 
 List<String> listeProductivite = [
-  'Productivite elevee', 'Productivite haute', 'Productivite moyenne', 'Productivite faible', 'Productivite tres faible',
+  'Productivite elevee', 'Productivite haute', 'Productivite moyenne',
+  'Productivite faible', 'Productivite tres faible',
 ];
 
 List<String> listeTravauxSol = [
@@ -183,6 +183,7 @@ class _ReboisementState extends State<Reboisement> {
   var tauxRemplissage = TextEditingController();
   var essenceChoosed = TextEditingController();
   var acteur = TextEditingController();
+  var type = TextEditingController();
   bool pareFeux = false;
   bool fertilisant = false;
 
@@ -224,6 +225,7 @@ class _ReboisementState extends State<Reboisement> {
     ds.tauxRemplissage = double.tryParse(tauxRemplissage.text);
     ds.fertilisant = fertilisant;
     ds.acteur = acteur.text;
+    ds.type = type.text;
 
     if(!ds.pareFeux) {
       ds.pareFeuxChoosed=null;
@@ -417,6 +419,27 @@ class _ReboisementState extends State<Reboisement> {
                     );
                   }).toList(),
                 ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Type de reboisement",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
+                    enable: true,
+                    placeholder: "Entrer le type de reboisement",
+                    borderColor: ArgonColors.white,
+                    controller: type,
+                  )
               ),
 
               Padding(

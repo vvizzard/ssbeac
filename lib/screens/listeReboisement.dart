@@ -1,8 +1,5 @@
 import 'package:argon_flutter/helper/csv_helpers.dart';
 import 'package:argon_flutter/helper/database_helpers.dart';
-import 'package:argon_flutter/screens/barriereModifcation.dart';
-import 'package:argon_flutter/screens/charbonnierModifcation.dart';
-import 'package:argon_flutter/screens/menageModifcation.dart';
 import 'package:argon_flutter/screens/reboisementModifcation.dart';
 import 'package:flutter/material.dart';
 
@@ -11,8 +8,6 @@ import 'package:argon_flutter/constants/Theme.dart';
 //widgets
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
-import 'package:argon_flutter/widgets/input.dart';
-import 'package:argon_flutter/widgets/table-cell.dart';
 import 'package:intl/intl.dart';
 
 
@@ -202,6 +197,7 @@ class _ListeReboisementState extends State<ListeReboisement> {
                         'Agglomération',
                         'Proprietaire',
                         'Genre',
+                        'Type de reboisement'
                         'Superficie',
                         'Pare-feux',
                         'Pare-feux choisis',
@@ -226,6 +222,7 @@ class _ListeReboisementState extends State<ListeReboisement> {
                           element['agg'],
                           element['proprietaire'],
                           element['genre'],
+                          element['type'],
                           element['superficie'].toString(),
                           element['pare_feux'].toString(),
                           element['pare_feux_choosed'],

@@ -7,7 +7,6 @@ import 'package:argon_flutter/constants/Theme.dart';
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 import 'package:argon_flutter/widgets/input.dart';
-import 'package:argon_flutter/widgets/table-cell.dart';
 import 'package:intl/intl.dart';
 
 List<String> districts = ['Ambohidratrimo ',
@@ -146,7 +145,8 @@ List<String> listeProvenanceSemmenceCulture = [
 ];
 
 List<String> listeProductivite = [
-  'Productivite elevee', 'Productivite haute', 'Productivite moyenne', 'Productivite faible', 'Productivite tres faible',
+  'Productivite elevee', 'Productivite haute', 'Productivite moyenne',
+  'Productivite faible', 'Productivite tres faible',
 ];
 
 List<String> listeTravauxSol = [
@@ -181,29 +181,23 @@ class _ReboisementModificationState extends State<ReboisementModification> {
   var tauxRemplissage = TextEditingController();
   var essenceChoosed = TextEditingController();
   var acteur = TextEditingController();
+  var type = TextEditingController();
 
   DatabaseHelper helper = DatabaseHelper.instance;
 
   
   _save(ReboisementEntity reboisementEnCours) async {
     dateFormat.format(date).compareTo(reboisementEnCours.date)!=0?reboisementEnCours.date = dateFormat.format(date):0;
-    // reboisementEnCours.district = ;
-    // reboisementEnCours.agglomeration = ;
     reboisementEnCours.commune = commune.text;
     reboisementEnCours.agg = agg.text;
     reboisementEnCours.proprietaire = proprietaire.text;
-    // reboisementEnCours.genreChoosed = ;
     reboisementEnCours.superficie = double.tryParse(superficie.text);
-    // reboisementEnCours.pareFeux = ;
-    // reboisementEnCours.pareFeuxChoosed = ;
-    // reboisementEnCours.cultureChoosed = ;
     reboisementEnCours.essenceChoosed = essenceChoosed.text;
     reboisementEnCours.acteur = acteur.text;
-    // reboisementEnCours.productiviteChoosed = ;
-    // reboisementEnCours.travauxSolChoosed = ;
     reboisementEnCours.anneePlantation = int.tryParse(anneePlantation.text);
     reboisementEnCours.densite = double.tryParse(densite.text);
     reboisementEnCours.tauxRemplissage = double.tryParse(tauxRemplissage.text);
+    reboisementEnCours.type = type.text;
 
     if(!reboisementEnCours.pareFeux) {
       reboisementEnCours.pareFeuxChoosed=null;
@@ -240,6 +234,7 @@ class _ReboisementModificationState extends State<ReboisementModification> {
     tauxRemplissage.text = widget.reboisementEnCours.tauxRemplissage.toString();
     essenceChoosed.text = widget.reboisementEnCours.essenceChoosed;
     acteur.text = widget.reboisementEnCours.acteur;
+    type.text = widget.reboisementEnCours.type;
     
     return Scaffold(
       appBar: Navbar(
@@ -423,6 +418,27 @@ class _ReboisementModificationState extends State<ReboisementModification> {
                   );
                 }).toList(),
               ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Type de reboisement",
+                    style: TextStyle(
+                        color: ArgonColors.text,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12)),
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                  enable: true,
+                  placeholder: "Entrer le type de reboisement",
+                  borderColor: ArgonColors.white,
+                  controller: type,
+                )
             ),
 
             Padding(

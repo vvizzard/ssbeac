@@ -33,11 +33,7 @@ final String columnDateCharbonnier = 'date';
 final String columnDistrictCharbonnier = 'district';
 final String columnAgglomerationCharbonnier = 'agglomeration';
 final String columnEspeceBoisCharbonnier = 'espece_bois';
-// final String columnZonePrelevementCharbonnier = 'zone_prelevement'; Remove
-// final String columnDomainePrelevementCharbonnier = 'domaine_prelevement'; Remove
 final String columnAutorisationCharbonnier = 'autorisation';
-// final String columnQteBoisCharbonnier = 'qte_bois'; Remove
-// final String columnQteCharbonCharbonnier = 'qte_charbon'; Remove
 /*Formation mbola mile jerena ny momba azy*/
 
 // Meule
@@ -49,8 +45,8 @@ final String columnMeule = 'meule';
 final String columnLongeurMeule = 'longueur';
 final String columnLargeurMeule = 'largeur';
 final String columnHauteurMeule = 'hauteur';
-final String columnZonePrelevementMeule = 'zone_prelevement'; //Ajouter
-final String columnDomaineMeule = 'domaine'; //Ajouter
+final String columnZonePrelevementMeule = 'zone_prelevement';
+final String columnDomaineMeule = 'domaine';
 final String columnQteBMeule = 'qte_b';
 final String columnQteCMeule = 'qte_c';
 
