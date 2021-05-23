@@ -7,139 +7,145 @@ import 'package:argon_flutter/constants/Theme.dart';
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 import 'package:argon_flutter/widgets/input.dart';
-import 'package:argon_flutter/widgets/table-cell.dart';
 import 'package:intl/intl.dart';
 
 List<String> districts = ['Ambohidratrimo ',
-'Andramasina ',
-'Anjozorobe ',
-'Ankazobe ',
-'Antananarivo Atsimondrano ',
-'Antananarivo Avaradrano ',
-'Antananarivo Renivohitra ',
-'Manjakandriana ',
-'Antsirabe I ',
-'Betafo ',
-'Ambatolampy ',
-'Antanifotsy ',
-'Faratsiho ',
-'Antsirabe II ',
-'Mandoto ',
-'Soavinandriana ',
-'Arivonimamo ',
-'Miarinarivo ',
-'Tsiroanomandidy ',
-'Fenoarivobe ',
-'Ambalavao ',
-'Fianarantsoa I ',
-'Ambohimahasoa ',
-'Ikalamavony ',
-'Isandra ',
-'Lalangina ',
-'Vohibato ',
-'Ambatofinandrahana ',
-'Ambositra ',
-'Fandriana ',
-'Manandriana ',
-'Ifanadiana ',
-'Nosy-varika ',
-'Mananjary ',
-'Manakara atsimo ',
-'Ikongo ',
-'Vohipeno ',
-'Ihosy ',
-'Ivohibe ',
-'Iakora ',
-'Farafangana ',
-'Vangaindrano ',
-'Midongy-atsimo ',
-'Vondrozo ',
-'Befotaka ',
-'Toamasina I ',
-'Brickaville ',
-'Vatomandry ',
-'Mahanoro ',
-'Marolambo ',
-'Toamasina II ',
-'Antanambao manampontsy ',
-'Sainte Marie ',
-'Maroantsetra ',
-'Mananara-avaratra ',
-'FENERIVE EST ',
-'Soanierana Ivongo ',
-'Vavatenina ',
-'Amparafaravola ',
-'Ambatondrazaka ',
-'Moramanga ',
-'Andilamena ',
-'Anosibe-an’ala ',
-'Mahajanga I ',
-'Ambato boeni ',
-'Marovoay ',
-'Mitsinjo ',
-'Mahajanga II ',
-'Soalala ',
-'Port-Bergé(Boriziny-vaovao) ',
-'Mandritsara ',
-'Analalava ',
-'Befandriana nord ',
-'Antsohihy ',
-'Bealanana ',
-'Mampikony ',
-'Maevatanana ',
-'Tsaratanana ',
-'Kandreho ',
-'Ambatomainty ',
-'Antsalova ',
-'Maintirano ',
-'Morafenobe ',
-'Besalampy ',
-'Toliara-I ',
-'Toliara-II ',
-'Benenitra ',
-'Beroroha ',
-'Morombe ',
-'Ankazoabo ',
-'Betioky atsimo ',
-'Ampanihy ouest ',
-'Sakaraha ',
-'Beloha ',
-'Ambovombe-androy ',
-'Bekily ',
-'Tsihombe ',
-'Amboasary-atsimo ',
-'Taolagnaro ',
-'Betroka ',
-'Manja ',
-'Morondava ',
-'Mahabo ',
-'Belo sur Tsiribihina ',
-'Miandrivazo ',
-'Antsiranana II ',
-'Antsiranana I ',
-'Ambilobe ',
-'Nosy-Be ',
-'Ambanja ',
-'Antalaha ',
-'Sambava ',
-'Andapa ',
-'Vohemar ',''];
+  'Andramasina ',
+  'Anjozorobe ',
+  'Ankazobe ',
+  'Antananarivo Atsimondrano ',
+  'Antananarivo Avaradrano ',
+  'Antananarivo Renivohitra ',
+  'Manjakandriana ',
+  'Antsirabe I ',
+  'Betafo ',
+  'Ambatolampy ',
+  'Antanifotsy ',
+  'Faratsiho ',
+  'Antsirabe II ',
+  'Mandoto ',
+  'Soavinandriana ',
+  'Arivonimamo ',
+  'Miarinarivo ',
+  'Tsiroanomandidy ',
+  'Fenoarivobe ',
+  'Ambalavao ',
+  'Fianarantsoa I ',
+  'Ambohimahasoa ',
+  'Ikalamavony ',
+  'Isandra ',
+  'Lalangina ',
+  'Vohibato ',
+  'Ambatofinandrahana ',
+  'Ambositra ',
+  'Fandriana ',
+  'Manandriana ',
+  'Ifanadiana ',
+  'Nosy-varika ',
+  'Mananjary ',
+  'Manakara atsimo ',
+  'Ikongo ',
+  'Vohipeno ',
+  'Ihosy ',
+  'Ivohibe ',
+  'Iakora ',
+  'Farafangana ',
+  'Vangaindrano ',
+  'Midongy-atsimo ',
+  'Vondrozo ',
+  'Befotaka ',
+  'Toamasina I ',
+  'Brickaville ',
+  'Vatomandry ',
+  'Mahanoro ',
+  'Marolambo ',
+  'Toamasina II ',
+  'Antanambao manampontsy ',
+  'Sainte Marie ',
+  'Maroantsetra ',
+  'Mananara-avaratra ',
+  'FENERIVE EST ',
+  'Soanierana Ivongo ',
+  'Vavatenina ',
+  'Amparafaravola ',
+  'Ambatondrazaka ',
+  'Moramanga ',
+  'Andilamena ',
+  'Anosibe-an’ala ',
+  'Mahajanga I ',
+  'Ambato boeni ',
+  'Marovoay ',
+  'Mitsinjo ',
+  'Mahajanga II ',
+  'Soalala ',
+  'Port-Bergé(Boriziny-vaovao) ',
+  'Mandritsara ',
+  'Analalava ',
+  'Befandriana nord ',
+  'Antsohihy ',
+  'Bealanana ',
+  'Mampikony ',
+  'Maevatanana ',
+  'Tsaratanana ',
+  'Kandreho ',
+  'Ambatomainty ',
+  'Antsalova ',
+  'Maintirano ',
+  'Morafenobe ',
+  'Besalampy ',
+  'Toliara-I ',
+  'Toliara-II ',
+  'Benenitra ',
+  'Beroroha ',
+  'Morombe ',
+  'Ankazoabo ',
+  'Betioky atsimo ',
+  'Ampanihy ouest ',
+  'Sakaraha ',
+  'Beloha ',
+  'Ambovombe-androy ',
+  'Bekily ',
+  'Tsihombe ',
+  'Amboasary-atsimo ',
+  'Taolagnaro ',
+  'Betroka ',
+  'Manja ',
+  'Morondava ',
+  'Mahabo ',
+  'Belo sur Tsiribihina ',
+  'Miandrivazo ',
+  'Antsiranana II ',
+  'Antsiranana I ',
+  'Ambilobe ',
+  'Nosy-Be ',
+  'Ambanja ',
+  'Antalaha ',
+  'Sambava ',
+  'Andapa ',
+  'Vohemar '];
 
 List<String> agglomeration = [
-  'Urbaine', 'Rurale',''
+  'Urbaine', 'Rurale'
 ];
 
 List<String> typeMenage = [
-  'Ménage', 'Gros consommateur',''
+  'Ménage', 'Gros consommateur'
 ];
 
 List<String> typeGrosConsommateur = [
-  'Industriel', 'Artisanal(brique, distillerie, ...)', 'Restauration(Restaurant, gargote, boulangerie, ...)',''
+  'Industriel',
+  'Artisanal(brique, distillerie, ...)',
+  'Restauration(Restaurant, gargote, boulangerie, ...)'
 ];
 
-List<String> listeEnergieCuisson = ['BC', 'CB', 'Autre',''];
+List<String> listeEnergieCuisson = [
+  'BC', 'CB', 'BIOGAZ', 'GAZ', 'Pérole', 'Bioéthanol', 'Cuiseur solaire',
+  'Electricité', 'Résidus agricoles', 'Sous-produits forestiers'
+];
 
-List<String> listeAutreEnergieCuisson = ['Electricité', 'Pétrol', 'Ethanol', 'Briquette', 'Gaz', 'Biogaz', 'Bambou', 'Autre',''];
+List<String> listetypeFoyer = [
+  'Foyer traditionnel', 'Foyer amélioré'
+];
 
 class MenageModification extends StatefulWidget {
   final MenageEntity menageEnCours;
@@ -162,14 +168,13 @@ class _MenageModificationState extends State<MenageModification> {
   bool showTypeGrosConsommateur = false;
   List<Widget> energieCuissonSecheWidget = [SizedBox(height: 8.0),];
   String energieCuissonSecheTemp="";
-  String autreEnergieCuissonSecheTemp="";
-  bool showAutreEnergieSeche = false;
+  String typeFoyerTemp="";
+  bool showTypeFoyer = false;
   List<Widget> energieCuissonHumideWidget = [SizedBox(height: 8.0),];
   String energieCuissonHumideTemp="";
-  String autreEnergieCuissonHumideTemp="";
-  bool showAutreEnergieHumide = false;
-  bool showFoyerBC = false;
-  bool showFoyerCB = false;
+  String typeFoyerHumideTemp="";
+  bool showTypeFoyerHumide = false;
+  bool showFoyer = false;
 
   DatabaseHelper helper = DatabaseHelper.instance;
 
@@ -184,36 +189,21 @@ class _MenageModificationState extends State<MenageModification> {
 
   // Liste énergie de cuisson sèche
   Map<String, Map<String, String>> energieCuissonSecheChoosed = {};
+  var frequenceFoyer = TextEditingController();
+  var puFoyer = TextEditingController();
   var qteECSecheTemp = TextEditingController();
   var prixECSecheTemp = TextEditingController();
 
   // Liste énergie de cuisson humide
   Map<String, Map<String, String>> energieCuissonHumideChoosed = {};
+  var frequenceFoyerH = TextEditingController();
+  var puFoyerH = TextEditingController();
   var qteECHumideTemp = TextEditingController();
   var prixECHumideTemp = TextEditingController();
-
-  // Foyer
-  var frequenceRenouvellementBCTrad = TextEditingController();
-  var prixRenouvellementBCTrad = TextEditingController();
-  var frequenceRenouvellementBCAmeliore = TextEditingController();
-  var prixRenouvellementBCAmeliore = TextEditingController();
-  
-  var frequenceRenouvellementCBTrad = TextEditingController();
-  var prixRenouvelementCBTrad = TextEditingController();
-  var frequenceRenouvellementCBAmeliore = TextEditingController();
-  var prixRenouvelementCBAmeliore = TextEditingController();
 
   
   _save(MenageEntity menageEnCours) async {
     menageEnCours.tailleMenage = int.tryParse(tailleDeMenageChoosed.text);
-    menageEnCours.frequenceRenouvellementBCTrad = int.tryParse(frequenceRenouvellementBCTrad.text);
-    menageEnCours.frequenceRenouvellementBCAmeliore = int.tryParse(frequenceRenouvellementBCAmeliore.text);
-    menageEnCours.prixRenouvellementBCTrad = int.tryParse(prixRenouvellementBCTrad.text);
-    menageEnCours.prixRenouvellementBCAmeliore = int.tryParse(prixRenouvellementBCAmeliore.text);
-    menageEnCours.frequenceRenouvellementCBTrad = int.tryParse(frequenceRenouvellementCBTrad.text);
-    menageEnCours.frequenceRenouvellementCBAmeliore = int.tryParse(frequenceRenouvellementCBAmeliore.text);
-    menageEnCours.prixRenouvelementCBTrad = int.tryParse(prixRenouvelementCBTrad.text);
-    menageEnCours.prixRenouvelementCBAmeliore = int.tryParse(prixRenouvelementCBAmeliore.text);
     dateFormat.format(date).compareTo(menageEnCours.dateMenage)!=0?menageEnCours.dateMenage = dateFormat.format(date):0;
 
     List<EnergieCuissonEntity> energies = [];
@@ -221,18 +211,22 @@ class _MenageModificationState extends State<MenageModification> {
     energieCuissonSecheChoosed.forEach((key, value) {
       EnergieCuissonEntity energie = EnergieCuissonEntity();
       energie.energieCuisson = value['energie'];
-      energie.autreEnergieCuisson= value['aenergie'];
+      energie.typeFoyer = value['aenergie'];
       energie.qte = int.tryParse(value['qte']);
       energie.prix = int.tryParse(value['prix']);
+      energie.frequenceFoyer = double.tryParse(value['frequence']);
+      energie.puFoyer = double.tryParse(value['pu']);
       energie.saison = 'seche';
       energies.add(energie);
     });
     energieCuissonHumideChoosed.forEach((key, value) {
       EnergieCuissonEntity energie = EnergieCuissonEntity();
       energie.energieCuisson = value['energie'];
-      energie.autreEnergieCuisson= value['aenergie'];
+      energie.typeFoyer = value['aenergie'];
       energie.qte = int.tryParse(value['qte']);
       energie.prix = int.tryParse(value['prix']);
+      energie.frequenceFoyer = double.tryParse(value['frequence']);
+      energie.puFoyer = double.tryParse(value['pu']);
       energie.saison = 'humide';
       energies.add(energie);
     });
@@ -256,48 +250,47 @@ class _MenageModificationState extends State<MenageModification> {
           date = picked;
           dateLabel = dateFormat.format(picked);
         });
-  } 
+  }
 
-  bool checkFoyer(String energie) {
-    if(energieCuissonSecheChoosed.containsKey(energie) || energieCuissonHumideChoosed.containsKey(energie)) return true;
-    return false;
+  // true if show and false if hide
+  bool checkFoyer(String newEnergie) {
+    energieCuissonSecheChoosed.forEach((key, value) {
+      if (newEnergie.compareTo(value['energie']) == 0) {
+        return false;
+      }
+    });
+    return true;
   }
 
   @override
   Widget build(BuildContext context) {
     dateLabel = widget.menageEnCours.dateMenage;
     tailleDeMenageChoosed.text = widget.menageEnCours.tailleMenage.toString();
-    frequenceRenouvellementBCTrad.text = widget.menageEnCours.frequenceRenouvellementBCTrad.toString();
-    frequenceRenouvellementBCAmeliore.text = widget.menageEnCours.frequenceRenouvellementBCAmeliore.toString();
-    prixRenouvellementBCTrad.text = widget.menageEnCours.prixRenouvellementBCTrad.toString();
-    prixRenouvellementBCAmeliore.text = widget.menageEnCours.prixRenouvellementBCAmeliore.toString();
-    frequenceRenouvellementCBTrad.text = widget.menageEnCours.frequenceRenouvellementCBTrad.toString();
-    frequenceRenouvellementCBAmeliore.text = widget.menageEnCours.frequenceRenouvellementCBAmeliore.toString();
-    prixRenouvelementCBTrad.text = widget.menageEnCours.prixRenouvelementCBTrad.toString();
-    prixRenouvelementCBAmeliore.text = widget.menageEnCours.prixRenouvelementCBAmeliore.toString();
 
     for (var i = 0; i < widget.energieCuissons.length; i++) {
       if(widget.energieCuissons[i].saison.toLowerCase().contains('seche')) {
         energieCuissonSecheChoosed.putIfAbsent(widget.energieCuissons[i].energieCuisson, () => {
           "energie": widget.energieCuissons[i].energieCuisson,
-          "aenergie": widget.energieCuissons[i].autreEnergieCuisson,
+          "aenergie": widget.energieCuissons[i].typeFoyer,
           "qte": widget.energieCuissons[i].qte.toString(),
           "prix": widget.energieCuissons[i].prix.toString(),
+          "frequence": widget.energieCuissons[i].frequenceFoyer.toString(),
+          "pu": widget.energieCuissons[i].puFoyer.toString(),
           "index": i.toString()
         });
         print('seche');
       } else {
         energieCuissonHumideChoosed.putIfAbsent(widget.energieCuissons[i].energieCuisson, () => {
           "energie": widget.energieCuissons[i].energieCuisson,
-          "aenergie": widget.energieCuissons[i].autreEnergieCuisson,
+          "aenergie": widget.energieCuissons[i].typeFoyer,
           "qte": widget.energieCuissons[i].qte.toString(),
           "prix": widget.energieCuissons[i].prix.toString(),
+          "frequence": widget.energieCuissons[i].frequenceFoyer.toString(),
+          "pu": widget.energieCuissons[i].puFoyer.toString(),
           "index": i.toString()
         });
         print('humide');
       }
-      checkFoyer('CB');
-      checkFoyer('BC');
     }
 
     // print('energies');
@@ -570,18 +563,18 @@ class _MenageModificationState extends State<MenageModification> {
                             children: <TableRow>[
                               if(e.value['aenergie'].length!=0) TableRow(
                                 children: <Widget>[
-                                  Text("Autre energie :", style: TextStyle(
+                                  Text("Type de foyer :", style: TextStyle(
                                       fontSize: 12
-                                    )
+                                  )
                                   ),
                                   Container(
                                     padding: EdgeInsets.all(2.0),
-                                    child: Text(e.value['aenergie'], 
-                                      style: TextStyle(
-                                        color: ArgonColors.text,
-                                        fontSize: 12
-                                      ),
-                                      textAlign:TextAlign.end
+                                    child: Text(e.value['aenergie'],
+                                        style: TextStyle(
+                                            color: ArgonColors.text,
+                                            fontSize: 12
+                                        ),
+                                        textAlign:TextAlign.end
                                     ),
                                   ),
                                 ],
@@ -591,16 +584,16 @@ class _MenageModificationState extends State<MenageModification> {
                                   Text("Quantité par mois (kg) :", style: TextStyle(
                                       color: ArgonColors.text,
                                       fontSize: 12
-                                    )
+                                  )
                                   ),
                                   Container(
                                     padding: EdgeInsets.all(2.0),
-                                    child: Text(e.value['qte'], 
-                                      style: TextStyle(
-                                        color: ArgonColors.text,
-                                        fontSize: 12
-                                      ),
-                                      textAlign:TextAlign.end
+                                    child: Text(e.value['qte'],
+                                        style: TextStyle(
+                                            color: ArgonColors.text,
+                                            fontSize: 12
+                                        ),
+                                        textAlign:TextAlign.end
                                     ),
                                   ),
                                 ],
@@ -610,16 +603,54 @@ class _MenageModificationState extends State<MenageModification> {
                                   Text("Prix par mois :", style: TextStyle(
                                       color: ArgonColors.text,
                                       fontSize: 12
-                                    )
+                                  )
                                   ),
                                   Container(
                                     padding: EdgeInsets.all(2.0),
-                                    child: Text(e.value['prix'], 
-                                      style: TextStyle(
-                                        color: ArgonColors.text,
-                                        fontSize: 12
-                                      ),
-                                      textAlign:TextAlign.end
+                                    child: Text(e.value['prix'],
+                                        style: TextStyle(
+                                            color: ArgonColors.text,
+                                            fontSize: 12
+                                        ),
+                                        textAlign:TextAlign.end
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: <Widget>[
+                                  Text("Fréquence de renouvellement de foyer par an :", style: TextStyle(
+                                      color: ArgonColors.text,
+                                      fontSize: 12
+                                  )
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(2.0),
+                                    child: Text(e.value['frequence'],
+                                        style: TextStyle(
+                                            color: ArgonColors.text,
+                                            fontSize: 12
+                                        ),
+                                        textAlign:TextAlign.end
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: <Widget>[
+                                  Text("Prix unitaire de foyer :", style: TextStyle(
+                                      color: ArgonColors.text,
+                                      fontSize: 12
+                                  )
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(2.0),
+                                    child: Text(e.value['pu'],
+                                        style: TextStyle(
+                                            color: ArgonColors.text,
+                                            fontSize: 12
+                                        ),
+                                        textAlign:TextAlign.end
                                     ),
                                   ),
                                 ],
@@ -637,8 +668,6 @@ class _MenageModificationState extends State<MenageModification> {
                               setState(() {
                                 widget.energieCuissons.removeAt(int.tryParse(e.value['index']));
                                 energieCuissonSecheChoosed.remove(e.key);
-                                checkFoyer('BC') ? showFoyerBC=true : showFoyerBC=false;
-                                checkFoyer('CB') ? showFoyerCB=true : showFoyerCB=false;
                               });
                             },
                           ),
@@ -674,10 +703,11 @@ class _MenageModificationState extends State<MenageModification> {
                   onChanged: (String nValue) {
                     setState(() {
                       energieCuissonSecheTemp = nValue;
-                      if(energieCuissonSecheTemp.contains('Autre')) {
-                        showAutreEnergieSeche = true;
+                      if(energieCuissonSecheTemp.contains('Charbon de Bois')
+                          ||energieCuissonSecheTemp.contains('Bois de Chauffe')) {
+                        showTypeFoyer = true;
                       } else {
-                        showAutreEnergieSeche = false;
+                        showTypeFoyer = false;
                       }
                     });
                   },
@@ -691,39 +721,39 @@ class _MenageModificationState extends State<MenageModification> {
                 ),
               ),
 
-              // Autre energie de cuisson saison seche
+              // Type foyer
               Visibility(
-                visible: showAutreEnergieSeche,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8.0, top: 8),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Autres énergies de cuissons",
-                        style: TextStyle(
-                            color: ArgonColors.text,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12)),
-                  ),
-                )
+                  visible: showTypeFoyer,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0, top: 8),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Type de foyer",
+                          style: TextStyle(
+                              color: ArgonColors.text,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12)),
+                    ),
+                  )
               ),
               Visibility(
-                visible: showAutreEnergieSeche,
+                visible: showTypeFoyer,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8.0, top: 4.0),
                   child: DropdownButton<String>(
                     style: TextStyle(
-                      fontSize: 12,
-                      color: ArgonColors.text,
-                      backgroundColor: Colors.white
+                        fontSize: 12,
+                        color: ArgonColors.text,
+                        backgroundColor: Colors.white
                     ),
-                    value: autreEnergieCuissonSecheTemp,
+                    value: typeFoyerTemp,
                     isExpanded: true,
                     onChanged: (String newValue) {
                       setState(() {
-                        autreEnergieCuissonSecheTemp = newValue;
+                        typeFoyerTemp = newValue;
                       });
                     },
-                    items: listeAutreEnergieCuisson
+                    items: listetypeFoyer
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -775,6 +805,46 @@ class _MenageModificationState extends State<MenageModification> {
                     controller: prixECSecheTemp,
                 )
               ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Fréquence de renouvellement des foyers par an",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
+                    enable: true,
+                    placeholder: "Entrer la fréquence annuelle",
+                    borderColor: ArgonColors.white,
+                    controller: frequenceFoyer,
+                  )
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Prix unitaire des foyers",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
+                    enable: true,
+                    placeholder: "Entrer le prix unitaire des foyers",
+                    borderColor: ArgonColors.white,
+                    controller: puFoyer,
+                  )
+              ),
               SizedBox(
                 width: double.infinity,
                 child: Padding(
@@ -787,13 +857,13 @@ class _MenageModificationState extends State<MenageModification> {
                       setState(() {
                         energieCuissonSecheChoosed.putIfAbsent(energieCuissonSecheTemp, () => {
                             "energie": energieCuissonSecheTemp,
-                            "aenergie": autreEnergieCuissonSecheTemp,
+                            "aenergie": typeFoyerTemp,
                             "qte": qteECSecheTemp.text,
-                            "prix": prixECSecheTemp.text
+                            "prix": prixECSecheTemp.text,
+                            "frequence" : frequenceFoyer.text,
+                            "pu" : puFoyer.text
                           }
                         );
-                        checkFoyer('BC') ? showFoyerBC=true : showFoyerBC=false;
-                        checkFoyer('CB') ? showFoyerCB=true : showFoyerCB=false;
                       });
                     },
                     shape: RoundedRectangleBorder(
@@ -853,16 +923,16 @@ class _MenageModificationState extends State<MenageModification> {
                                 children: <Widget>[
                                   Text("Autre energie :", style: TextStyle(
                                       fontSize: 12
-                                    )
+                                  )
                                   ),
                                   Container(
                                     padding: EdgeInsets.all(2.0),
-                                    child: Text(e.value['aenergie'], 
-                                      style: TextStyle(
-                                        color: ArgonColors.text,
-                                        fontSize: 12
-                                      ),
-                                      textAlign:TextAlign.end
+                                    child: Text(e.value['aenergie'],
+                                        style: TextStyle(
+                                            color: ArgonColors.text,
+                                            fontSize: 12
+                                        ),
+                                        textAlign:TextAlign.end
                                     ),
                                   ),
                                 ],
@@ -872,16 +942,16 @@ class _MenageModificationState extends State<MenageModification> {
                                   Text("Quantité par mois (kg) :", style: TextStyle(
                                       color: ArgonColors.text,
                                       fontSize: 12
-                                    )
+                                  )
                                   ),
                                   Container(
                                     padding: EdgeInsets.all(2.0),
-                                    child: Text(e.value['qte'], 
-                                      style: TextStyle(
-                                        color: ArgonColors.text,
-                                        fontSize: 12
-                                      ),
-                                      textAlign:TextAlign.end
+                                    child: Text(e.value['qte'],
+                                        style: TextStyle(
+                                            color: ArgonColors.text,
+                                            fontSize: 12
+                                        ),
+                                        textAlign:TextAlign.end
                                     ),
                                   ),
                                 ],
@@ -891,16 +961,54 @@ class _MenageModificationState extends State<MenageModification> {
                                   Text("Prix par mois :", style: TextStyle(
                                       color: ArgonColors.text,
                                       fontSize: 12
-                                    )
+                                  )
                                   ),
                                   Container(
                                     padding: EdgeInsets.all(2.0),
-                                    child: Text(e.value['prix'], 
-                                      style: TextStyle(
-                                        color: ArgonColors.text,
-                                        fontSize: 12
-                                      ),
-                                      textAlign:TextAlign.end
+                                    child: Text(e.value['prix'],
+                                        style: TextStyle(
+                                            color: ArgonColors.text,
+                                            fontSize: 12
+                                        ),
+                                        textAlign:TextAlign.end
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: <Widget>[
+                                  Text("Fréquence de renouvellement de foyer par an :", style: TextStyle(
+                                      color: ArgonColors.text,
+                                      fontSize: 12
+                                  )
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(2.0),
+                                    child: Text(e.value['frequence'],
+                                        style: TextStyle(
+                                            color: ArgonColors.text,
+                                            fontSize: 12
+                                        ),
+                                        textAlign:TextAlign.end
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: <Widget>[
+                                  Text("Prix unitaire de foyer :", style: TextStyle(
+                                      color: ArgonColors.text,
+                                      fontSize: 12
+                                  )
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(2.0),
+                                    child: Text(e.value['pu'],
+                                        style: TextStyle(
+                                            color: ArgonColors.text,
+                                            fontSize: 12
+                                        ),
+                                        textAlign:TextAlign.end
                                     ),
                                   ),
                                 ],
@@ -918,8 +1026,6 @@ class _MenageModificationState extends State<MenageModification> {
                               setState(() {
                                 widget.energieCuissons.removeAt(int.tryParse(e.value['index']));
                                 energieCuissonHumideChoosed.remove(e.key);
-                                checkFoyer('BC') ? showFoyerBC=true : showFoyerBC=false;
-                                checkFoyer('CB') ? showFoyerCB=true : showFoyerCB=false;
                               });
                             },
                           ),
@@ -955,11 +1061,13 @@ class _MenageModificationState extends State<MenageModification> {
                   onChanged: (String newValue) {
                     setState(() {
                       energieCuissonHumideTemp = newValue;
-                      if(energieCuissonHumideTemp.contains('Autre')) {
-                        showAutreEnergieHumide = true;
+                      if(energieCuissonHumideTemp.contains('Charbon de Bois')
+                          || energieCuissonHumideTemp.contains('Bois de Chauffe')) {
+                        showTypeFoyerHumide = true;
                       } else {
-                        showAutreEnergieHumide = false;
+                        showTypeFoyerHumide = false;
                       }
+                      showFoyer = checkFoyer(energieCuissonHumideTemp);
                     });
                   },
                   items: listeEnergieCuisson
@@ -972,39 +1080,39 @@ class _MenageModificationState extends State<MenageModification> {
                 ),
               ),
 
-              // Autre energie de cuisson saison Humide
+              // Type de foyer saison Humide
               Visibility(
-                visible: showAutreEnergieHumide,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8.0, top: 8),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Autres énergies de cuissons",
-                        style: TextStyle(
-                            color: ArgonColors.text,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12)),
-                  ),
-                )
+                  visible: showTypeFoyerHumide,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0, top: 8),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Type de foyer",
+                          style: TextStyle(
+                              color: ArgonColors.text,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12)),
+                    ),
+                  )
               ),
               Visibility(
-                visible: showAutreEnergieHumide,
+                visible: showTypeFoyerHumide,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8.0, top: 4.0),
                   child: DropdownButton<String>(
                     style: TextStyle(
-                      fontSize: 12,
-                      color: ArgonColors.text,
-                      backgroundColor: Colors.white
+                        fontSize: 12,
+                        color: ArgonColors.text,
+                        backgroundColor: Colors.white
                     ),
-                    value: autreEnergieCuissonHumideTemp,
+                    value: typeFoyerHumideTemp,
                     isExpanded: true,
                     onChanged: (String newValue) {
                       setState(() {
-                        autreEnergieCuissonHumideTemp = newValue;
+                        typeFoyerHumideTemp = newValue;
                       });
                     },
-                    items: listeAutreEnergieCuisson
+                    items: listetypeFoyer
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -1056,6 +1164,58 @@ class _MenageModificationState extends State<MenageModification> {
                     controller: prixECHumideTemp,
                 )
               ),
+              Visibility(
+                  visible: showFoyer,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0, top: 8),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Fréquence de renouvellement des foyers par an",
+                          style: TextStyle(
+                              color: ArgonColors.text,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12)),
+                    ),
+                  )
+              ),
+              Visibility(
+                visible: showFoyer,
+                child: Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: Input(
+                      enable: true,
+                      placeholder: "Entrer la fréquence annuelle",
+                      borderColor: ArgonColors.white,
+                      controller: frequenceFoyerH,
+                    )
+                ),
+              ),
+              Visibility(
+                  visible: showFoyer,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0, top: 8),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Prix unitaire des foyers",
+                          style: TextStyle(
+                              color: ArgonColors.text,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12)),
+                    ),
+                  )
+              ),
+              Visibility(
+                visible: showFoyer,
+                child: Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: Input(
+                      enable: true,
+                      placeholder: "Entrer le prix unitaire des foyers",
+                      borderColor: ArgonColors.white,
+                      controller: puFoyerH,
+                    )
+                ),
+              ),
               SizedBox(
                 width: double.infinity,
                 child: Padding(
@@ -1068,13 +1228,13 @@ class _MenageModificationState extends State<MenageModification> {
                       setState(() {
                         energieCuissonHumideChoosed.putIfAbsent(energieCuissonHumideTemp, () => {
                             "energie": energieCuissonHumideTemp,
-                            "aenergie": autreEnergieCuissonHumideTemp,
+                            "aenergie": typeFoyerHumideTemp,
                             "qte": qteECHumideTemp.text,
-                            "prix": prixECHumideTemp.text
+                            "prix": prixECHumideTemp.text,
+                            "frequence": frequenceFoyerH.text,
+                            "pu": puFoyerH.text
                           }
                         );
-                        checkFoyer('BC') ? showFoyerBC=true : showFoyerBC=false;
-                        checkFoyer('CB') ? showFoyerCB=true : showFoyerCB=false;
                       });
                     },
                     shape: RoundedRectangleBorder(
@@ -1089,171 +1249,6 @@ class _MenageModificationState extends State<MenageModification> {
                   ),
                 ),
               ),
-
-            // BC 
-            
-            // Foyer traditionnel
-            Visibility(
-              visible: showFoyerBC,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Foyer traditionnel BC",
-                      style: TextStyle(
-                          color: ArgonColors.text,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12)),
-                ),
-              )
-            ),
-            Visibility(
-              visible: showFoyerBC,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Input(
-                  enable: true,
-                  placeholder: "Entrer la fréquence de renouvellement par an",
-                  borderColor: ArgonColors.white,
-                  controller: frequenceRenouvellementBCTrad,
-                ),
-              )
-            ),
-            Visibility(
-              visible: showFoyerBC,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Input(
-                  enable: true,
-                  placeholder: "Entrer le prix",
-                  borderColor: ArgonColors.white,
-                  controller: prixRenouvellementBCTrad,
-                ),
-              )
-            ),          
-              
-            // Foyer amélioré
-            Visibility(
-              visible: showFoyerBC,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Foyer amélioré BC",
-                      style: TextStyle(
-                          color: ArgonColors.text,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12)),
-                ),
-              )
-            ),
-            Visibility(
-              visible: showFoyerBC,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Input(
-                  enable: true,
-                  placeholder: "Entrer la fréquence de renouvellement par an",
-                  borderColor: ArgonColors.white,
-                  controller: frequenceRenouvellementBCAmeliore,
-                ),
-              )
-            ),
-            Visibility(
-              visible: showFoyerBC,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Input(
-                  enable: true,
-                  placeholder: "Entrer le prix",
-                  borderColor: ArgonColors.white,
-                  controller: prixRenouvellementBCAmeliore,
-                ),
-              )
-            ),   
-
-            // CB
-            
-            // Foyer traditionnel
-            Visibility(
-              visible: showFoyerCB,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Foyer traditionnel CB",
-                      style: TextStyle(
-                          color: ArgonColors.text,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12)),
-                ),
-              )
-            ),
-            Visibility(
-              visible: showFoyerCB,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Input(
-                  enable: true,
-                  placeholder: "Entrer la fréquence de renouvellement par an",
-                  borderColor: ArgonColors.white,
-                  controller: frequenceRenouvellementCBTrad,
-                ),
-              )
-            ),
-            Visibility(
-              visible: showFoyerCB,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Input(
-                  enable: true,
-                  placeholder: "Entrer le prix",
-                  borderColor: ArgonColors.white,
-                  controller: prixRenouvelementCBTrad,
-                ),
-              )
-            ),          
-              
-            // Foyer amélioré
-            Visibility(
-              visible: showFoyerCB,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Foyer amélioré CB",
-                      style: TextStyle(
-                          color: ArgonColors.text,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12)),
-                ),
-              )
-            ),
-            Visibility(
-              visible: showFoyerCB,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Input(
-                  enable: true,
-                  placeholder: "Entrer la fréquence de renouvellement par an",
-                  borderColor: ArgonColors.white,
-                  controller: frequenceRenouvellementCBAmeliore,
-                ),
-              )
-            ),
-            Visibility(
-              visible: showFoyerCB,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Input(
-                  enable: true,
-                  placeholder: "Entrer le prix",
-                  borderColor: ArgonColors.white,
-                  controller: prixRenouvelementCBAmeliore,
-                ),
-              )
-            ),  
-
             SizedBox(
               width: double.infinity,
               child: Padding(

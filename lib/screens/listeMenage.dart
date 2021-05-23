@@ -8,8 +8,6 @@ import 'package:argon_flutter/constants/Theme.dart';
 //widgets
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
-import 'package:argon_flutter/widgets/input.dart';
-import 'package:argon_flutter/widgets/table-cell.dart';
 import 'package:intl/intl.dart';
 
 
@@ -202,15 +200,24 @@ class _ListeMenageState extends State<ListeMenage> {
 
                       // EnergieCuisson
                       data = [];
-                      data.add(['Id',	'IdMenage',	'Energie cuisson',	'Autre energie cuisson',	'Quantite',	'Prix',	'Saison']);
+                      data.add([
+                        'Id',	'IdMenage',	'Energie cuisson',
+                        'Type de foyer',	'Quantite',	'Prix',
+                        'Fréquence de renouvellement des foyers',
+                        'Prix unitaire de renouvellement des foyers', 'Saison'
+                      ]);
                       helper.queryAllEnergieCuisson().then((value) => {
                         value.forEach((element) {
                           data.add([
-                            element.id.toString(), element.idMenage.toString(), element.energieCuisson, element.autreEnergieCuisson,
-                            element.qte.toString(), element.prix.toString(), element.saison
+                            element.id.toString(), element.idMenage.toString(),
+                            element.energieCuisson, element.typeFoyer,
+                            element.qte.toString(), element.prix.toString(),
+                            element.frequenceFoyer.toString(), element.puFoyer.toString(),
+                            element.saison
                           ]);
                         }),
-                        csvHelper.generateCsv(data[1][0]+'_enerieCuisson_'+dateFormat.format(new DateTime.now())+'.csv', data)
+                        csvHelper.generateCsv(data[1][0]+'_enerieCuisson_'
+                            +dateFormat.format(new DateTime.now())+'.csv', data)
                       });
                     });
                     // Navigator.pushReplacementNamed(context, '/home');
