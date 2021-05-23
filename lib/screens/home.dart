@@ -44,6 +44,11 @@ final Map<String, Map<String, String>> homeCards = {
     "title": "Pépiniere",
     "image":
         "assets/img/barrier.png"
+  },
+  "ProducteurFoyer": {
+    "title": "Producteurs de foyer",
+    "image":
+    "assets/img/barrier.png"
   }
 };
 
@@ -210,6 +215,26 @@ class Home extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 8.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CardSmall(
+                        cta: "Accéder au formulaire",
+                        title: homeCards["ProducteurFoyer"]['title'],
+                        img: homeCards["ProducteurFoyer"]['image'],
+                        tap: () {
+                          Navigator.pushNamed(context, '/producteurFoyer');
+                        }),
+                    CardSmall(
+                        cta: "Accéder au formulaire",
+                        title: homeCards["ProducteurFoyer"]['title'],
+                        img: homeCards["ProducteurFoyer"]['image'],
+                        tap: () {
+                          Navigator.pushNamed(context, '/producteurFoyer');
+                        })
+                  ],
+                ),
+                SizedBox(height: 8.0),
                 GestureDetector(
                   onTap: () {
                     Navigator.pushNamed(context, '/listemenage');
@@ -300,6 +325,27 @@ class Home extends StatelessWidget {
                             ),
                           )
                         ],)
+                    ),
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 32.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/listeProductionFoyer');
+                    },
+                    child: Card(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Material(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text("Liste Producteur de Foyer"),
+                              ),
+                            )
+                          ],)
                     ),
                   ),
                 ),

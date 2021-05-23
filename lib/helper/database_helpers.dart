@@ -147,7 +147,7 @@ final String columnSurfaceExploiteForetNaturel = 'surface_exploite';
 final String columnVolumeExploiteForetNaturel = 'volume_exploite';
 final String columnActeurForetNaturel = 'acteur';
 
-// ProducteurFoyer Ajouter
+// ProducteurFoyer
 final String tableProducteurF = 'producteur_foyer';
 final String columnIdProducteurF = '_id';
 final String columnDateProducteurF = 'date';

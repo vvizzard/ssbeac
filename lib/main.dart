@@ -2,8 +2,10 @@ import 'package:argon_flutter/screens/listeBarriere.dart';
 import 'package:argon_flutter/screens/listeCharbonnier.dart';
 import 'package:argon_flutter/screens/listeMenage.dart';
 import 'package:argon_flutter/screens/listePepiniere.dart';
+import 'package:argon_flutter/screens/listeProducteurFoyer.dart';
 import 'package:argon_flutter/screens/listeReboisement.dart';
 import 'package:argon_flutter/screens/pepiniere.dart';
+import 'package:argon_flutter/screens/producteurFoyer.dart';
 import 'package:argon_flutter/screens/reboisement.dart';
 import 'package:flutter/material.dart';
 
@@ -49,6 +51,8 @@ class MyApp extends StatelessWidget {
           "/pepiniere": (BuildContext context) => new Pepiniere(),
           "/listereboisement": (BuildContext context) => new ListeReboisement(),
           "/listepepiniere": (BuildContext context) => new ListePepiniere(),
+          "/producteurFoyer" : (BuildContext context) => new ProducteurFoyer(),
+          "/listeProductionFoyer" : (BuildContext context) => new ListeProducteurFoyer(),
         });
   }
 }
