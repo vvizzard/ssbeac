@@ -7,7 +7,6 @@ import 'package:argon_flutter/constants/Theme.dart';
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 import 'package:argon_flutter/widgets/input.dart';
-import 'package:argon_flutter/widgets/table-cell.dart';
 import 'package:intl/intl.dart';
 
 List<String> districts = ['Ambohidratrimo ',
@@ -162,6 +161,7 @@ class _PepiniereState extends State<Pepiniere> {
   var long = TextEditingController();
   var especes = TextEditingController();
   var nbrPlant = TextEditingController();
+  var taux = TextEditingController();
 
   DatabaseHelper helper = DatabaseHelper.instance;
   PepiniereEntity ds = new PepiniereEntity();
@@ -193,6 +193,7 @@ class _PepiniereState extends State<Pepiniere> {
     ds.long = long.text;
     ds.projetAppuie = projetAppuie.text;
     ds.especes = especes.text;
+    ds.taux = double.tryParse(taux.text);
     ds.nbrPlant = int.tryParse(nbrPlant.text);
 
     helper.insert(ds).then((value) => print(value));
@@ -524,6 +525,27 @@ class _PepiniereState extends State<Pepiniere> {
                     borderColor: ArgonColors.white,
                     controller: long,
                 )
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Taux de réussite",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
+                    enable: true,
+                    placeholder: "Entrer le taux de réuissite",
+                    borderColor: ArgonColors.white,
+                    controller: taux,
+                  )
               ),
 
             SizedBox(

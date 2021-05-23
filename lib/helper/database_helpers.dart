@@ -127,7 +127,7 @@ final String columnProprietairePepiniere = 'proprietaire';
 final String columnGenreChoosedPepiniere = 'genreChoosed';
 final String columnEspecesPepiniere = 'especes';
 final String columnNbrPlantPepiniere = 'nbrPlant';
-final String columnTauxPepiniere = 'taux'; //Ajouter
+final String columnTauxPepiniere = 'taux';
 
 // ForetNaturel
 final String tableForetNaturel = 'foret_naturel';

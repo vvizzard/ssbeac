@@ -1,10 +1,6 @@
 import 'package:argon_flutter/helper/csv_helpers.dart';
 import 'package:argon_flutter/helper/database_helpers.dart';
-import 'package:argon_flutter/screens/barriereModifcation.dart';
-import 'package:argon_flutter/screens/charbonnierModifcation.dart';
-import 'package:argon_flutter/screens/menageModifcation.dart';
 import 'package:argon_flutter/screens/pepiniereModifcation.dart';
-import 'package:argon_flutter/screens/reboisementModifcation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:argon_flutter/constants/Theme.dart';
@@ -12,8 +8,6 @@ import 'package:argon_flutter/constants/Theme.dart';
 //widgets
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
-import 'package:argon_flutter/widgets/input.dart';
-import 'package:argon_flutter/widgets/table-cell.dart';
 import 'package:intl/intl.dart';
 
 
@@ -34,8 +28,6 @@ class _ListePepiniereState extends State<ListePepiniere> {
   void initState() {
     helper.queryAllPepiniere().then((value) => setState(() {
       pepiniereEnCours = value;
-      // print('blabla');
-      // print(value);
     }));    
     super.initState();
   }
@@ -186,9 +178,6 @@ class _ListePepiniereState extends State<ListePepiniere> {
                             child: const Text('Supprimer'),
                             onPressed: () {
                               setState(() {
-                                // energieCuissonSecheChoosed.remove(e.key);
-                                // checkFoyer('BC') ? showFoyerBC=true : showFoyerBC=false;
-                                // checkFoyer('CB') ? showFoyerCB=true : showFoyerCB=false;
                               });
                             },
                           ),
@@ -227,7 +216,8 @@ class _ListePepiniereState extends State<ListePepiniere> {
                         'Latitude',
                         'Longitude',
                         'Espèces',
-                        'Nombre de Plant'
+                        'Nombre de Plant',
+                        'Taux de réussite'
                       ]);
                       pepiniereEnCours.forEach((element) {
                         data.add([
@@ -244,7 +234,8 @@ class _ListePepiniereState extends State<ListePepiniere> {
                           element['lat'],
                           element['long'],
                           element['especes'],
-                          element['nbrPlant']
+                          element['nbrPlant'],
+                          element['taux']
                         ]);
                       });
 
