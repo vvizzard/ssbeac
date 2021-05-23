@@ -49,6 +49,11 @@ final Map<String, Map<String, String>> homeCards = {
     "title": "Producteurs de foyer",
     "image":
     "assets/img/barrier.png"
+  },
+  "ProducteurEnergie": {
+    "title": "Producteurs d'énergie",
+    "image":
+    "assets/img/barrier.png"
   }
 };
 
@@ -227,10 +232,10 @@ class Home extends StatelessWidget {
                         }),
                     CardSmall(
                         cta: "Accéder au formulaire",
-                        title: homeCards["ProducteurFoyer"]['title'],
-                        img: homeCards["ProducteurFoyer"]['image'],
+                        title: homeCards["ProducteurEnergie"]['title'],
+                        img: homeCards["ProducteurEnergie"]['image'],
                         tap: () {
-                          Navigator.pushNamed(context, '/producteurFoyer');
+                          Navigator.pushNamed(context, '/producteurEnergie');
                         })
                   ],
                 ),
@@ -343,6 +348,27 @@ class Home extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text("Liste Producteur de Foyer"),
+                              ),
+                            )
+                          ],)
+                    ),
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 32.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/listeProductionEnergie');
+                    },
+                    child: Card(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Material(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text("Liste Producteur d'énergie"),
                               ),
                             )
                           ],)

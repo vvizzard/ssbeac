@@ -160,7 +160,7 @@ final String columnQteProducteurF = 'qte';
 final String columnBiodigesteurProducteurF = 'biodigesteur';
 final String columnNbrAppuieProducteurF = 'nbr_appuie';
 
-// ProducteurEnergie Ajouter
+// ProducteurEnergie
 final String tableProducteurE = 'producteur_energie';
 final String columnIdProducteurE = '_id';
 final String columnDateProducteurE = 'date';
