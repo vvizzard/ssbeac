@@ -1,3 +1,4 @@
+/*
 import 'package:argon_flutter/helper/database_helpers.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +8,6 @@ import 'package:argon_flutter/constants/Theme.dart';
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 import 'package:argon_flutter/widgets/input.dart';
-import 'package:argon_flutter/widgets/table-cell.dart';
 import 'package:intl/intl.dart';
 
 List<String> districts = ['Ambohidratrimo ',
@@ -482,3 +482,4 @@ class _ProductionFoyerAmelioreState extends State<ProductionFoyerAmeliore> {
       )));
   }
 }
+*/

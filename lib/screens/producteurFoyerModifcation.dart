@@ -129,7 +129,7 @@ List<String> agglomeration = [
 ];
 
 List<String> listeEnergieCuisson = [
-  'BC', 'CB', 'BIOGAZ', 'GAZ', 'Pérole', 'Bioéthanol', 'Cuiseur solaire',
+  'BC', 'CB', 'BIOGAZ', 'GAZ', 'Pétrole', 'Bioéthanol', 'Cuiseur solaire',
   'Electricité', 'Résidus agricoles', 'Sous-produits forestiers'
 ];
 
