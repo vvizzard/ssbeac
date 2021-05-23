@@ -137,14 +137,14 @@ final String columnDistrictForetNaturel = 'district';
 final String columnAgglomerationForetNaturel = 'agglomeration';
 final String columnCommuneForetNaturel = 'commune';
 final String columnAggForetNaturel = 'agg';
-final String columnAmenagementForetNaturel = 'amenagement'; //Ajouter
+final String columnAmenagementForetNaturel = 'amenagement';
 final String columnSuperficieForetNaturel = 'superficie';
-final String columnTypeFormationForetNaturel = 'type_formation'; //Ajouter
-final String columnAuthorisationForetNaturel = 'authorisation'; //Ajouter
+final String columnTypeFormationForetNaturel = 'type_formation';
+final String columnAuthorisationForetNaturel = 'authorisation';
 final String columnPareFeuxForetNaturel = 'pare_feux';
 final String columnEssenceForetNaturel = 'essence';
-final String columnSurfaceExploiteForetNaturel = 'surface_exploite'; //Ajouter
-final String columnVolumeExploiteForetNaturel = 'volume_exploite'; //Ajouter
+final String columnSurfaceExploiteForetNaturel = 'surface_exploite';
+final String columnVolumeExploiteForetNaturel = 'volume_exploite';
 final String columnActeurForetNaturel = 'acteur';
 
 // ProducteurFoyer Ajouter

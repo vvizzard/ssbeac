@@ -7,7 +7,6 @@ import 'package:argon_flutter/constants/Theme.dart';
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 import 'package:argon_flutter/widgets/input.dart';
-import 'package:argon_flutter/widgets/table-cell.dart';
 import 'package:intl/intl.dart';
 
 List<String> districts = ['Ambohidratrimo ',
@@ -149,6 +148,11 @@ class _ForetNaturelState extends State<ForetNaturel> {
   var essenceChoosed = TextEditingController();
   var acteur = TextEditingController();
   bool pareFeux = false;
+  bool amenagement = false;
+  var typeFormation = TextEditingController();
+  bool authorisation = false;
+  var surfaceExploite = TextEditingController();
+  var volumeExploite = TextEditingController();
 
   DatabaseHelper helper = DatabaseHelper.instance;
   ForetNaturelEntity ds = new ForetNaturelEntity();
@@ -177,6 +181,8 @@ class _ForetNaturelState extends State<ForetNaturel> {
     ds.pareFeux = pareFeux;
     ds.essence = essenceChoosed.text;
     ds.acteur = acteur.text;
+    ds.amenagement = amenagement;
+    ds.authorisation = authorisation;
 
     helper.insert(ds).then((value) => print(value));
   }
@@ -311,6 +317,77 @@ class _ForetNaturelState extends State<ForetNaturel> {
                 )
               ),
 
+              SizedBox(height: 8.0),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0, top: 8),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Exitense de plan d'aménagement",
+                          style: TextStyle(
+                              color: ArgonColors.text,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12)),
+                    ),
+                  ),
+                  Switch.adaptive(
+                    value: amenagement,
+                    onChanged: (bool newValue) =>
+                        setState(() => amenagement = newValue),
+                    activeColor: ArgonColors.primary,
+                  ),
+                ],
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Type de formation",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
+                    enable: true,
+                    placeholder: "Entrer le type de formation",
+                    borderColor: ArgonColors.white,
+                    controller: typeFormation,
+                  )
+              ),
+
+              SizedBox(height: 8.0),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0, top: 8),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Authorisation",
+                          style: TextStyle(
+                              color: ArgonColors.text,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12)),
+                    ),
+                  ),
+                  Switch.adaptive(
+                    value: authorisation,
+                    onChanged: (bool newValue) =>
+                        setState(() => authorisation = newValue),
+                    activeColor: ArgonColors.primary,
+                  ),
+                ],
+              ),
+
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
@@ -376,6 +453,48 @@ class _ForetNaturelState extends State<ForetNaturel> {
                     borderColor: ArgonColors.white,
                     controller: essenceChoosed,
                 )
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Superficie exploitée",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
+                    enable: true,
+                    placeholder: "Entrer la superficie exploitée",
+                    borderColor: ArgonColors.white,
+                    controller: surfaceExploite,
+                  )
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Volume exploité",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
+                    enable: true,
+                    placeholder: "Entrer le volume exploité",
+                    borderColor: ArgonColors.white,
+                    controller: volumeExploite,
+                  )
               ),
 
               Padding(

@@ -1,8 +1,5 @@
 import 'package:argon_flutter/helper/csv_helpers.dart';
 import 'package:argon_flutter/helper/database_helpers.dart';
-import 'package:argon_flutter/screens/barriereModifcation.dart';
-import 'package:argon_flutter/screens/charbonnierModifcation.dart';
-import 'package:argon_flutter/screens/menageModifcation.dart';
 import 'package:argon_flutter/screens/foretNaturelModifcation.dart';
 import 'package:flutter/material.dart';
 
@@ -11,8 +8,6 @@ import 'package:argon_flutter/constants/Theme.dart';
 //widgets
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
-import 'package:argon_flutter/widgets/input.dart';
-import 'package:argon_flutter/widgets/table-cell.dart';
 import 'package:intl/intl.dart';
 
 
@@ -197,9 +192,14 @@ class _ListeForetNaturelState extends State<ListeForetNaturel> {
                         'Unité d\'agglomeration',
                         'Commune',
                         'Agglomération',
+                        'Existence de plan d\'aménagement',
+                        'Type de formation',
+                        'Authorisation',
                         'Superficie',
                         'Pare-feux',
                         'Essence',
+                        'Superficie exploitée',
+                        'Volume exploitée',
                         'Acteurs/Opérateurs'
                       ]);
                       foretNaturelEnCours.forEach((element) {
@@ -210,9 +210,14 @@ class _ListeForetNaturelState extends State<ListeForetNaturel> {
                           element['agglomeration'],
                           element['commune'],
                           element['agg'],
+                          element['amenagement'],
+                          element['type_formation'],
+                          element['authorisation'],
                           element['superficie'].toString(),
                           element['pare_feux'].toString(),
                           element['essence'],
+                          element['surface_exploite'],
+                          element['volume_exploite'],
                           element['acteur'].toString()
                         ]);
                       });

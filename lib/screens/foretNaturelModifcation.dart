@@ -1,4 +1,5 @@
 import 'package:argon_flutter/helper/database_helpers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:argon_flutter/constants/Theme.dart';
@@ -7,7 +8,6 @@ import 'package:argon_flutter/constants/Theme.dart';
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 import 'package:argon_flutter/widgets/input.dart';
-import 'package:argon_flutter/widgets/table-cell.dart';
 import 'package:intl/intl.dart';
 
 List<String> districts = ['Ambohidratrimo ',
@@ -153,17 +153,28 @@ class _ForetNaturelModificationState extends State<ForetNaturelModification> {
   var superficie = TextEditingController();
   var acteur = TextEditingController();
   var essenceChoosed = TextEditingController();
+  bool amenagement = false;
+  var typeFormation = TextEditingController();
+  bool authorisation = false;
+  var surfaceExploite = TextEditingController();
+  var volumeExploite = TextEditingController();
 
   DatabaseHelper helper = DatabaseHelper.instance;
 
   
   _save(ForetNaturelEntity foretNaturelEnCours) async {
-    dateFormat.format(date).compareTo(foretNaturelEnCours.date)!=0?foretNaturelEnCours.date = dateFormat.format(date):0;
+    dateFormat.format(date).compareTo(foretNaturelEnCours.date)!=0
+        ?foretNaturelEnCours.date = dateFormat.format(date):0;
     foretNaturelEnCours.commune = commune.text;
     foretNaturelEnCours.agg = agg.text;
     foretNaturelEnCours.superficie = double.tryParse(superficie.text);
     foretNaturelEnCours.acteur = acteur.text;
     foretNaturelEnCours.essence = essenceChoosed.text;
+    foretNaturelEnCours.amenagement = amenagement;
+    foretNaturelEnCours.typeFormation = typeFormation.text;
+    foretNaturelEnCours.authorisation = authorisation;
+    foretNaturelEnCours.surfaceExpoite = double.tryParse(surfaceExploite.text);
+    foretNaturelEnCours.volumeExploite = double.tryParse(volumeExploite.text);
 
     DatabaseHelper helper = DatabaseHelper.instance;
     int id = await helper.update(foretNaturelEnCours);
@@ -192,6 +203,9 @@ class _ForetNaturelModificationState extends State<ForetNaturelModification> {
     superficie.text = widget.foretNaturelEnCours.superficie.toString();
     acteur.text = widget.foretNaturelEnCours.acteur;
     essenceChoosed.text = widget.foretNaturelEnCours.essence;
+    typeFormation.text = widget.foretNaturelEnCours.typeFormation;
+    surfaceExploite.text = widget.foretNaturelEnCours.surfaceExpoite.toString();
+    volumeExploite.text = widget.foretNaturelEnCours.volumeExploite.toString();
     
     return Scaffold(
       appBar: Navbar(
@@ -320,6 +334,77 @@ class _ForetNaturelModificationState extends State<ForetNaturelModification> {
               )
             ),
 
+            SizedBox(height: 8.0),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0, top: 8),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("Existence de plan d'aménagement",
+                        style: TextStyle(
+                            color: ArgonColors.text,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12)),
+                  ),
+                ),
+                Switch.adaptive(
+                  value: widget.foretNaturelEnCours.amenagement,
+                  onChanged: (bool newValue) =>
+                      setState(() => widget.foretNaturelEnCours.amenagement = newValue),
+                  activeColor: ArgonColors.primary,
+                ),
+              ],
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Type de formation",
+                    style: TextStyle(
+                        color: ArgonColors.text,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12)),
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                  enable: true,
+                  placeholder: "Entrer le type de formation",
+                  borderColor: ArgonColors.white,
+                  controller: typeFormation,
+                )
+            ),
+
+            SizedBox(height: 8.0),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0, top: 8),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("Authorisation",
+                        style: TextStyle(
+                            color: ArgonColors.text,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12)),
+                  ),
+                ),
+                Switch.adaptive(
+                  value: widget.foretNaturelEnCours.authorisation,
+                  onChanged: (bool newValue) =>
+                      setState(() => widget.foretNaturelEnCours.authorisation = newValue),
+                  activeColor: ArgonColors.primary,
+                ),
+              ],
+            ),
+
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 8),
               child: Align(
@@ -386,6 +471,48 @@ class _ForetNaturelModificationState extends State<ForetNaturelModification> {
                     controller: essenceChoosed,
                 )
               ),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Superficie exploitée",
+                    style: TextStyle(
+                        color: ArgonColors.text,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12)),
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                  enable: true,
+                  placeholder: "Entrer la superficie exploitée",
+                  borderColor: ArgonColors.white,
+                  controller: surfaceExploite,
+                )
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Volume exploité",
+                    style: TextStyle(
+                        color: ArgonColors.text,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12)),
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                  enable: true,
+                  placeholder: "Entrer le volume exploité",
+                  borderColor: ArgonColors.white,
+                  controller: volumeExploite,
+                )
+            ),
 
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 8),
