@@ -7,6 +7,7 @@ import 'package:argon_flutter/constants/Theme.dart';
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 import 'package:argon_flutter/widgets/input.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 List<String> districts = ['Ambohidratrimo ',
@@ -164,6 +165,8 @@ class _PepiniereModificationState extends State<PepiniereModification> {
   var especes = TextEditingController();
   var nbrPlant = TextEditingController();
   var taux = TextEditingController();
+  var platebande = TextEditingController();
+  var surface = TextEditingController();
 
   DatabaseHelper helper = DatabaseHelper.instance;
 
@@ -179,6 +182,8 @@ class _PepiniereModificationState extends State<PepiniereModification> {
     pepiniereEnCours.especes = especes.text;
     pepiniereEnCours.nbrPlant = int.tryParse(nbrPlant.text);
     pepiniereEnCours.taux = double.tryParse(taux.text);
+    pepiniereEnCours.platebande = int.tryParse(taux.text);
+    pepiniereEnCours.surface = double.tryParse(taux.text);
 
     DatabaseHelper helper = DatabaseHelper.instance;
     int id = await helper.update(pepiniereEnCours);
@@ -211,6 +216,8 @@ class _PepiniereModificationState extends State<PepiniereModification> {
     especes.text = widget.pepiniereEnCours.especes;
     nbrPlant.text = widget.pepiniereEnCours.nbrPlant.toString();
     taux.text = widget.pepiniereEnCours.taux.toString();
+    platebande.text = widget.pepiniereEnCours.platebande.toString();
+    surface.text = widget.pepiniereEnCours.surface.toString();
     
     return Scaffold(
       appBar: Navbar(
@@ -225,6 +232,29 @@ class _PepiniereModificationState extends State<PepiniereModification> {
         child: SafeArea(
           bottom: true,
           child: Column(children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Date",
+                    style: TextStyle(
+                        color: ArgonColors.text,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12)),
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: GestureDetector(
+                  onTap: ()=>_selectDate(context),
+                  child: Input(
+                    enable: false,
+                    placeholder: dateLabel,
+                    borderColor: ArgonColors.white,
+                    onTap: ()=>_selectDate(context),
+                  ),
+                )
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 32),
               child: Align(
@@ -338,6 +368,105 @@ class _PepiniereModificationState extends State<PepiniereModification> {
                   controller: agg,
               )
             ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Longitude",
+                    style: TextStyle(
+                        color: ArgonColors.text,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12)),
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                  enable: true,
+                  placeholder: "Entrer la longitude en degré décimal",
+                  borderColor: ArgonColors.white,
+                  controller: long,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                )
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Latitude",
+                    style: TextStyle(
+                        color: ArgonColors.text,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12)),
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                  enable: true,
+                  placeholder: "Entrer la latitude en degré décimal",
+                  borderColor: ArgonColors.white,
+                  controller: lat,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                )
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Type de pépiniériste",
+                    style: TextStyle(
+                        color: ArgonColors.text,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12)),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 4.0),
+              child: DropdownButton<String>(
+                style: TextStyle(
+                    fontSize: 12,
+                    color: ArgonColors.text,
+                    backgroundColor: Colors.white
+                ),
+                value: widget.pepiniereEnCours.type,
+                isExpanded: true,
+                onChanged: (String newValue) {
+                  setState(() {
+                    widget.pepiniereEnCours.type = newValue;
+                  });
+                },
+                items: listeTypePepiniere
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Projet d'appuie",
+                    style: TextStyle(
+                        color: ArgonColors.text,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12)),
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                  enable: true,
+                  placeholder: "Entrer le nom du projet",
+                  borderColor: ArgonColors.white,
+                  controller: projetAppuie,
+                )
+            ),
 
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 8),
@@ -354,12 +483,11 @@ class _PepiniereModificationState extends State<PepiniereModification> {
               padding: const EdgeInsets.only(top: 4.0),
               child: Input(
                   enable: true,
-                  placeholder: "Entrer le nom du propriétaire",
+                  placeholder: "Entrer le Nom et prénom si personne physique/Dénomination si personne morale",
                   borderColor: ArgonColors.white,
                   controller: proprietaire,
               )
             ),
-
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 8.0),
               child: Align(
@@ -395,124 +523,24 @@ class _PepiniereModificationState extends State<PepiniereModification> {
                 }).toList(),
               ),
             ),
-
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text("Type du pépiniaire",
-                    style: TextStyle(
-                        color: ArgonColors.text,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12)),
-              ),
-            ),  
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-              child: DropdownButton<String>(
-                style: TextStyle(
-                  fontSize: 12,
-                  color: ArgonColors.text,
-                  backgroundColor: Colors.white
-                ),
-                value: widget.pepiniereEnCours.type,
-                isExpanded: true,
-                onChanged: (String newValue) {
-                  setState(() {
-                    widget.pepiniereEnCours.type = newValue;
-                  });
-                },
-                items: listeTypePepiniere
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 8),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text("Projet d'appuie",
-                    style: TextStyle(
-                        color: ArgonColors.text,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12)),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 4.0),
-              child: Input(
-                  enable: true,
-                  placeholder: "Entrer le projet d'appuie",
-                  borderColor: ArgonColors.white,
-                  controller: projetAppuie,
-              )
-            ),
-
             Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Espèces",
+                  child: Text("Essence",
                       style: TextStyle(
                           color: ArgonColors.text,
                           fontWeight: FontWeight.w500,
                           fontSize: 12)),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Input(
-                    enable: true,
-                    placeholder: "Entrer la liste des espèces",
-                    borderColor: ArgonColors.white,
-                    controller: especes,
-                )
-              ),
-
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Nombre de plant",
-                      style: TextStyle(
-                          color: ArgonColors.text,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12)),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Input(
-                    enable: true,
-                    placeholder: "Entrer le nombre de plan produits",
-                    borderColor: ArgonColors.white,
-                    controller: nbrPlant,
-                )
-              ),
-
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 8),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text("Latitude",
-                    style: TextStyle(
-                        color: ArgonColors.text,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12)),
-              ),
-            ),
             Padding(
               padding: const EdgeInsets.only(top: 4.0),
               child: Input(
                   enable: true,
-                  placeholder: "Entrer la latitude en décimal",
+                  placeholder: "Entrer les essences recensées",
                   borderColor: ArgonColors.white,
-                  controller: lat,
+                  controller: especes,
               )
             ),
 
@@ -520,7 +548,7 @@ class _PepiniereModificationState extends State<PepiniereModification> {
               padding: const EdgeInsets.only(left: 8.0, top: 8),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text("Longitude",
+                child: Text("Nombre de plan produit",
                     style: TextStyle(
                         color: ArgonColors.text,
                         fontWeight: FontWeight.w500,
@@ -531,9 +559,11 @@ class _PepiniereModificationState extends State<PepiniereModification> {
               padding: const EdgeInsets.only(top: 4.0),
               child: Input(
                   enable: true,
-                  placeholder: "Entrer la longitude en décimal",
+                  placeholder: "Entrer le nombre de plan total",
                   borderColor: ArgonColors.white,
-                  controller: long,
+                  controller: nbrPlant,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly]
               )
             ),
             Padding(
@@ -551,39 +581,83 @@ class _PepiniereModificationState extends State<PepiniereModification> {
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Input(
                   enable: true,
-                  placeholder: "Entrer le taux de réuissite",
+                  placeholder: "Entrer le taux de réuissite de la pépinière",
                   borderColor: ArgonColors.white,
                   controller: taux,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly]
                 )
             ),
-
-          SizedBox(
-            width: double.infinity,
-            child: Padding(
-              padding:
-                  const EdgeInsets.only(top: 8),
-              child: RaisedButton(
-                textColor: ArgonColors.text,
-                color: ArgonColors.success,
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/listepepiniere');
-                  _save(widget.pepiniereEnCours);
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4.0),
-                ),
-                child: Padding(
-                    padding: EdgeInsets.only(
-                        left: 16.0, right: 16.0, top: 12, bottom: 12),
-                    child: Text("Enregistrer",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 16.0))),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Nombre de platebande",
+                    style: TextStyle(
+                        color: ArgonColors.text,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12)),
               ),
             ),
-          ),
-        
-        ]),
-      ),
+            Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                  enable: true,
+                  placeholder: "Entrer le nombre de platebande",
+                  borderColor: ArgonColors.white,
+                  controller: platebande,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                )
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Surface",
+                    style: TextStyle(
+                        color: ArgonColors.text,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12)),
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                  enable: true,
+                  placeholder: "Entrer la surface de la pépinière (ha)",
+                  borderColor: ArgonColors.white,
+                  controller: surface,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                )
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: Padding(
+                padding:
+                    const EdgeInsets.only(top: 8),
+                child: RaisedButton(
+                  textColor: ArgonColors.text,
+                  color: ArgonColors.success,
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, '/listepepiniere');
+                    _save(widget.pepiniereEnCours);
+                  },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  child: Padding(
+                      padding: EdgeInsets.only(
+                          left: 16.0, right: 16.0, top: 12, bottom: 12),
+                      child: Text("Enregistrer",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 16.0))),
+                ),
+              ),
+            ),
+          ]),
+        ),
     )));
   }
 }

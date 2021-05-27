@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:argon_flutter/constants/Theme.dart';
+import 'package:flutter/services.dart';
 
 class Input extends StatelessWidget {
   final String placeholder;
@@ -12,6 +13,8 @@ class Input extends StatelessWidget {
   final Color borderColor;
   final bool enable;
   final bool obscureText;
+  final TextInputType keyboardType;
+  final List<TextInputFormatter> inputFormatters;
 
   Input(
       {this.placeholder,
@@ -23,7 +26,10 @@ class Input extends StatelessWidget {
       this.autofocus = false,
       this.borderColor = ArgonColors.border,
       this.enable = true,
-      this.controller});
+      this.controller,
+      this.keyboardType = TextInputType.text,
+      this.inputFormatters = null
+    });
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +41,8 @@ class Input extends StatelessWidget {
         onChanged: onChanged,
         controller: controller,
         autofocus: autofocus,
+        keyboardType: keyboardType,
+        inputFormatters: inputFormatters,
         style:
             TextStyle(height: 0.85, fontSize: 14.0, color: ArgonColors.initial),
         textAlignVertical: TextAlignVertical(y: 0.6),

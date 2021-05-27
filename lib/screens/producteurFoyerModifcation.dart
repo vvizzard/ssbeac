@@ -7,6 +7,7 @@ import 'package:argon_flutter/constants/Theme.dart';
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 import 'package:argon_flutter/widgets/input.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 List<String> districts = ['Ambohidratrimo ',
@@ -129,8 +130,13 @@ List<String> agglomeration = [
 ];
 
 List<String> listeEnergieCuisson = [
-  'BC', 'CB', 'BIOGAZ', 'GAZ', 'Pétrole', 'Bioéthanol', 'Cuiseur solaire',
-  'Electricité', 'Résidus agricoles', 'Sous-produits forestiers'
+  'Bois de Chauffe', 'Charbon de Bois', 'Biogaz', 'Gaz', 'Bioéthanol',
+  'Résidus agricoles/Sous-produits', 'Electricité', 'Briquette/Charbon Vert',
+  'Pétrole'
+];
+
+List<String> listeType = [
+  'Traditionnelle', 'Améliorée'
 ];
 
 class ProducteurFoyerModification extends StatefulWidget {
@@ -149,7 +155,8 @@ class _ProducteurFoyerModificationState extends State<ProducteurFoyerModificatio
 
   final dateFormat = DateFormat('dd-MM-yyyy');
 
-  bool showBiodigesteur = false;
+  // bool showBiodigesteur = false;
+  String unite = '(kg)';
 
   String dateLabel = "Choisir la date";
   DateTime date = new DateTime.now(); 
@@ -158,7 +165,7 @@ class _ProducteurFoyerModificationState extends State<ProducteurFoyerModificatio
   var agg = TextEditingController();
   var qte = TextEditingController();
   var biodigesteur = TextEditingController();
-  var appuie = TextEditingController();
+  // var appuie = TextEditingController();
 
   DatabaseHelper helper = DatabaseHelper.instance;
 
@@ -169,7 +176,7 @@ class _ProducteurFoyerModificationState extends State<ProducteurFoyerModificatio
     productionFoyerEnCours.agg = agg.text;
     productionFoyerEnCours.qte = double.tryParse(qte.text);
     productionFoyerEnCours.biodigesteur = double.tryParse(biodigesteur.text);
-    productionFoyerEnCours.appuie = int.tryParse(appuie.text);
+    // productionFoyerEnCours.appuie = int.tryParse(appuie.text);
 
     DatabaseHelper helper = DatabaseHelper.instance;
     int id = await helper.update(productionFoyerEnCours);
@@ -197,11 +204,11 @@ class _ProducteurFoyerModificationState extends State<ProducteurFoyerModificatio
     agg.text = widget.productionFoyerEnCours.agg;
     qte.text = widget.productionFoyerEnCours.qte.toString();
     biodigesteur.text = widget.productionFoyerEnCours.biodigesteur.toString();
-    appuie.text = widget.productionFoyerEnCours.appuie.toString();
-    if(widget.productionFoyerEnCours.biodigesteur!=null
-        && widget.productionFoyerEnCours.biodigesteur>0) {
-      showBiodigesteur = true;
-    }
+    // appuie.text = widget.productionFoyerEnCours.appuie.toString();
+    // if(widget.productionFoyerEnCours.biodigesteur!=null
+    //     && widget.productionFoyerEnCours.biodigesteur>0) {
+    //   showBiodigesteur = true;
+    // }
     
     return Scaffold(
       appBar: Navbar(
@@ -216,6 +223,29 @@ class _ProducteurFoyerModificationState extends State<ProducteurFoyerModificatio
         child: SafeArea(
           bottom: true,
           child: Column(children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Date",
+                    style: TextStyle(
+                        color: ArgonColors.text,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12)),
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: GestureDetector(
+                  onTap: ()=>_selectDate(context),
+                  child: Input(
+                    enable: false,
+                    placeholder: dateLabel,
+                    borderColor: ArgonColors.white,
+                    onTap: ()=>_selectDate(context),
+                  ),
+                )
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 32),
               child: Align(
@@ -334,7 +364,7 @@ class _ProducteurFoyerModificationState extends State<ProducteurFoyerModificatio
               padding: const EdgeInsets.only(left: 8.0, top: 16.0),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text("Energie",
+                child: Text("Type d'énergie de cuisson",
                     style: TextStyle(
                         color: ArgonColors.text,
                         fontWeight: FontWeight.w500,
@@ -354,9 +384,18 @@ class _ProducteurFoyerModificationState extends State<ProducteurFoyerModificatio
                 onChanged: (String nValue) {
                   setState(() {
                     widget.productionFoyerEnCours.energie = nValue;
-                    if(widget.productionFoyerEnCours.energie.compareTo('BIOGAZ')==0) {
-                      showBiodigesteur = true;
-                    } else showBiodigesteur = false;
+                    if(widget.productionFoyerEnCours.energie.compareTo('Biogaz')==0) {
+                      // showBiodigesteur = true;
+                      unite = '(m³)';
+                    } //else showBiodigesteur = false;
+                    if(widget.productionFoyerEnCours.energie.contains('Electricite')) {
+                      unite = '(kWh)';
+                    } else if(widget.productionFoyerEnCours.energie.contains('Bioéthanol')
+                        ||widget.productionFoyerEnCours.energie.contains('Pétrol')) {
+                      unite = '(l)';
+                    } else {
+                      unite = '(kg)';
+                    }
                   });
                 },
                 items: listeEnergieCuisson
@@ -368,12 +407,46 @@ class _ProducteurFoyerModificationState extends State<ProducteurFoyerModificatio
                 }).toList(),
               ),
             ),
-
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 32),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Type de foyers produits",
+                    style: TextStyle(
+                        color: ArgonColors.text,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12)),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 4.0),
+              child: DropdownButton<String>(
+                style: TextStyle(
+                    fontSize: 12,
+                    color: ArgonColors.text,
+                    backgroundColor: Colors.white
+                ),
+                value: widget.productionFoyerEnCours.type,
+                isExpanded: true,
+                onChanged: (String newValue) {
+                  setState(() {
+                    widget.productionFoyerEnCours.type = newValue;
+                  });
+                },
+                items: listeType
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 8),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text("Quantité de production",
+                child: Text("Production annuel totale",
                     style: TextStyle(
                         color: ArgonColors.text,
                         fontWeight: FontWeight.w500,
@@ -384,13 +457,15 @@ class _ProducteurFoyerModificationState extends State<ProducteurFoyerModificatio
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Input(
                   enable: true,
-                  placeholder: "Entrer la quantité de production",
+                  placeholder: "Entrer la production annuel totale "+unite,
                   borderColor: ArgonColors.white,
                   controller: qte,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly]
                 )
             ),
 
-            Visibility(
+            /*Visibility(
                 visible: showBiodigesteur,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8.0, top: 8),
@@ -410,33 +485,60 @@ class _ProducteurFoyerModificationState extends State<ProducteurFoyerModificatio
                   padding: const EdgeInsets.only(top: 4.0),
                   child: Input(
                     enable: true,
-                    placeholder: "Entrer la capacité du biodigesteur",
+                    placeholder: "Entrer la capacité du biodigesteur (m³)",
                     borderColor: ArgonColors.white,
                     controller: biodigesteur,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
                   )
               ),
+            ),*/
+
+            SizedBox(height: 8.0),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0, top: 8),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("Existence d'appuie à la production",
+                        style: TextStyle(
+                            color: ArgonColors.text,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12)),
+                  ),
+                ),
+                Switch.adaptive(
+                  value: widget.productionFoyerEnCours.appuie,
+                  onChanged: (bool newValue) =>
+                      setState(() => widget.productionFoyerEnCours.appuie = newValue),
+                  activeColor: ArgonColors.primary,
+                ),
+              ],
             ),
 
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text("Nombre d'appuie à la production",
-                    style: TextStyle(
-                        color: ArgonColors.text,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12)),
-              ),
-            ),
-            Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Input(
-                  enable: true,
-                  placeholder: "Entrer le nombre d'appuie à la production",
-                  borderColor: ArgonColors.white,
-                  controller: appuie,
-                )
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+            //   child: Align(
+            //     alignment: Alignment.centerLeft,
+            //     child: Text("Nombre d'appuie à la production",
+            //         style: TextStyle(
+            //             color: ArgonColors.text,
+            //             fontWeight: FontWeight.w500,
+            //             fontSize: 12)),
+            //   ),
+            // ),
+            // Padding(
+            //     padding: const EdgeInsets.only(top: 4.0),
+            //     child: Input(
+            //       enable: true,
+            //       placeholder: "Existence d'appuie à la production",
+            //       borderColor: ArgonColors.white,
+            //       controller: appuie,
+            //     )
+            // ),
 
           SizedBox(
             width: double.infinity,

@@ -217,7 +217,9 @@ class _ListePepiniereState extends State<ListePepiniere> {
                         'Longitude',
                         'Espèces',
                         'Nombre de Plant',
-                        'Taux de réussite'
+                        'Taux de réussite',
+                        'Nombre de platebande',
+                        'Superficie'
                       ]);
                       pepiniereEnCours.forEach((element) {
                         data.add([
@@ -235,7 +237,9 @@ class _ListePepiniereState extends State<ListePepiniere> {
                           element['long'],
                           element['especes'],
                           element['nbrPlant'],
-                          element['taux']
+                          element['taux'],
+                          element['platebande'],
+                          element['surface']
                         ]);
                       });
 

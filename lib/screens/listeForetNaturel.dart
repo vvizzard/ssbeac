@@ -198,8 +198,8 @@ class _ListeForetNaturelState extends State<ListeForetNaturel> {
                         'Superficie',
                         'Pare-feux',
                         'Essence',
-                        'Superficie exploitée',
-                        'Volume exploitée',
+                        // 'Superficie exploitée',
+                        // 'Volume exploitée',
                         'Acteurs/Opérateurs'
                       ]);
                       foretNaturelEnCours.forEach((element) {
@@ -216,8 +216,8 @@ class _ListeForetNaturelState extends State<ListeForetNaturel> {
                           element['superficie'].toString(),
                           element['pare_feux'].toString(),
                           element['essence'],
-                          element['surface_exploite'],
-                          element['volume_exploite'],
+                          // element['surface_exploite'],
+                          // element['volume_exploite'],
                           element['acteur'].toString()
                         ]);
                       });

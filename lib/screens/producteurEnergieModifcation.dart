@@ -7,6 +7,7 @@ import 'package:argon_flutter/constants/Theme.dart';
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 import 'package:argon_flutter/widgets/input.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 List<String> districts = ['Ambohidratrimo ',
@@ -129,8 +130,7 @@ List<String> agglomeration = [
 ];
 
 List<String> listeEnergieCuisson = [
-  'BC', 'CB', 'BIOGAZ', 'GAZ', 'Pétrole', 'Bioéthanol', 'Cuiseur solaire',
-  'Electricité', 'Résidus agricoles', 'Sous-produits forestiers'
+  'Biogaz', 'Gaz', 'Bioéthanol', 'Briquette/Charbon Vert'
 ];
 
 class ProducteurEnergieModification extends StatefulWidget {
@@ -149,16 +149,18 @@ class _ProducteurEnergieModificationState extends State<ProducteurEnergieModific
 
   final dateFormat = DateFormat('dd-MM-yyyy');
 
-  bool showQteTotal = false;
-
+  // bool showQteTotal = false;
+  String unite = '(kg)';
   String dateLabel = "Choisir la date";
   DateTime date = new DateTime.now();
   String productionLabel = "Quantité de production";
+  bool showBiodigesteur = false;
   
   var commune = TextEditingController();
   var agg = TextEditingController();
   var qte = TextEditingController();
-  var qteTotal = TextEditingController();
+  var biodigesteur = TextEditingController();
+  // var qteTotal = TextEditingController();
 
   DatabaseHelper helper = DatabaseHelper.instance;
 
@@ -168,7 +170,9 @@ class _ProducteurEnergieModificationState extends State<ProducteurEnergieModific
     productionEnergieEnCours.commune = commune.text;
     productionEnergieEnCours.agg = agg.text;
     productionEnergieEnCours.qte = double.tryParse(qte.text);
-    productionEnergieEnCours.qteTotal = double.tryParse(qteTotal.text);
+    productionEnergieEnCours.biodigesteur = double.tryParse(biodigesteur.text);
+
+    // productionEnergieEnCours.qteTotal = double.tryParse(qteTotal.text);
 
     DatabaseHelper helper = DatabaseHelper.instance;
     int id = await helper.update(productionEnergieEnCours);
@@ -195,11 +199,15 @@ class _ProducteurEnergieModificationState extends State<ProducteurEnergieModific
     commune.text = widget.productionEnergieEnCours.commune;
     agg.text = widget.productionEnergieEnCours.agg;
     qte.text = widget.productionEnergieEnCours.qte.toString();
-    qteTotal.text = widget.productionEnergieEnCours.qteTotal.toString();
-    if(widget.productionEnergieEnCours.qteTotal!=null
+    if(widget.productionEnergieEnCours.biodigesteur!=null
+        && widget.productionEnergieEnCours.biodigesteur>0) {
+      showBiodigesteur = true;
+    }
+    // qteTotal.text = widget.productionEnergieEnCours.qteTotal.toString();
+    /*if(widget.productionEnergieEnCours.qteTotal!=null
         && widget.productionEnergieEnCours.qteTotal>0) {
       showQteTotal = true;
-    }
+    }*/
     
     return Scaffold(
       appBar: Navbar(
@@ -214,6 +222,29 @@ class _ProducteurEnergieModificationState extends State<ProducteurEnergieModific
         child: SafeArea(
           bottom: true,
           child: Column(children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Date",
+                    style: TextStyle(
+                        color: ArgonColors.text,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12)),
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: GestureDetector(
+                  onTap: ()=>_selectDate(context),
+                  child: Input(
+                    enable: false,
+                    placeholder: dateLabel,
+                    borderColor: ArgonColors.white,
+                    onTap: ()=>_selectDate(context),
+                  ),
+                )
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 32),
               child: Align(
@@ -352,13 +383,23 @@ class _ProducteurEnergieModificationState extends State<ProducteurEnergieModific
                 onChanged: (String nValue) {
                   setState(() {
                     widget.productionEnergieEnCours.energie = nValue;
-                    if(widget.productionEnergieEnCours.energie.compareTo('Pétrole')==0
+                    /*if(widget.productionEnergieEnCours.energie.compareTo('Pétrole')==0
                         || widget.productionEnergieEnCours.energie.compareTo('Electricité') == 0) {
-                      showQteTotal = true;
+                      // showQteTotal = true;
                       productionLabel = "Quantité produit pour la cuisson";
                     } else {
-                      showQteTotal = false;
+                      // showQteTotal = false;
                       productionLabel = "Quantité de production";
+                    }*/
+                    if(widget.productionEnergieEnCours.energie.contains('Biogaz')) {
+                      showBiodigesteur = true;
+                    } else showBiodigesteur = false;
+                    if(widget.productionEnergieEnCours.energie.contains('Biogaz')){
+                      unite = '(m³)';
+                    } else if(widget.productionEnergieEnCours.energie.contains('Bioéthanol')) {
+                      unite = '(l)';
+                    } else {
+                      unite = '(kg)';
                     }
                   });
                 },
@@ -372,7 +413,7 @@ class _ProducteurEnergieModificationState extends State<ProducteurEnergieModific
               ),
             ),
 
-            Visibility(
+            /*Visibility(
                 visible: showQteTotal,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8.0, top: 8),
@@ -397,13 +438,13 @@ class _ProducteurEnergieModificationState extends State<ProducteurEnergieModific
                     controller: qteTotal,
                   )
               ),
-            ),
+            ),*/
 
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 8),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text(productionLabel,
+                child: Text('Quantité annuelle produite',
                     style: TextStyle(
                         color: ArgonColors.text,
                         fontWeight: FontWeight.w500,
@@ -414,36 +455,67 @@ class _ProducteurEnergieModificationState extends State<ProducteurEnergieModific
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Input(
                   enable: true,
-                  placeholder: "Entrer la quantité",
+                  placeholder: "Entrer la quantité annuelle produite "+unite,
                   borderColor: ArgonColors.white,
                   controller: qte,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly]
                 )
             ),
 
-          SizedBox(
-            width: double.infinity,
-            child: Padding(
-              padding:
-                  const EdgeInsets.only(top: 8),
-              child: RaisedButton(
-                textColor: ArgonColors.text,
-                color: ArgonColors.success,
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/listeProductionEnergie');
-                  _save(widget.productionEnergieEnCours);
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4.0),
-                ),
+            Visibility(
+                visible: showBiodigesteur,
                 child: Padding(
-                    padding: EdgeInsets.only(
-                        left: 16.0, right: 16.0, top: 12, bottom: 12),
-                    child: Text("Enregistrer",
+                  padding: const EdgeInsets.only(left: 8.0, top: 8),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("Capacité biodigesteur ",
                         style: TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 16.0))),
+                            color: ArgonColors.text,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12)),
+                  ),
+                )
+            ),
+            Visibility(
+              visible: showBiodigesteur,
+              child: Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
+                      enable: true,
+                      placeholder: "Entrer la capacité du biodigesteur (m³)",
+                      borderColor: ArgonColors.white,
+                      controller: biodigesteur,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                  )
               ),
             ),
-          ),
+
+            SizedBox(
+              width: double.infinity,
+              child: Padding(
+                padding:
+                    const EdgeInsets.only(top: 8),
+                child: RaisedButton(
+                  textColor: ArgonColors.text,
+                  color: ArgonColors.success,
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, '/listeProductionEnergie');
+                    _save(widget.productionEnergieEnCours);
+                  },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  child: Padding(
+                      padding: EdgeInsets.only(
+                          left: 16.0, right: 16.0, top: 12, bottom: 12),
+                      child: Text("Enregistrer",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 16.0))),
+                ),
+              ),
+            ),
         
         ]),
       ),

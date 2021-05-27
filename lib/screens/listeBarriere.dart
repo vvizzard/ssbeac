@@ -1,8 +1,6 @@
 import 'package:argon_flutter/helper/csv_helpers.dart';
 import 'package:argon_flutter/helper/database_helpers.dart';
 import 'package:argon_flutter/screens/barriereModifcation.dart';
-import 'package:argon_flutter/screens/charbonnierModifcation.dart';
-import 'package:argon_flutter/screens/menageModifcation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:argon_flutter/constants/Theme.dart';
@@ -10,8 +8,6 @@ import 'package:argon_flutter/constants/Theme.dart';
 //widgets
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
-import 'package:argon_flutter/widgets/input.dart';
-import 'package:argon_flutter/widgets/table-cell.dart';
 import 'package:intl/intl.dart';
 
 
@@ -147,9 +143,6 @@ class _ListeBarriereState extends State<ListeBarriere> {
                             child: const Text('Supprimer'),
                             onPressed: () {
                               setState(() {
-                                // energieCuissonSecheChoosed.remove(e.key);
-                                // checkFoyer('BC') ? showFoyerBC=true : showFoyerBC=false;
-                                // checkFoyer('CB') ? showFoyerCB=true : showFoyerCB=false;
                               });
                             },
                           ),
@@ -177,7 +170,9 @@ class _ListeBarriereState extends State<ListeBarriere> {
                       data.add([
                         'Id',	
                         'Date',	
-                        'District',	
+                        'District',
+                        'Commune',
+                        'Agglomération',
                         'Axe',
                         'Latitude',	
                         'Longitude',	
@@ -186,14 +181,16 @@ class _ListeBarriereState extends State<ListeBarriere> {
                         'District provenance',
                         'Designation provenance',	
                         'District arrive',
-                        'Designation arrive'
+                        'Designation arrive',
+                        'Type de déplacement'
                       ]);
                       barrieresEnCours.forEach((element) {
                         data.add([
-                          element['_id'].toString(), element['date'], element['district'], element['axe'], 
+                          element['_id'].toString(), element['date'], element['district'],
+                          element['commune'], element['agg'], element['axe'], 
                           element['latitude'].toString(), element['longitude'].toString(),element['laisser_passer'].toString(), 
                           element['transport'],element['district_provenance'],element['designation_provenance'],
-                          element['district_arrivee'],element['designation_arrivee']
+                          element['district_arrivee'],element['designation_arrivee'], element['type_deplacement']
                         ]);
                       });
 

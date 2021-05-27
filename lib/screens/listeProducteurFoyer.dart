@@ -211,6 +211,7 @@ class _ListeProducteurFoyerState extends State<ListeProducteurFoyer> {
                         'Commune',
                         'Agglomération',
                         'Energie',
+                        'Type de foyers produits',
                         'Quantité',
                         'Capacité du biodigesteur(BIOGAZ)',
                         'Nombre d\'appuie'
@@ -224,6 +225,7 @@ class _ListeProducteurFoyerState extends State<ListeProducteurFoyer> {
                           element['commune'],
                           element['agg'],
                           element['energie'],
+                          element['type'],
                           element['qte'],
                           element['biodigesteur'],
                           element['appuie']

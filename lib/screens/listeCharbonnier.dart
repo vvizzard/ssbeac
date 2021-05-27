@@ -1,7 +1,6 @@
 import 'package:argon_flutter/helper/csv_helpers.dart';
 import 'package:argon_flutter/helper/database_helpers.dart';
 import 'package:argon_flutter/screens/charbonnierModifcation.dart';
-import 'package:argon_flutter/screens/menageModifcation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:argon_flutter/constants/Theme.dart';
@@ -9,8 +8,6 @@ import 'package:argon_flutter/constants/Theme.dart';
 //widgets
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
-import 'package:argon_flutter/widgets/input.dart';
-import 'package:argon_flutter/widgets/table-cell.dart';
 import 'package:intl/intl.dart';
 
 
@@ -31,8 +28,6 @@ class _ListeCharbonnierState extends State<ListeCharbonnier> {
   void initState() {
     helper.queryAllCharbonnier().then((value) => setState(() {
       charbonniers = value;
-      // print('blabla');
-      // print(value);
     }));    
     super.initState();
   }
@@ -55,8 +50,6 @@ class _ListeCharbonnierState extends State<ListeCharbonnier> {
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 16),
               ),
-              
-
               Column(children: charbonniers.map((e) {
                 // MenageEntity m = MenageEntity.fromMap(e);
                 return Card(
@@ -177,14 +170,20 @@ class _ListeCharbonnierState extends State<ListeCharbonnier> {
                         'Date',	
                         'District',
                         'Unite agglomeration',
+                        'Commune',
+                        'Agglomération',
                         'Espece bois',
                         'Autorisation',
+                        'Formation organisée sur les techniques améliorées de carbonisation',
+                        'Formateur'
                       ]);
                       charbonniers.forEach((element) {
                         data.add([
                           element['_id'].toString(), element['date'], element['district'],
-                          element['agglomeration'], element['espece_bois'],
-                          element['autorisation'].toString()
+                          element['agglomeration'], element['commune'], element['agg'],
+                          element['espece_bois'],
+                          element['autorisation'].toString(),
+                          element['formation'].toString(), element['formateur']
                         ]);
                       });
 
@@ -193,7 +192,9 @@ class _ListeCharbonnierState extends State<ListeCharbonnier> {
                       // EnergieCuisson
                       data = [];
                       data.add([
-                        'Id',	'IdCharbonnier',	'Type',	'Meule',
+                        'Id',	'IdCharbonnier',
+                        // 'Type',
+                        'Meule',
                         'Longueur',	'Largeur',	'Hauteur', 'Zone prelevement',
                         'Domaine prelevement', 'quantité de bois',
                         'quantité de charbon','Qte bois', 'Qte charbon'
@@ -202,7 +203,9 @@ class _ListeCharbonnierState extends State<ListeCharbonnier> {
                         value.forEach((element) {
                           data.add([
                             element.id.toString(), element.idCharbonnier.toString(), 
-                            element.typeMeule, element.meule, element.longueur.toString(),
+                            element.typeMeule,
+                            // element.meule,
+                            element.longueur.toString(),
                             element.largeur.toString(), element.hauteur.toString(),
                             element.zonePrelevement, element.domaine,
                             element.qteB.toString(), element.qteC.toString()

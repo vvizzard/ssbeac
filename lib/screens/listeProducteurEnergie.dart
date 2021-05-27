@@ -1,6 +1,5 @@
 import 'package:argon_flutter/helper/csv_helpers.dart';
 import 'package:argon_flutter/helper/database_helpers.dart';
-import 'package:argon_flutter/screens/pepiniereModifcation.dart';
 import 'package:argon_flutter/screens/producteurEnergieModifcation.dart';
 import 'package:flutter/material.dart';
 
@@ -212,7 +211,7 @@ class _ListeProducteurEnergieState extends State<ListeProducteurEnergie> {
                         'Agglomération',
                         'Energie',
                         'Production pour la cuisson',
-                        'Production total (Electricité/BIOGAZ)',
+                        // 'Production total (Electricité/BIOGAZ)',
                       ]);
                       pepiniereEnCours.forEach((element) {
                         data.add([
@@ -224,7 +223,7 @@ class _ListeProducteurEnergieState extends State<ListeProducteurEnergie> {
                           element['agg'],
                           element['energie'],
                           element['qte'],
-                          element['qte_total']
+                          // element['qte_total']
                         ]);
                       });
 

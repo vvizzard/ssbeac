@@ -7,7 +7,7 @@ import 'package:argon_flutter/constants/Theme.dart';
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 import 'package:argon_flutter/widgets/input.dart';
-import 'package:argon_flutter/widgets/table-cell.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 
@@ -169,6 +169,9 @@ class _BarriereState extends State<Barriere> {
   var provenance = TextEditingController();
   var destination = TextEditingController();
 
+  var commune = TextEditingController();
+  var agg = TextEditingController();
+
   DatabaseHelper helper = DatabaseHelper.instance;
   
   _save() async {
@@ -181,6 +184,8 @@ class _BarriereState extends State<Barriere> {
     
     barriereEnCours.districtBarriere = districtChoosed;
     barriereEnCours.agglomerationBarriere = agglomerationChoosed;
+    barriereEnCours.commune = commune.text;
+    barriereEnCours.agg = agg.text;
     barriereEnCours.axe = axe.text;
     barriereEnCours.latitude = latitude.text;
     barriereEnCours.longitude = longitude.text;
@@ -191,6 +196,7 @@ class _BarriereState extends State<Barriere> {
     barriereEnCours.designationProvenance = provenance.text;
     barriereEnCours.districtArrivee = districtDestination;
     barriereEnCours.designationArrivee = destination.text;
+    barriereEnCours.typeDeplacement = deplacementChoosed;
 
     List<ProduitEntity> listeProduits = [];
 
@@ -243,6 +249,29 @@ class _BarriereState extends State<Barriere> {
             bottom: true,
             child: Column(children: [
               Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Date",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: GestureDetector(
+                    onTap: ()=>_selectDate(context),
+                    child: Input(
+                      enable: false,
+                      placeholder: dateLabel,
+                      borderColor: ArgonColors.white,
+                      onTap: ()=>_selectDate(context),
+                    ),
+                  )
+              ),
+              Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 32),
                 child: Align(
                   alignment: Alignment.centerLeft,
@@ -277,31 +306,6 @@ class _BarriereState extends State<Barriere> {
                   }).toList(),
                 ),
               ),
-
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Date",
-                      style: TextStyle(
-                          color: ArgonColors.text,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12)),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: GestureDetector(
-                  onTap: ()=>_selectDate(context),
-                  child: Input(
-                    enable: false,
-                    placeholder: dateLabel,
-                    borderColor: ArgonColors.white,
-                    onTap: ()=>_selectDate(context),
-                  ),
-                )
-              ),
-
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                 child: Align(
@@ -337,7 +341,47 @@ class _BarriereState extends State<Barriere> {
                   }).toList(),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Commune",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
+                    enable: true,
+                    placeholder: "Entrer le nom de la commune",
+                    borderColor: ArgonColors.white,
+                    controller: commune,
+                  )
+              ),
 
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Agglomération",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
+                    enable: true,
+                    placeholder: "Entrer le nom de l'agglomération",
+                    borderColor: ArgonColors.white,
+                    controller: agg,
+                  )
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
@@ -651,7 +695,7 @@ class _BarriereState extends State<Barriere> {
                             },
                             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                             children: <TableRow>[
-                              TableRow(
+                              /*TableRow(
                                 children: <Widget>[
                                   Text("Type :", style: TextStyle(
                                       color: ArgonColors.text,
@@ -660,7 +704,7 @@ class _BarriereState extends State<Barriere> {
                                   ),
                                   Container(
                                     padding: EdgeInsets.all(2.0),
-                                    child: Text(e.value['type'], 
+                                    child: Text(e.value['type'],
                                       style: TextStyle(
                                         color: ArgonColors.text,
                                         fontSize: 12
@@ -669,7 +713,7 @@ class _BarriereState extends State<Barriere> {
                                     ),
                                   ),
                                 ],
-                              ),
+                              ),*/
                               TableRow(
                                 children: <Widget>[
                                   Text("Quantité (kg) :", style: TextStyle(
@@ -762,9 +806,11 @@ class _BarriereState extends State<Barriere> {
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Input(
                     enable: true,
-                    placeholder: "Entrer la quantité de produit",
+                    placeholder: "Entrer la quantité de produit (kg)",
                     borderColor: ArgonColors.white,
                     controller: qteProduitTemp,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
                 )
               ),
 

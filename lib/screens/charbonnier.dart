@@ -7,6 +7,7 @@ import 'package:argon_flutter/constants/Theme.dart';
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 import 'package:argon_flutter/widgets/input.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 List<String> districts = ['Ambohidratrimo ',
@@ -129,13 +130,13 @@ List<String> agglomeration = [
 ];
 
 List<String> typeMeule = [
-  'Traditionnel', 'Amélioré'
+  'Traditionnelle', 'MATI', 'VMTP', 'GMDR', 'Autre'
 ];
 
-List<String> listeMeuleAmeliore = [
+/*List<String> listeMeuleAmeliore = [
   'MATI(Meule Amélioré à Tirage Inversée)', 'VMTP(Voay MiTaPy)',
   'GMDR(Green Mad Dome Retort)', 'Autre'
-];
+];*/
 
 List<String> listeZonePrelevement = [
   'Forêt naturelle', 'Plantation', 'Mangrove', 'Arbre hors forêts'
@@ -165,12 +166,17 @@ class _CharbonnierState extends State<Charbonnier> {
   var hauteurTemp = TextEditingController();
   var qte = TextEditingController();
   var qteC = TextEditingController();
+  var formateur = TextEditingController();
   String typeMeuleChoosed;
   bool showMeuleAmeliore = false;
   String meuleAmelioreChoosed;
   String zonePrelevementChoosed;
   String domainePrelevementChoosed;
   bool autorisation = false;
+  bool formation = false;
+
+  var commune = TextEditingController();
+  var agg=TextEditingController();
 
 
   int tailleDeCharbonnierChoosed;
@@ -187,7 +193,7 @@ class _CharbonnierState extends State<Charbonnier> {
       if (picked != null && picked != date)
         setState(() {
           date = picked;
-          dateLabel = picked.toString();
+          dateLabel = DateFormat('dd-MM-yyyy').format(picked);
         });
   } 
 
@@ -200,18 +206,22 @@ class _CharbonnierState extends State<Charbonnier> {
     charbonnier.districtCharbonnier = districtChoosed;
     charbonnier.dateCharbonnier = DateFormat('dd-MM-yyyy').format(date);
     charbonnier.especeBoisCharbonnier = especeBois.text;
+    charbonnier.commune = commune.text;
+    charbonnier.agg = agg.text;
     // charbonnier.qteBoisCharbonnier = double.tryParse(qte.text);
     // charbonnier.qteCharbonCharbonnier = double.tryParse(qteC.text);
     // charbonnier.zonePrelevelementCharbonnier = zonePrelevementChoosed;
     // charbonnier.domainePrelevelementCharbonnier = domainePrelevementChoosed;
     charbonnier.autorisationCharbonnier = autorisation;
+    charbonnier.formation = formation;
+    charbonnier.formateur = formateur.text;
 
     List<MeuleEntity> listeMeules = [];
 
     meules.forEach((key, value) {
       MeuleEntity meule = MeuleEntity();
       meule.typeMeule = value['type'];
-      meule.meule= value['meule'];
+      // meule.meule= value['meule'];
       meule.longueur = double.tryParse(value['longueur']);
       meule.largeur = double.tryParse(value['largeur']);
       meule.hauteur = double.tryParse(value['hauteur']);
@@ -242,6 +252,29 @@ class _CharbonnierState extends State<Charbonnier> {
           child: SafeArea(
             bottom: true,
             child: Column(children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Date",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: GestureDetector(
+                    onTap: ()=>_selectDate(context),
+                    child: Input(
+                      enable: false,
+                      placeholder: dateLabel,
+                      borderColor: ArgonColors.white,
+                      onTap: ()=>_selectDate(context),
+                    ),
+                  )
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 32),
                 child: Align(
@@ -277,31 +310,6 @@ class _CharbonnierState extends State<Charbonnier> {
                   }).toList(),
                 ),
               ),
-
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Date",
-                      style: TextStyle(
-                          color: ArgonColors.text,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12)),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: GestureDetector(
-                  onTap: ()=>_selectDate(context),
-                  child: Input(
-                    enable: false,
-                    placeholder: dateLabel,
-                    borderColor: ArgonColors.white,
-                    onTap: ()=>_selectDate(context),
-                  ),
-                )
-              ),
-
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                 child: Align(
@@ -336,6 +344,48 @@ class _CharbonnierState extends State<Charbonnier> {
                     );
                   }).toList(),
                 ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Commune",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
+                    enable: true,
+                    placeholder: "Entrer le nom de la commune",
+                    borderColor: ArgonColors.white,
+                    controller: commune,
+                  )
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Agglomération",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
+                    enable: true,
+                    placeholder: "Entrer le nom de l'agglomération",
+                    borderColor: ArgonColors.white,
+                    controller: agg,
+                  )
               ),
 
               // Liste des meules
@@ -378,7 +428,7 @@ class _CharbonnierState extends State<Charbonnier> {
                             },
                             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                             children: <TableRow>[
-                              if(e.value['meule']!=null) TableRow(
+                              /*if(e.value['meule']!=null) TableRow(
                                 children: <Widget>[
                                   Text("Meule :", style: TextStyle(
                                       fontSize: 12
@@ -395,7 +445,7 @@ class _CharbonnierState extends State<Charbonnier> {
                                     ),
                                   ),
                                 ],
-                              ),
+                              ),*/
                               TableRow(
                                 children: <Widget>[
                                   Text("Longueur :", style: TextStyle(
@@ -556,7 +606,7 @@ class _CharbonnierState extends State<Charbonnier> {
                 padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Type de meule utilisée",
+                  child: Text("Type de meule de carbonisation utilisée",
                       style: TextStyle(
                           color: ArgonColors.text,
                           fontWeight: FontWeight.w500,
@@ -590,7 +640,7 @@ class _CharbonnierState extends State<Charbonnier> {
                 ),
               ),
 
-              // Meule ameliore
+              /*// Meule ameliore
               Visibility(
                 visible: showMeuleAmeliore,
                 child: Padding(
@@ -631,7 +681,7 @@ class _CharbonnierState extends State<Charbonnier> {
                     }).toList(),
                   ),
                 ),
-              ),
+              ),*/
 
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
@@ -648,9 +698,11 @@ class _CharbonnierState extends State<Charbonnier> {
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Input(
                     enable: true,
-                    placeholder: "Entrer la longueur de la meule",
+                    placeholder: "Entrer la longueur (m)",
                     borderColor: ArgonColors.white,
                     controller: longueurTemp,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
                 )
               ),
 
@@ -669,9 +721,11 @@ class _CharbonnierState extends State<Charbonnier> {
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Input(
                     enable: true,
-                    placeholder: "Entrer la largeur de la meule",
+                    placeholder: "Entrer la largeur (m)",
                     borderColor: ArgonColors.white,
                     controller: largeurTemp,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
                 )
               ),
 
@@ -690,9 +744,11 @@ class _CharbonnierState extends State<Charbonnier> {
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Input(
                     enable: true,
-                    placeholder: "Entrer la hauteur de la meule",
+                    placeholder: "Entrer la hauteur (m)",
                     borderColor: ArgonColors.white,
                     controller: hauteurTemp,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
                 )
               ),
               Padding(
@@ -783,9 +839,11 @@ class _CharbonnierState extends State<Charbonnier> {
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Input(
                     enable: true,
-                    placeholder: "Entrer la quantité de bois utilisé",
+                    placeholder: "Entrer la quantité de bois utilisé (kg)",
                     borderColor: ArgonColors.white,
                     controller: qte,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 )
               ),
 
@@ -793,7 +851,7 @@ class _CharbonnierState extends State<Charbonnier> {
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Quantité de charbon produit",
+                  child: Text("Quantité de charbon produit (kg)",
                       style: TextStyle(
                           color: ArgonColors.text,
                           fontWeight: FontWeight.w500,
@@ -807,6 +865,8 @@ class _CharbonnierState extends State<Charbonnier> {
                     placeholder: "Entrer la quantité de charbon produit",
                     borderColor: ArgonColors.white,
                     controller: qteC,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
                 )
               ),
               SizedBox(
@@ -821,7 +881,7 @@ class _CharbonnierState extends State<Charbonnier> {
                       setState(() {
                         meules.putIfAbsent(typeMeuleChoosed, () => {
                           "type": typeMeuleChoosed,
-                          "meule": meuleAmelioreChoosed,
+                          // "meule": meuleAmelioreChoosed,
                           "longueur": longueurTemp.text,
                           "largeur": largeurTemp.text,
                           "hauteur": hauteurTemp.text,
@@ -861,7 +921,7 @@ class _CharbonnierState extends State<Charbonnier> {
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Input(
                     enable: true,
-                    placeholder: "Entrer l'espèce de bois utilisé",
+                    placeholder: "Dresser la liste des espèces utilisées",
                     borderColor: ArgonColors.white,
                     controller: especeBois
                 )
@@ -876,7 +936,7 @@ class _CharbonnierState extends State<Charbonnier> {
                     padding: const EdgeInsets.only(left: 8.0, top: 8),
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text("Autorisation d'exploiter",
+                      child: Text("Existence d'authorisation ou permis",
                           style: TextStyle(
                               color: ArgonColors.text,
                               fontWeight: FontWeight.w500,
@@ -892,7 +952,51 @@ class _CharbonnierState extends State<Charbonnier> {
                 ],
               ),
 
-              
+              SizedBox(height: 8.0),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0, top: 8),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Participation à une/des formation(s)\nsur les techniques améliorées\nde carbonisation",
+                          style: TextStyle(
+                              color: ArgonColors.text,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12)),
+                    ),
+                  ),
+                  Switch.adaptive(
+                    value: formation,
+                    onChanged: (bool newValue) =>
+                        setState(() => formation = newValue),
+                    activeColor: ArgonColors.primary,
+                  ),
+                ],
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Formateur",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
+                      enable: true,
+                      placeholder: "Entrer l'institution organisatrice",
+                      borderColor: ArgonColors.white,
+                      controller: formateur
+                  )
+              ),
 
             SizedBox(
               width: double.infinity,

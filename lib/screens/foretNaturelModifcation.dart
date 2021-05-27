@@ -8,6 +8,7 @@ import 'package:argon_flutter/constants/Theme.dart';
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 import 'package:argon_flutter/widgets/input.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 List<String> districts = ['Ambohidratrimo ',
@@ -156,8 +157,8 @@ class _ForetNaturelModificationState extends State<ForetNaturelModification> {
   bool amenagement = false;
   var typeFormation = TextEditingController();
   bool authorisation = false;
-  var surfaceExploite = TextEditingController();
-  var volumeExploite = TextEditingController();
+  // var surfaceExploite = TextEditingController();
+  // var volumeExploite = TextEditingController();
 
   DatabaseHelper helper = DatabaseHelper.instance;
 
@@ -173,8 +174,8 @@ class _ForetNaturelModificationState extends State<ForetNaturelModification> {
     foretNaturelEnCours.amenagement = amenagement;
     foretNaturelEnCours.typeFormation = typeFormation.text;
     foretNaturelEnCours.authorisation = authorisation;
-    foretNaturelEnCours.surfaceExpoite = double.tryParse(surfaceExploite.text);
-    foretNaturelEnCours.volumeExploite = double.tryParse(volumeExploite.text);
+    // foretNaturelEnCours.surfaceExpoite = double.tryParse(surfaceExploite.text);
+    // foretNaturelEnCours.volumeExploite = double.tryParse(volumeExploite.text);
 
     DatabaseHelper helper = DatabaseHelper.instance;
     int id = await helper.update(foretNaturelEnCours);
@@ -204,8 +205,8 @@ class _ForetNaturelModificationState extends State<ForetNaturelModification> {
     acteur.text = widget.foretNaturelEnCours.acteur;
     essenceChoosed.text = widget.foretNaturelEnCours.essence;
     typeFormation.text = widget.foretNaturelEnCours.typeFormation;
-    surfaceExploite.text = widget.foretNaturelEnCours.surfaceExpoite.toString();
-    volumeExploite.text = widget.foretNaturelEnCours.volumeExploite.toString();
+    // surfaceExploite.text = widget.foretNaturelEnCours.surfaceExpoite.toString();
+    // volumeExploite.text = widget.foretNaturelEnCours.volumeExploite.toString();
     
     return Scaffold(
       appBar: Navbar(
@@ -220,6 +221,29 @@ class _ForetNaturelModificationState extends State<ForetNaturelModification> {
         child: SafeArea(
           bottom: true,
           child: Column(children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Date",
+                    style: TextStyle(
+                        color: ArgonColors.text,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12)),
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: GestureDetector(
+                  onTap: ()=>_selectDate(context),
+                  child: Input(
+                    enable: false,
+                    placeholder: dateLabel,
+                    borderColor: ArgonColors.white,
+                    onTap: ()=>_selectDate(context),
+                  ),
+                )
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 32),
               child: Align(
@@ -358,7 +382,28 @@ class _ForetNaturelModificationState extends State<ForetNaturelModification> {
                 ),
               ],
             ),
-
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Superficie",
+                    style: TextStyle(
+                        color: ArgonColors.text,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12)),
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                  enable: true,
+                  placeholder: "Entrer la superficie (ha)",
+                  borderColor: ArgonColors.white,
+                  controller: superficie,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                )
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 8),
               child: Align(
@@ -374,7 +419,7 @@ class _ForetNaturelModificationState extends State<ForetNaturelModification> {
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Input(
                   enable: true,
-                  placeholder: "Entrer le type de formation",
+                  placeholder: "(ex: Mangroves, Fourrés, Forêts ripicoles, ...)",
                   borderColor: ArgonColors.white,
                   controller: typeFormation,
                 )
@@ -389,7 +434,7 @@ class _ForetNaturelModificationState extends State<ForetNaturelModification> {
                   padding: const EdgeInsets.only(left: 8.0, top: 8),
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text("Authorisation",
+                    child: Text("Existence d'authorisation",
                         style: TextStyle(
                             color: ArgonColors.text,
                             fontWeight: FontWeight.w500,
@@ -405,27 +450,6 @@ class _ForetNaturelModificationState extends State<ForetNaturelModification> {
               ],
             ),
 
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 8),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text("Superficie",
-                    style: TextStyle(
-                        color: ArgonColors.text,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12)),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 4.0),
-              child: Input(
-                  enable: true,
-                  placeholder: "Entrer la superficie",
-                  borderColor: ArgonColors.white,
-                  controller: superficie,
-              )
-            ),
-
             SizedBox(height: 8.0),
 
             Row(
@@ -435,7 +459,7 @@ class _ForetNaturelModificationState extends State<ForetNaturelModification> {
                   padding: const EdgeInsets.only(left: 8.0, top: 8),
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text("Pare-feux",
+                    child: Text("Existence de pare-feux",
                         style: TextStyle(
                             color: ArgonColors.text,
                             fontWeight: FontWeight.w500,
@@ -466,53 +490,53 @@ class _ForetNaturelModificationState extends State<ForetNaturelModification> {
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Input(
                     enable: true,
-                    placeholder: "Entrer les essences utilisés",
+                    placeholder: "Entrer les essences recensées",
                     borderColor: ArgonColors.white,
                     controller: essenceChoosed,
                 )
               ),
 
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 8),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text("Superficie exploitée",
-                    style: TextStyle(
-                        color: ArgonColors.text,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12)),
-              ),
-            ),
-            Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Input(
-                  enable: true,
-                  placeholder: "Entrer la superficie exploitée",
-                  borderColor: ArgonColors.white,
-                  controller: surfaceExploite,
-                )
-            ),
-
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 8),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text("Volume exploité",
-                    style: TextStyle(
-                        color: ArgonColors.text,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12)),
-              ),
-            ),
-            Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Input(
-                  enable: true,
-                  placeholder: "Entrer le volume exploité",
-                  borderColor: ArgonColors.white,
-                  controller: volumeExploite,
-                )
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 8.0, top: 8),
+            //   child: Align(
+            //     alignment: Alignment.centerLeft,
+            //     child: Text("Superficie exploitée",
+            //         style: TextStyle(
+            //             color: ArgonColors.text,
+            //             fontWeight: FontWeight.w500,
+            //             fontSize: 12)),
+            //   ),
+            // ),
+            // Padding(
+            //     padding: const EdgeInsets.only(top: 4.0),
+            //     child: Input(
+            //       enable: true,
+            //       placeholder: "Entrer la superficie exploitée",
+            //       borderColor: ArgonColors.white,
+            //       controller: surfaceExploite,
+            //     )
+            // ),
+            //
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 8.0, top: 8),
+            //   child: Align(
+            //     alignment: Alignment.centerLeft,
+            //     child: Text("Volume exploité",
+            //         style: TextStyle(
+            //             color: ArgonColors.text,
+            //             fontWeight: FontWeight.w500,
+            //             fontSize: 12)),
+            //   ),
+            // ),
+            // Padding(
+            //     padding: const EdgeInsets.only(top: 4.0),
+            //     child: Input(
+            //       enable: true,
+            //       placeholder: "Entrer le volume exploité",
+            //       borderColor: ArgonColors.white,
+            //       controller: volumeExploite,
+            //     )
+            // ),
 
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 8),

@@ -7,6 +7,7 @@ import 'package:argon_flutter/constants/Theme.dart';
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 import 'package:argon_flutter/widgets/input.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 List<String> districts = ['Ambohidratrimo ',
@@ -129,8 +130,7 @@ List<String> agglomeration = [
 ];
 
 List<String> listeEnergieCuisson = [
-  'BC', 'CB', 'BIOGAZ', 'GAZ', 'Pétrole', 'Bioéthanol', 'Cuiseur solaire',
-  'Electricité', 'Résidus agricoles', 'Sous-produits forestiers'
+  'Biogaz', 'Gaz', 'Bioéthanol', 'Briquette/Charbon Vert'
 ];
 
 class ProducteurEnergie extends StatefulWidget {
@@ -141,10 +141,12 @@ class ProducteurEnergie extends StatefulWidget {
 class _ProducteurEnergieState extends State<ProducteurEnergie> {
   final _formKey = GlobalKey<FormState>();
 
-  bool showQteTotal = false;
+  // bool showQteTotal = false;
 
   String dateLabel = "Choisir la date";
   String productionLabel = "Quantité de production";
+  String unite = '(kg)';
+  bool showBiodigesteur = false;
   
   DateTime date = new DateTime.now(); 
   String districtChoosed;
@@ -153,7 +155,7 @@ class _ProducteurEnergieState extends State<ProducteurEnergie> {
   var commune = TextEditingController();
   var agg = TextEditingController();
   var qte = TextEditingController();
-  var qteTotal = TextEditingController();
+  var biodigesteur = TextEditingController();
 
   DatabaseHelper helper = DatabaseHelper.instance;
   ProducteurEEntity ds = new ProducteurEEntity();
@@ -180,7 +182,8 @@ class _ProducteurEnergieState extends State<ProducteurEnergie> {
     ds.agg = agg.text;
     ds.energie = energieChoosed;
     ds.qte = double.tryParse(qte.text);
-    ds.qteTotal = double.tryParse(qteTotal.text);
+    ds.biodigesteur = double.tryParse(biodigesteur.text);
+    // ds.qteTotal = double.tryParse(qteTotal.text);
 
     helper.insert(ds).then((value) => print(value));
   }
@@ -201,6 +204,29 @@ class _ProducteurEnergieState extends State<ProducteurEnergie> {
           child: SafeArea(
             bottom: true,
             child: Column(children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Date",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: GestureDetector(
+                    onTap: ()=>_selectDate(context),
+                    child: Input(
+                      enable: false,
+                      placeholder: dateLabel,
+                      borderColor: ArgonColors.white,
+                      onTap: ()=>_selectDate(context),
+                    ),
+                  )
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 32),
                 child: Align(
@@ -319,7 +345,7 @@ class _ProducteurEnergieState extends State<ProducteurEnergie> {
                 padding: const EdgeInsets.only(left: 8.0, top: 16.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Energie",
+                  child: Text("Type d'énergie",
                       style: TextStyle(
                           color: ArgonColors.text,
                           fontWeight: FontWeight.w500,
@@ -339,13 +365,23 @@ class _ProducteurEnergieState extends State<ProducteurEnergie> {
                   onChanged: (String nValue) {
                     setState(() {
                       energieChoosed = nValue;
-                      if(energieChoosed.compareTo('Pétrole')==0
+                      /*if(energieChoosed.compareTo('Pétrole')==0
                           || energieChoosed.compareTo('Electricité') == 0) {
-                        showQteTotal = true;
+                        // showQteTotal = true;
                         productionLabel = "Quantité produit pour la cuisson";
                       } else {
-                        showQteTotal = false;
+                        // showQteTotal = false;
                         productionLabel = "Quantité de production";
+                      }*/
+                      if(energieChoosed.contains('Biogaz')) {
+                        showBiodigesteur = true;
+                      } else showBiodigesteur = false;
+                      if(energieChoosed.contains('Biogaz')){
+                        unite = '(m³)';
+                      } else if(energieChoosed.contains('Bioéthanol')) {
+                        unite = '(l)';
+                      } else {
+                        unite = '(kg)';
                       }
                     });
                   },
@@ -359,38 +395,38 @@ class _ProducteurEnergieState extends State<ProducteurEnergie> {
                 ),
               ),
 
-              Visibility(
-                  visible: showQteTotal,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0, top: 8),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text("Quantité de production ",
-                          style: TextStyle(
-                              color: ArgonColors.text,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 12)),
-                    ),
-                  )
-              ),
-              Visibility(
-                visible: showQteTotal,
-                child: Padding(
-                    padding: const EdgeInsets.only(top: 4.0),
-                    child: Input(
-                      enable: true,
-                      placeholder: "Entrer la quantité de production",
-                      borderColor: ArgonColors.white,
-                      controller: qteTotal,
-                    )
-                ),
-              ),
+              // Visibility(
+              //     visible: showQteTotal,
+              //     child: Padding(
+              //       padding: const EdgeInsets.only(left: 8.0, top: 8),
+              //       child: Align(
+              //         alignment: Alignment.centerLeft,
+              //         child: Text("Quantité de production ",
+              //             style: TextStyle(
+              //                 color: ArgonColors.text,
+              //                 fontWeight: FontWeight.w500,
+              //                 fontSize: 12)),
+              //       ),
+              //     )
+              // ),
+              // Visibility(
+              //   visible: showQteTotal,
+              //   child: Padding(
+              //       padding: const EdgeInsets.only(top: 4.0),
+              //       child: Input(
+              //         enable: true,
+              //         placeholder: "Entrer la quantité de production",
+              //         borderColor: ArgonColors.white,
+              //         controller: qteTotal,
+              //       )
+              //   ),
+              // ),
 
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(productionLabel,
+                  child: Text('Quantité annuelle produite',
                       style: TextStyle(
                           color: ArgonColors.text,
                           fontWeight: FontWeight.w500,
@@ -401,36 +437,67 @@ class _ProducteurEnergieState extends State<ProducteurEnergie> {
                   padding: const EdgeInsets.only(top: 4.0),
                   child: Input(
                     enable: true,
-                    placeholder: "Entrer la quantité",
+                    placeholder: "Entrer la quantité annuelle produite "+unite,
                     borderColor: ArgonColors.white,
                     controller: qte,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
                   )
               ),
 
-            SizedBox(
-              width: double.infinity,
-              child: Padding(
-                padding:
-                    const EdgeInsets.only(top: 8),
-                child: RaisedButton(
-                  textColor: ArgonColors.text,
-                  color: ArgonColors.success,
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/listeProductionEnergie');
-                    _save();
-                  },
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4.0),
-                  ),
+              Visibility(
+                  visible: showBiodigesteur,
                   child: Padding(
-                      padding: EdgeInsets.only(
-                          left: 16.0, right: 16.0, top: 12, bottom: 12),
-                      child: Text("Enregistrer",
+                    padding: const EdgeInsets.only(left: 8.0, top: 8),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Capacité biodigesteur ",
                           style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 16.0))),
+                              color: ArgonColors.text,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12)),
+                    ),
+                  )
+              ),
+              Visibility(
+                visible: showBiodigesteur,
+                child: Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: Input(
+                        enable: true,
+                        placeholder: "Entrer la capacité du biodigesteur (m³)",
+                        borderColor: ArgonColors.white,
+                        controller: biodigesteur,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                    )
                 ),
               ),
-            ),
+
+              SizedBox(
+                width: double.infinity,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.only(top: 8),
+                  child: RaisedButton(
+                    textColor: ArgonColors.text,
+                    color: ArgonColors.success,
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, '/listeProductionEnergie');
+                      _save();
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                    child: Padding(
+                        padding: EdgeInsets.only(
+                            left: 16.0, right: 16.0, top: 12, bottom: 12),
+                        child: Text("Enregistrer",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 16.0))),
+                  ),
+                ),
+              ),
           
           ]),
         ),

@@ -173,6 +173,8 @@ class _ListeMenageState extends State<ListeMenage> {
                         'Date',	
                         'District',
                         'Unite agglomeration',
+                        'Commune',
+                        'Agglomération',
                         'Type de menage',
                         'Taille de menage',
                         'Type gros consommateur',
@@ -187,11 +189,17 @@ class _ListeMenageState extends State<ListeMenage> {
                       ]);
                       menages.forEach((element) {
                         data.add([
-                          element['_id'].toString(), element['date'], element['district'], element['agglomeration'], element['typeMenage'], 
-                          element['tailleMenage'].toString(),element['typeGrosConsommateur'], element['frequenceRenouvellementBCTrad'].toString(), 
-                          element['prixRenouvellementBCTrad'].toString(),element['frequenceRenouvellementBCAmeliore'].toString(), 
-                          element['prixRenouvellementBCAmeliore'].toString(),element['frequenceRenouvellementCBTrad'].toString(), 
-                          element['prixRenouvelementCBTrad'].toString(), element['frequenceRenouvellementCBAmeliore'].toString(),
+                          element['_id'].toString(), element['date'],
+                          element['district'], element['agglomeration'],
+                          element['commune'], element['agg'], element['typeMenage'],
+                          element['tailleMenage'].toString(),element['typeGrosConsommateur'],
+                          element['frequenceRenouvellementBCTrad'].toString(),
+                          element['prixRenouvellementBCTrad'].toString(),
+                          element['frequenceRenouvellementBCAmeliore'].toString(),
+                          element['prixRenouvellementBCAmeliore'].toString(),
+                          element['frequenceRenouvellementCBTrad'].toString(),
+                          element['prixRenouvelementCBTrad'].toString(),
+                          element['frequenceRenouvellementCBAmeliore'].toString(),
                           element['prixRenouvelementCBAmeliore'].toString()
                         ]);
                       });

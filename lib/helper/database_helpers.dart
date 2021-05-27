@@ -13,17 +13,19 @@ final String columnAgglomerationMenage = 'agglomeration';
 final String columnTypeMenage = 'typeMenage';
 final String columnTailleMenage = 'tailleMenage';
 final String columnTypeGrosConsommateur= 'typeGrosConsommateur';
+final String columnCommuneMenage = 'commune';
+final String columnAggMenage = 'agg';
 
 // Energie de cuisson
 final String tableEnergieCuisson = 'energieCuisson';
 final String columnIdEnergieCuisson = '_id';
 final String columnIdMenageEnergieCuisson = '_idMenage';
 final String columnEnergieCuisson = 'energie';
+final String columnQteEnergieCuisson = 'qte';
+final String columnPrixEnergieCuisson = 'prix';
 final String columnTypeFoyerEnergieCuisson = 'type_foyer';
 final String columnFrequenceFoyerEnergieCuisson = 'frequence_foyer';
 final String columnPUFoyerEnergieCuisson = 'pu_foyer';
-final String columnQteEnergieCuisson = 'qte';
-final String columnPrixEnergieCuisson = 'prix';
 final String columnSaisonEnergieCuisson = 'saison';
 
 // Charbonnier
@@ -34,14 +36,17 @@ final String columnDistrictCharbonnier = 'district';
 final String columnAgglomerationCharbonnier = 'agglomeration';
 final String columnEspeceBoisCharbonnier = 'espece_bois';
 final String columnAutorisationCharbonnier = 'autorisation';
-/*Formation mbola mile jerena ny momba azy*/
+final String columnFormationCharbonnier = 'formation';
+final String columnFormateurCharbonnier = 'formateur';
+final String columnCommuneCharbonnier = 'commune';
+final String columnAggCharbonnier = 'agg';
 
 // Meule
 final String tableMeule = 'meule';
 final String columnIdMeule = '_id';
 final String columnIdCharbonnierMeule = 'id_charbonnier';
 final String columnTypeMeule = 'type_meule';
-final String columnMeule = 'meule';
+// final String columnMeule = 'meule';
 final String columnLongeurMeule = 'longueur';
 final String columnLargeurMeule = 'largeur';
 final String columnHauteurMeule = 'hauteur';
@@ -65,6 +70,9 @@ final String columnDistrictProvenanceBarriere = 'district_provenance';
 final String columnDesignationProvenanceBarriere = 'designation_provenance';
 final String columnDistrictArriveeBarriere = 'district_arrivee';
 final String columnDesignationArriveeBarriere = 'designation_arrivee';
+final String columnTypeDeplacementBarriere = 'type_deplacement';
+final String columnCommuneBarriere = 'commune';
+final String columnAggBarriere = 'agg';
 
 // Produit
 final String tableProduit = 'produit';
@@ -98,7 +106,7 @@ final String columnAggReboisement = 'agg';
 final String columnProprietaireReboisement = 'proprietaire';
 final String columnGenreChoosedReboisement = 'genre';
 final String columnSuperficieReboisement = 'superficie';
-final String columnTypeReboisement = 'type';  //Ajouter
+final String columnTypeReboisement = 'type';
 final String columnPareFeuxReboisement = 'pare_feux';
 final String columnPareFeuxChoosedReboisement = 'pare_feux_choosed';
 final String columnCultureChoosedReboisement = 'culture';
@@ -128,6 +136,8 @@ final String columnGenreChoosedPepiniere = 'genreChoosed';
 final String columnEspecesPepiniere = 'especes';
 final String columnNbrPlantPepiniere = 'nbrPlant';
 final String columnTauxPepiniere = 'taux';
+final String columnPlatebandesPepiniere = 'platebande';
+final String columnSurfacePepiniere = 'surface';
 
 // ForetNaturel
 final String tableForetNaturel = 'foret_naturel';
@@ -156,6 +166,7 @@ final String columnAgglomerationProducteurF = 'agglomeration';
 final String columnCommuneProducteurF = 'commune';
 final String columnAggProducteurF = 'agg';
 final String columnEnergieProducteurF = 'energie';
+final String columnTypeProducteurF = 'type';
 final String columnQteProducteurF = 'qte';
 final String columnBiodigesteurProducteurF = 'biodigesteur';
 final String columnNbrAppuieProducteurF = 'nbr_appuie';
@@ -170,7 +181,7 @@ final String columnCommuneProducteurE = 'commune';
 final String columnAggProducteurE = 'agg';
 final String columnEnergieProducteurE = 'energie';
 final String columnQteProducteurE = 'qte';
-final String columnQtePlusCuissonProducteurE = 'qte_total';
+final String columnBiodigesteurProducteurE = 'biodigesteur';
 
 
 // Base Enity
@@ -192,7 +203,7 @@ class ProducteurEEntity extends BaseEntity {
 
   String energie;
   double qte;
-  double qteTotal; //Pour la cuisson + autre que la cuisson ex:electricite
+  double biodigesteur; //Pour la cuisson + autre que la cuisson ex:electricite
 
   ProducteurEEntity();
 
@@ -210,7 +221,7 @@ class ProducteurEEntity extends BaseEntity {
     agg = map[columnAggProducteurF];
     energie = map[columnEnergieProducteurF];
     qte = map[columnQteProducteurF];
-    qteTotal = map[columnQtePlusCuissonProducteurE];
+    biodigesteur = map[columnBiodigesteurProducteurE];
   }
 
   @override
@@ -229,7 +240,7 @@ class ProducteurEEntity extends BaseEntity {
       columnAggPepiniere : agg,
       columnEnergieProducteurF : energie,
       columnQteProducteurF : qte,
-      columnQtePlusCuissonProducteurE : qteTotal
+      columnBiodigesteurProducteurE : biodigesteur
     };
     if (id != null) {
       map[columnId] = id;
@@ -247,7 +258,7 @@ class ProducteurEEntity extends BaseEntity {
       columnAggPepiniere : agg,
       columnEnergieProducteurF : energie,
       columnQteProducteurF : qte.toString(),
-      columnQtePlusCuissonProducteurE : qteTotal.toString()
+      columnBiodigesteurProducteurE : biodigesteur.toString()
     };
     if (id != null) {
       map[columnId] = id;
@@ -263,11 +274,11 @@ class ProducteurFEntity extends BaseEntity {
   String agglomeration;
   String commune;
   String agg;
-
   String energie;
+  String type;
   double qte;
   double biodigesteur;
-  int appuie;
+  bool appuie;
 
   ProducteurFEntity();
 
@@ -284,9 +295,10 @@ class ProducteurFEntity extends BaseEntity {
     commune = map[columnCommuneProducteurF];
     agg = map[columnAggProducteurF];
     energie = map[columnEnergieProducteurF];
+    type = map[columnTypeProducteurF];
     qte = map[columnQteProducteurF];
     biodigesteur = map[columnBiodigesteurProducteurF];
-    appuie = map[columnNbrAppuieProducteurF];
+    appuie = map[columnNbrAppuieProducteurF]==1;
   }
 
   @override
@@ -304,9 +316,10 @@ class ProducteurFEntity extends BaseEntity {
       columnCommunePepiniere : commune,
       columnAggPepiniere : agg,
       columnEnergieProducteurF : energie,
+      columnTypeProducteurF : type,
       columnQteProducteurF : qte,
       columnBiodigesteurProducteurF : biodigesteur,
-      columnNbrAppuieProducteurF : appuie
+      columnNbrAppuieProducteurF : appuie?1:0
     };
     if (id != null) {
       map[columnId] = id;
@@ -323,9 +336,10 @@ class ProducteurFEntity extends BaseEntity {
       columnCommunePepiniere : commune,
       columnAggPepiniere : agg,
       columnEnergieProducteurF : energie,
+      columnTypeProducteurF : type,
       columnQteProducteurF : qte.toString(),
       columnBiodigesteurProducteurF : biodigesteur,
-      columnNbrAppuieProducteurF : appuie.toString()
+      columnNbrAppuieProducteurF : appuie?'1':'0'
     };
     if (id != null) {
       map[columnId] = id;
@@ -448,6 +462,8 @@ class PepiniereEntity extends BaseEntity {
   String especes;
   int nbrPlant;
   double taux;
+  int platebande;
+  double surface;
 
   PepiniereEntity();
 
@@ -472,6 +488,8 @@ class PepiniereEntity extends BaseEntity {
     especes = map[columnEspecesPepiniere];
     nbrPlant = map[columnNbrPlantPepiniere];
     taux = map[columnTauxPepiniere];
+    platebande = map[columnPlatebandesPepiniere];
+    surface = map[columnSurfacePepiniere];
   }
 
   @override
@@ -497,6 +515,8 @@ class PepiniereEntity extends BaseEntity {
       columnEspecesPepiniere : especes,
       columnNbrPlantPepiniere : nbrPlant,
       columnTauxPepiniere : taux,
+      columnPlatebandesPepiniere : platebande,
+      columnSurfacePepiniere : surface
     };
     if (id != null) {
       map[columnId] = id;
@@ -521,6 +541,8 @@ class PepiniereEntity extends BaseEntity {
       columnEspecesPepiniere : especes,
       columnNbrPlantPepiniere : nbrPlant.toString(),
       columnTauxPepiniere : taux.toString(),
+      columnPlatebandesPepiniere: platebande.toString(),
+      columnSurfacePepiniere: surface.toString()
     };
     if (id != null) {
       map[columnId] = id;
@@ -797,6 +819,8 @@ class BarriereEntity extends BaseEntity {
   String dateBarriere;
   String districtBarriere;
   String agglomerationBarriere;
+  String commune;
+  String agg;
   String axe;
   String latitude;
   String longitude;
@@ -806,6 +830,7 @@ class BarriereEntity extends BaseEntity {
   String designationProvenance;
   String districtArrivee;
   String designationArrivee;
+  String typeDeplacement;
 
   BarriereEntity();
 
@@ -820,6 +845,8 @@ class BarriereEntity extends BaseEntity {
     dateBarriere =  map[columnDateBarriere];
     districtBarriere =  map[columnDistrictBarriere];
     agglomerationBarriere =  map[columnAgglomerationBarriere];
+    commune =  map[columnCommuneBarriere];
+    agg =  map[columnAggBarriere];
     axe =  map[columnAxeBarriere];
     latitude =  map[columnLatitudeBarriere];
     longitude =  map[columnLongitudeBarriere];
@@ -829,6 +856,7 @@ class BarriereEntity extends BaseEntity {
     designationProvenance =  map[columnDesignationProvenanceBarriere];
     districtArrivee =  map[columnDistrictArriveeBarriere];
     designationArrivee =  map[columnDesignationArriveeBarriere];
+    typeDeplacement = map[columnTypeDeplacementBarriere];
   }
 
   @override
@@ -844,6 +872,8 @@ class BarriereEntity extends BaseEntity {
       columnDateBarriere : dateBarriere,
       columnDistrictBarriere : districtBarriere,
       columnAgglomerationBarriere : agglomerationBarriere,
+      columnCommuneBarriere: commune,
+      columnAggBarriere: agg,
       columnAxeBarriere : axe,
       columnLatitudeBarriere : latitude,
       columnLongitudeBarriere : longitude,
@@ -852,7 +882,8 @@ class BarriereEntity extends BaseEntity {
       columnDistrictProvenanceBarriere : districtProvenance,
       columnDesignationProvenanceBarriere : designationProvenance,
       columnDistrictArriveeBarriere : districtArrivee,
-      columnDesignationArriveeBarriere : designationArrivee
+      columnDesignationArriveeBarriere : designationArrivee,
+      columnTypeDeplacementBarriere : typeDeplacement
     };
     if (id != null) {
       map[columnIdBarriere] = id;
@@ -866,6 +897,8 @@ class BarriereEntity extends BaseEntity {
       columnDateBarriere : dateBarriere,
       columnDistrictBarriere : districtBarriere,
       columnAgglomerationBarriere : agglomerationBarriere,
+      columnCommuneBarriere: commune,
+      columnAggBarriere: agg,
       columnAxeBarriere : axe,
       columnLatitudeBarriere : latitude,
       columnLongitudeBarriere : longitude,
@@ -874,7 +907,8 @@ class BarriereEntity extends BaseEntity {
       columnDistrictProvenanceBarriere : districtProvenance,
       columnDesignationProvenanceBarriere : designationProvenance,
       columnDistrictArriveeBarriere : districtArrivee,
-      columnDesignationArriveeBarriere : designationArrivee
+      columnDesignationArriveeBarriere : designationArrivee,
+      columnTypeDeplacementBarriere: typeDeplacement
     };
     if (id != null) {
       map[columnIdBarriere] = id.toString();
@@ -888,7 +922,7 @@ class MeuleEntity extends BaseEntity {
   // int id;
   int idCharbonnier;
   String typeMeule;
-  String meule;
+  // String meule;
   String zonePrelevement;
   String domaine;
   double longueur;
@@ -908,7 +942,7 @@ class MeuleEntity extends BaseEntity {
     id = map[columnIdMeule];
     idCharbonnier = map[columnIdCharbonnierMeule];
     typeMeule = map[columnTypeMeule];
-    meule = map[columnMeule];
+    // meule = map[columnMeule];
     zonePrelevement = map[columnZonePrelevementMeule];
     domaine = map[columnDomaineMeule];
     longueur = map[columnLongeurMeule];
@@ -929,7 +963,7 @@ class MeuleEntity extends BaseEntity {
     var map = <String, dynamic> {
       columnIdCharbonnierMeule : idCharbonnier,
       columnTypeMeule : typeMeule,
-      columnMeule : meule,
+      // columnMeule : meule,
       columnZonePrelevementMeule : zonePrelevement,
       columnDomaineMeule : domaine,
       columnLongeurMeule : longueur,
@@ -949,7 +983,7 @@ class MeuleEntity extends BaseEntity {
     var map = <String, String> {
       columnIdCharbonnierMeule : idCharbonnier.toString(),
       columnTypeMeule : typeMeule,
-      columnMeule : meule!=null?meule:'',
+      // columnMeule : meule!=null?meule:'',
       columnZonePrelevementMeule : zonePrelevement,
       columnDomaineMeule : domaine,
       columnLongeurMeule : longueur.toString(),
@@ -972,9 +1006,11 @@ class CharbonnierEntity extends BaseEntity {
   String districtCharbonnier;
   String agglomerationCharbonnier;
   String especeBoisCharbonnier;
-  // String zonePrelevelementCharbonnier;
-  // String domainePrelevelementCharbonnier;
+  String commune;
+  String agg;
   bool autorisationCharbonnier;
+  bool formation;
+  String formateur;
   // double qteBoisCharbonnier;
   // double qteCharbonCharbonnier;
 
@@ -991,8 +1027,12 @@ class CharbonnierEntity extends BaseEntity {
     dateCharbonnier = map[columnDateCharbonnier];
     districtCharbonnier = map[columnDistrictCharbonnier];
     agglomerationCharbonnier = map[columnAgglomerationCharbonnier];
+    commune = map[columnCommuneCharbonnier];
+    agg = map[columnAggCharbonnier];
     especeBoisCharbonnier = map[columnEspeceBoisCharbonnier];
     map[columnAutorisationCharbonnier]==0?autorisationCharbonnier = false:autorisationCharbonnier = true;
+    map[columnFormationCharbonnier]==0?formation = false:formation = true;
+    formateur = map[columnFormateurCharbonnier];
     // qteBoisCharbonnier = map[columnQteBoisCharbonnier];
     // qteCharbonCharbonnier = map[columnQteCharbonCharbonnier];
   }
@@ -1010,8 +1050,12 @@ class CharbonnierEntity extends BaseEntity {
       columnDateCharbonnier : dateCharbonnier,
       columnDistrictCharbonnier : districtCharbonnier,
       columnAgglomerationCharbonnier : agglomerationCharbonnier,
+      columnCommuneCharbonnier: commune,
+      columnAggCharbonnier: agg,
       columnEspeceBoisCharbonnier : especeBoisCharbonnier,
       columnAutorisationCharbonnier : autorisationCharbonnier?1:0,
+      columnFormationCharbonnier : formation?1:0,
+      columnFormateurCharbonnier: formateur
       // columnQteBoisCharbonnier : qteBoisCharbonnier,
       // columnQteCharbonCharbonnier : qteCharbonCharbonnier
     };
@@ -1027,8 +1071,12 @@ class CharbonnierEntity extends BaseEntity {
       columnDateCharbonnier : dateCharbonnier,
       columnDistrictCharbonnier : districtCharbonnier,
       columnAgglomerationCharbonnier : agglomerationCharbonnier!=null?agglomerationCharbonnier:'',
+      columnCommuneCharbonnier: commune,
+      columnAggCharbonnier: agg,
       columnEspeceBoisCharbonnier : especeBoisCharbonnier,
       columnAutorisationCharbonnier : autorisationCharbonnier?'1':'0',
+      columnFormationCharbonnier : formation?'1':'0',
+      columnFormateurCharbonnier: formateur
       // columnQteBoisCharbonnier : qteBoisCharbonnier.toString(),
       // columnQteCharbonCharbonnier : qteCharbonCharbonnier.toString()
     };
@@ -1128,6 +1176,8 @@ class MenageEntity extends BaseEntity {
   String dateMenage;
   String districtMenage;
   String agglomerationMenage;
+  String commune;
+  String agg;
   String typeMenage;
   int tailleMenage;
   String typeGrosConsommateur;
@@ -1147,6 +1197,8 @@ class MenageEntity extends BaseEntity {
     dateMenage = map[columnDateMenage];
     districtMenage = map[columnDistrictMenage];
     agglomerationMenage = map[columnAgglomerationMenage];
+    commune = map[columnCommuneMenage];
+    agg = map[columnAggMenage];
     typeMenage = map[columnTypeMenage];
     tailleMenage = map[columnTailleMenage];
     typeGrosConsommateur = map[columnTypeGrosConsommateur];
@@ -1165,6 +1217,8 @@ class MenageEntity extends BaseEntity {
       columnDateMenage : dateMenage,
       columnDistrictMenage : districtMenage,
       columnAgglomerationMenage : agglomerationMenage,
+      columnCommuneMenage: commune,
+      columnAggMenage: agg,
       columnTypeMenage : typeMenage,
       columnTailleMenage : tailleMenage,
       columnTypeGrosConsommateur : typeGrosConsommateur
@@ -1181,6 +1235,8 @@ class MenageEntity extends BaseEntity {
       columnDateMenage : dateMenage,
       columnDistrictMenage : districtMenage,
       columnAgglomerationMenage : agglomerationMenage,
+      columnCommuneMenage: commune,
+      columnAggMenage: agg,
       columnTypeMenage : typeMenage,
       columnTailleMenage : tailleMenage.toString(),
       columnTypeGrosConsommateur : typeGrosConsommateur
@@ -1231,6 +1287,8 @@ class DatabaseHelper {
             $columnDateMenage TEXT NOT NULL,
             $columnDistrictMenage  TEXT,
             $columnAgglomerationMenage TEXT,
+            $columnCommuneMenage TEXT,
+            $columnAggMenage TEXT,
             $columnTypeMenage TEXT,
             $columnTailleMenage INTEGER,
             $columnTypeGrosConsommateur TEXT
@@ -1254,7 +1312,6 @@ class DatabaseHelper {
             $columnIdMeule INTEGER PRIMARY KEY,
             $columnIdCharbonnierMeule INTEGER,
             $columnTypeMeule TEXT,
-            $columnMeule TEXT,
             $columnZonePrelevementMeule TEXT,
             $columnDomaineMeule TEXT,
             $columnLongeurMeule REAL,
@@ -1264,14 +1321,20 @@ class DatabaseHelper {
             $columnQteCMeule REAL
           );
     ''');
+    //$columnMeule TEXT,
+
     await db.execute('''
           CREATE TABLE $tableCharbonnier (
             $columnIdCharbonnier INTEGER PRIMARY KEY,
             $columnDateCharbonnier TEXT,
             $columnDistrictCharbonnier TEXT,
             $columnAgglomerationCharbonnier TEXT,
+            $columnCommuneCharbonnier TEXT,
+            $columnAggCharbonnier TEXT,
             $columnEspeceBoisCharbonnier TEXT,
-            $columnAutorisationCharbonnier INTEGER
+            $columnAutorisationCharbonnier INTEGER,
+            $columnFormationCharbonnier INTEGER,
+            $columnFormateurCharbonnier TEXT
           );
     ''');
     await db.execute('''
@@ -1280,6 +1343,8 @@ class DatabaseHelper {
             $columnDateBarriere TEXT,
             $columnDistrictBarriere TEXT,
             $columnAgglomerationBarriere TEXT,
+            $columnCommuneBarriere TEXT,
+            $columnAggBarriere TEXT,
             $columnAxeBarriere TEXT,
             $columnLatitudeBarriere TEXT,
             $columnLongitudeBarriere TEXT,
@@ -1288,7 +1353,8 @@ class DatabaseHelper {
             $columnDistrictProvenanceBarriere TEXT,
             $columnDesignationProvenanceBarriere TEXT,
             $columnDistrictArriveeBarriere TEXT,
-            $columnDesignationArriveeBarriere TEXT
+            $columnDesignationArriveeBarriere TEXT,
+            $columnTypeDeplacementBarriere TEXT
           );
     ''');
     await db.execute('''
@@ -1357,7 +1423,9 @@ class DatabaseHelper {
             $columnProjetAppuiePepiniere TEXT,
             $columnEspecesPepiniere TEXT,
             $columnNbrPlantPepiniere INTEGER,
-            $columnTauxPepiniere REAL
+            $columnTauxPepiniere REAL,
+            $columnPlatebandesPepiniere INTEGER,
+            $columnSurfacePepiniere REAL
           );
     ''');
 
@@ -1377,7 +1445,7 @@ class DatabaseHelper {
             $columnTypeFormationForetNaturel TEXT,
             $columnAuthorisationForetNaturel INTEGER,
             $columnSurfaceExploiteForetNaturel TEXT,
-            $columnVolumeExploiteForetNaturel TEXT,
+            $columnVolumeExploiteForetNaturel TEXT
           );
     ''');
 
@@ -1390,6 +1458,7 @@ class DatabaseHelper {
             $columnCommuneProducteurF TEXT,
             $columnAggProducteurF TEXT,
             $columnEnergieProducteurF TEXT,
+            $columnTypeProducteurF TEXT,
             $columnQteProducteurF REAL,
             $columnBiodigesteurProducteurF REAL,
             $columnNbrAppuieProducteurF INTEGER
@@ -1406,7 +1475,7 @@ class DatabaseHelper {
             $columnAggProducteurE TEXT,
             $columnEnergieProducteurE TEXT,
             $columnQteProducteurE REAL,
-            $columnQtePlusCuissonProducteurE REAL
+            $columnBiodigesteurProducteurE REAL
           );
     ''');
 
@@ -1427,7 +1496,8 @@ class DatabaseHelper {
       print(base.toMapString());
       int idBase = await txn.insert(base.getTable(), base.toMap());
       base.id = int.tryParse(idBase.toString() + DateTime.now().millisecond.toString());
-      return await txn.update(base.getTable(), base.toMap(), where: '''$columnIdMenage = ?''', whereArgs: [idBase]);
+      return await txn.update(base.getTable(), base.toMap(),
+          where: '''$columnIdMenage = ?''', whereArgs: [idBase]);
     });
     return id;
   }
@@ -1438,7 +1508,8 @@ class DatabaseHelper {
     int id = await db.transaction((txn) async {
       int dsId = ds.id;
       ds.id = null;
-      int idBase = await txn.update(ds.getTable(), ds.toMap(), where: '''$columnId = ?''', whereArgs: [dsId]);
+      int idBase = await txn.update(ds.getTable(), ds.toMap(),
+          where: '''$columnId = ?''', whereArgs: [dsId]);
       return idBase;
     });
     return id;
@@ -1488,7 +1559,8 @@ class DatabaseHelper {
     int id = await db.transaction((txn) async {
       int menageId = menage.id;
       menage.id = null;
-      int idMenage = await txn.update(tableMenage, menage.toMap(), where: '''$columnIdMenage = ?''', whereArgs: [menageId]);
+      int idMenage = await txn.update(tableMenage, menage.toMap(),
+          where: '''$columnIdMenage = ?''', whereArgs: [menageId]);
       txn.delete(
         tableEnergieCuisson,
         where: '''$columnIdMenageEnergieCuisson = ?''',
@@ -1521,6 +1593,8 @@ class DatabaseHelper {
         columnDateMenage,
         columnDistrictMenage,
         columnAgglomerationMenage,
+        columnCommuneMenage,
+        columnAggMenage,
         columnTypeMenage,
         columnTailleMenage,
         columnTypeGrosConsommateur
@@ -1542,6 +1616,8 @@ class DatabaseHelper {
         columnDateMenage,
         columnDistrictMenage,
         columnAgglomerationMenage,
+        columnCommuneMenage,
+        columnAggMenage,
         columnTypeMenage,
         columnTailleMenage,
         columnTypeGrosConsommateur
@@ -1559,6 +1635,8 @@ class DatabaseHelper {
         columnDateMenage,
         columnDistrictMenage,
         columnAgglomerationMenage,
+        columnCommuneMenage,
+        columnAggMenage,
         columnTypeMenage,
         columnTailleMenage,
         columnTypeGrosConsommateur
@@ -1580,6 +1658,8 @@ class DatabaseHelper {
         columnDateMenage,
         columnDistrictMenage,
         columnAgglomerationMenage,
+        columnCommuneMenage,
+        columnAggMenage,
         columnTypeMenage,
         columnTailleMenage,
         columnTypeGrosConsommateur
@@ -1711,7 +1791,8 @@ class DatabaseHelper {
     int id = await db.transaction((txn) async {
       int charbonnierId = charbonnier.id;
       charbonnier.id = null;
-      int idBarriere = await txn.update(tableBarriere, charbonnier.toMap(), where: '''$columnIdBarriere = ?''', whereArgs: [charbonnierId]);
+      int idBarriere = await txn.update(tableBarriere, charbonnier.toMap(),
+          where: '''$columnIdBarriere = ?''', whereArgs: [charbonnierId]);
       txn.delete(
         tableProduit,
         where: '''$columnIdBarriereProduit = ?''',
@@ -1737,6 +1818,8 @@ class DatabaseHelper {
         columnDateBarriere,
         columnDistrictBarriere,
         columnAgglomerationBarriere,
+        columnCommuneBarriere,
+        columnAggBarriere,
         columnAxeBarriere,
         columnLatitudeBarriere,
         columnLongitudeBarriere,
@@ -1745,7 +1828,8 @@ class DatabaseHelper {
         columnDistrictProvenanceBarriere,
         columnDesignationProvenanceBarriere,
         columnDistrictArriveeBarriere,
-        columnDesignationArriveeBarriere
+        columnDesignationArriveeBarriere,
+        columnTypeDeplacementBarriere
       ],
       where: '1=1');
     for (var c in map) {
@@ -1764,6 +1848,8 @@ class DatabaseHelper {
         columnDateBarriere,
         columnDistrictBarriere,
         columnAgglomerationBarriere,
+        columnCommuneBarriere,
+        columnAggBarriere,
         columnAxeBarriere,
         columnLatitudeBarriere,
         columnLongitudeBarriere,
@@ -1772,7 +1858,8 @@ class DatabaseHelper {
         columnDistrictProvenanceBarriere,
         columnDesignationProvenanceBarriere,
         columnDistrictArriveeBarriere,
-        columnDesignationArriveeBarriere
+        columnDesignationArriveeBarriere,
+        columnTypeDeplacementBarriere
       ],
       where: '1=1');
     for (var c in map) {
@@ -1790,6 +1877,8 @@ class DatabaseHelper {
         columnDateBarriere,
         columnDistrictBarriere,
         columnAgglomerationBarriere,
+        columnCommuneBarriere,
+        columnAggBarriere,
         columnAxeBarriere,
         columnLatitudeBarriere,
         columnLongitudeBarriere,
@@ -1798,7 +1887,8 @@ class DatabaseHelper {
         columnDistrictProvenanceBarriere,
         columnDesignationProvenanceBarriere,
         columnDistrictArriveeBarriere,
-        columnDesignationArriveeBarriere
+        columnDesignationArriveeBarriere,
+        columnTypeDeplacementBarriere
       ],
       where: '1=1');
   }
@@ -1875,7 +1965,7 @@ class DatabaseHelper {
         columnIdMeule,
         columnIdCharbonnierMeule,
         columnTypeMeule,
-        columnMeule,
+        // columnMeule,
         columnZonePrelevementMeule,
         columnDomaineMeule,
         columnLongeurMeule,
@@ -1899,7 +1989,7 @@ class DatabaseHelper {
         columnIdMeule,
         columnIdCharbonnierMeule,
         columnTypeMeule,
-        columnMeule,
+        // columnMeule,
         columnZonePrelevementMeule,
         columnDomaineMeule,
         columnLongeurMeule,
@@ -1929,7 +2019,7 @@ class DatabaseHelper {
         columnIdMeule,
         columnIdCharbonnierMeule,
         columnTypeMeule,
-        columnMeule,
+        // columnMeule,
         columnZonePrelevementMeule,
         columnDomaineMeule,
         columnLongeurMeule,
@@ -1966,7 +2056,8 @@ class DatabaseHelper {
     int id = await db.transaction((txn) async {
       int charbonnierId = charbonnier.id;
       charbonnier.id = null;
-      int idCharbonnier = await txn.update(tableCharbonnier, charbonnier.toMap(), where: '''$columnIdCharbonnier = ?''', whereArgs: [charbonnierId]);
+      int idCharbonnier = await txn.update(tableCharbonnier, charbonnier.toMap(),
+          where: '''$columnIdCharbonnier = ?''', whereArgs: [charbonnierId]);
       txn.delete(
         tableMeule,
         where: '''$columnIdCharbonnierMeule = ?''',
@@ -1992,8 +2083,12 @@ class DatabaseHelper {
         columnDateCharbonnier,
         columnDistrictCharbonnier,
         columnAgglomerationCharbonnier,
+        columnCommuneCharbonnier,
+        columnAggCharbonnier,
         columnEspeceBoisCharbonnier,
         columnAutorisationCharbonnier,
+        columnFormationCharbonnier,
+        columnFormateurCharbonnier
         // columnQteBoisCharbonnier,
         // columnQteCharbonCharbonnier
       ],
@@ -2014,8 +2109,12 @@ class DatabaseHelper {
         columnDateCharbonnier,
         columnDistrictCharbonnier,
         columnAgglomerationCharbonnier,
+        columnCommuneCharbonnier,
+        columnAggCharbonnier,
         columnEspeceBoisCharbonnier,
         columnAutorisationCharbonnier,
+        columnFormationCharbonnier,
+        columnFormateurCharbonnier
         // columnQteBoisCharbonnier,
         // columnQteCharbonCharbonnier
       ],
@@ -2039,9 +2138,12 @@ class DatabaseHelper {
         columnDateCharbonnier,
         columnDistrictCharbonnier,
         columnAgglomerationCharbonnier,
+        columnCommuneCharbonnier,
+        columnAggCharbonnier,
         columnEspeceBoisCharbonnier,
         columnAutorisationCharbonnier,
-        // columnQteBoisCharbonnier,
+        columnFormationCharbonnier,
+        columnFormateurCharbonnier
         // columnQteCharbonCharbonnier
       ],
       where: '1=1');
@@ -2063,7 +2165,8 @@ class DatabaseHelper {
     int id = await db.transaction((txn) async {
       int dsId = ds.id;
       ds.id = null;
-      int idDonneeSecondaire = await txn.update(tableDS, ds.toMap(), where: '''$columnIdDS = ?''', whereArgs: [dsId]);
+      int idDonneeSecondaire = await txn.update(tableDS, ds.toMap(),
+          where: '''$columnIdDS = ?''', whereArgs: [dsId]);
       return idDonneeSecondaire;
     });
     return id;
@@ -2261,7 +2364,9 @@ class DatabaseHelper {
         columnProjetAppuiePepiniere,
         columnEspecesPepiniere,
         columnNbrPlantPepiniere,
-        columnTauxPepiniere
+        columnTauxPepiniere,
+        columnPlatebandesPepiniere,
+        columnSurfacePepiniere
       ],
       where: '1=1');
     for (var c in map) {
@@ -2290,7 +2395,9 @@ class DatabaseHelper {
         columnProjetAppuiePepiniere,
         columnEspecesPepiniere,
         columnNbrPlantPepiniere,
-        columnTauxPepiniere
+        columnTauxPepiniere,
+        columnPlatebandesPepiniere,
+        columnSurfacePepiniere
       ],
       where: '1=1');
     for (var c in map) {
@@ -2318,7 +2425,9 @@ class DatabaseHelper {
         columnProjetAppuiePepiniere,
         columnEspecesPepiniere,
         columnNbrPlantPepiniere,
-        columnTauxPepiniere
+        columnTauxPepiniere,
+        columnPlatebandesPepiniere,
+        columnSurfacePepiniere
       ],
       where: '1=1');
   }
@@ -2406,7 +2515,7 @@ class DatabaseHelper {
       where: '1=1');
   }
 
-// Producteur foyer
+// Producteur Foyer
   Future<List<ProducteurFEntity>> queryAllProducteurFEntity() async {
     Database db = await database;
     List<ProducteurFEntity> valiny = [];
@@ -2420,6 +2529,7 @@ class DatabaseHelper {
           columnCommuneProducteurF,
           columnAggProducteurF,
           columnEnergieProducteurF,
+          columnTypeProducteurF,
           columnQteProducteurF,
           columnBiodigesteurProducteurF,
           columnNbrAppuieProducteurF
@@ -2444,6 +2554,7 @@ class DatabaseHelper {
           columnCommuneProducteurF,
           columnAggProducteurF,
           columnEnergieProducteurF,
+          columnTypeProducteurF,
           columnQteProducteurF,
           columnBiodigesteurProducteurF,
           columnNbrAppuieProducteurF
@@ -2467,6 +2578,7 @@ class DatabaseHelper {
           columnCommuneProducteurF,
           columnAggProducteurF,
           columnEnergieProducteurF,
+          columnTypeProducteurF,
           columnQteProducteurF,
           columnBiodigesteurProducteurF,
           columnNbrAppuieProducteurF
@@ -2488,7 +2600,7 @@ class DatabaseHelper {
           columnCommuneProducteurE,
           columnAggProducteurE,
           columnEnergieProducteurE,
-          columnQtePlusCuissonProducteurE
+          columnBiodigesteurProducteurE
         ],
         where: '1=1');
     for (var c in map) {
@@ -2510,7 +2622,7 @@ class DatabaseHelper {
           columnCommuneProducteurE,
           columnAggProducteurE,
           columnEnergieProducteurE,
-          columnQtePlusCuissonProducteurE
+          columnBiodigesteurProducteurE
         ],
         where: '1=1');
     for (var c in map) {
@@ -2532,7 +2644,7 @@ class DatabaseHelper {
           columnAggProducteurE,
           columnEnergieProducteurE,
           columnQteProducteurE,
-          columnQtePlusCuissonProducteurE
+          columnBiodigesteurProducteurE
         ],
         where: '1=1');
   }

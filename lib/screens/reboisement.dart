@@ -7,6 +7,7 @@ import 'package:argon_flutter/constants/Theme.dart';
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 import 'package:argon_flutter/widgets/input.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 List<String> districts = ['Ambohidratrimo ',
@@ -141,12 +142,13 @@ List<String> listeCulture = [
 ];
 
 List<String> listeProvenanceSemmenceCulture = [
-  'Etranger', 'Local', 'National',
+  'Exotique', 'Local', 'National',
 ];
 
 List<String> listeProductivite = [
-  'Productivite elevee', 'Productivite haute', 'Productivite moyenne',
-  'Productivite faible', 'Productivite tres faible',
+  'Très faible (AAM de 3 à 4 m3/ha)', 'Faible (AAM de 4 à 6 m3/ha)',
+  'Moyenne (AAM de 6,5 à 7,5 m3/ha)', 'Haute (AAM de 7,5 à 10 m3/ha)',
+  'Elevée (AAM de 10 à 12 m3/ha)'
 ];
 
 List<String> listeTravauxSol = [
@@ -250,6 +252,29 @@ class _ReboisementState extends State<Reboisement> {
           child: SafeArea(
             bottom: true,
             child: Column(children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Date",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: GestureDetector(
+                    onTap: ()=>_selectDate(context),
+                    child: Input(
+                      enable: false,
+                      placeholder: dateLabel,
+                      borderColor: ArgonColors.white,
+                      onTap: ()=>_selectDate(context),
+                    ),
+                  )
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 32),
                 child: Align(
@@ -379,7 +404,7 @@ class _ReboisementState extends State<Reboisement> {
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Input(
                     enable: true,
-                    placeholder: "Entrer le nom du propriétaire",
+                    placeholder: "Entrer le Nom et prénom si personne physique/Dénomination si personne morale",
                     borderColor: ArgonColors.white,
                     controller: proprietaire,
                 )
@@ -420,7 +445,28 @@ class _ReboisementState extends State<Reboisement> {
                   }).toList(),
                 ),
               ),
-
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Superficie",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
+                    enable: true,
+                    placeholder: "Entrer la superficie (ha)",
+                    borderColor: ArgonColors.white,
+                    controller: superficie,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                  )
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
@@ -436,31 +482,10 @@ class _ReboisementState extends State<Reboisement> {
                   padding: const EdgeInsets.only(top: 4.0),
                   child: Input(
                     enable: true,
-                    placeholder: "Entrer le type de reboisement",
+                    placeholder: "(ex: Agroforesterie, Arbres hors forêts, Plantation à vocation énergétique, …)",
                     borderColor: ArgonColors.white,
                     controller: type,
                   )
-              ),
-
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Superficie",
-                      style: TextStyle(
-                          color: ArgonColors.text,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12)),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Input(
-                    enable: true,
-                    placeholder: "Entrer la superficie",
-                    borderColor: ArgonColors.white,
-                    controller: superficie,
-                )
               ),
 
               SizedBox(height: 8.0),
@@ -472,7 +497,7 @@ class _ReboisementState extends State<Reboisement> {
                     padding: const EdgeInsets.only(left: 8.0, top: 8),
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text("Pare-feux",
+                      child: Text("Existence de pare-feux",
                           style: TextStyle(
                               color: ArgonColors.text,
                               fontWeight: FontWeight.w500,
@@ -581,7 +606,7 @@ class _ReboisementState extends State<Reboisement> {
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Input(
                     enable: true,
-                    placeholder: "Entrer les essences utilisés",
+                    placeholder: "Entrer les essences recensées",
                     borderColor: ArgonColors.white,
                     controller: essenceChoosed,
                 )
@@ -663,7 +688,7 @@ class _ReboisementState extends State<Reboisement> {
                 padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Travaux sol",
+                  child: Text("Travail du sol",
                       style: TextStyle(
                           color: ArgonColors.text,
                           fontWeight: FontWeight.w500,
@@ -713,6 +738,8 @@ class _ReboisementState extends State<Reboisement> {
                     placeholder: "Entrer l'année de plantation",
                     borderColor: ArgonColors.white,
                     controller: anneePlantation,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
                 )
               ),
 
@@ -731,9 +758,11 @@ class _ReboisementState extends State<Reboisement> {
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Input(
                     enable: true,
-                    placeholder: "Entrer la densité (nbr/ha)",
+                    placeholder: "Entrer la densité (nbr pieds/ha)",
                     borderColor: ArgonColors.white,
                     controller: densite,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
                 )
               ),
 
@@ -755,6 +784,8 @@ class _ReboisementState extends State<Reboisement> {
                     placeholder: "Entrer le taux de remplissage (%)",
                     borderColor: ArgonColors.white,
                     controller: tauxRemplissage,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
                 )
               ),
 
@@ -796,7 +827,7 @@ class _ReboisementState extends State<Reboisement> {
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Input(
                     enable: true,
-                    placeholder: "Entrer les acteurs ou opérateurs",
+                    placeholder: "(ex: Institution, Individuel, Communautraie, ...)",
                     borderColor: ArgonColors.white,
                     controller: acteur,
                 )

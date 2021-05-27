@@ -7,6 +7,7 @@ import 'package:argon_flutter/constants/Theme.dart';
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 import 'package:argon_flutter/widgets/input.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 List<String> districts = ['Ambohidratrimo ',
@@ -139,8 +140,9 @@ List<String> typeGrosConsommateur = [
 ];
 
 List<String> listeEnergieCuisson = [
-  'BC', 'CB', 'BIOGAZ', 'GAZ', 'Pétrole', 'Bioéthanol', 'Cuiseur solaire',
-  'Electricité', 'Résidus agricoles', 'Sous-produits forestiers'
+  'Bois de Chauffe', 'Charbon de Bois', 'Biogaz', 'Gaz', 'Bioéthanol',
+  'Résidus agricoles/Sous-produits', 'Electricité', 'Briquette/Charbon Vert',
+  'Pétrole'
 ];
 
 List<String> listetypeFoyer = [
@@ -162,17 +164,18 @@ class _MenageModificationState extends State<MenageModification> {
   final _formKey = GlobalKey<FormState>();  
 
   final dateFormat = DateFormat('dd-MM-yyyy');
+  String unite = '(kg)';
 
   String dateLabel = "Choisir la date";
   bool showTailleMenage = false;
   bool showTypeGrosConsommateur = false;
   List<Widget> energieCuissonSecheWidget = [SizedBox(height: 8.0),];
-  String energieCuissonSecheTemp="";
-  String typeFoyerTemp="";
+  String energieCuissonSecheTempChoosed;
+  String typeFoyerTempChoosed;
   bool showTypeFoyer = false;
   List<Widget> energieCuissonHumideWidget = [SizedBox(height: 8.0),];
-  String energieCuissonHumideTemp="";
-  String typeFoyerHumideTemp="";
+  String energieCuissonHumideTempChoosed;
+  String typeFoyerHumideTempChoosed;
   bool showTypeFoyerHumide = false;
   bool showFoyer = false;
 
@@ -186,6 +189,9 @@ class _MenageModificationState extends State<MenageModification> {
   String typeMenageChoosed = "";
   var tailleDeMenageChoosed = TextEditingController();
   String typeGrosConsommateurChoosed = "";
+
+  var commune = TextEditingController();
+  var agg = TextEditingController();
 
   // Liste énergie de cuisson sèche
   Map<String, Map<String, String>> energieCuissonSecheChoosed = {};
@@ -205,6 +211,8 @@ class _MenageModificationState extends State<MenageModification> {
   _save(MenageEntity menageEnCours) async {
     menageEnCours.tailleMenage = int.tryParse(tailleDeMenageChoosed.text);
     dateFormat.format(date).compareTo(menageEnCours.dateMenage)!=0?menageEnCours.dateMenage = dateFormat.format(date):0;
+    menageEnCours.commune = commune.text;
+    menageEnCours.agg = agg.text;
 
     List<EnergieCuissonEntity> energies = [];
 
@@ -266,6 +274,8 @@ class _MenageModificationState extends State<MenageModification> {
   Widget build(BuildContext context) {
     dateLabel = widget.menageEnCours.dateMenage;
     tailleDeMenageChoosed.text = widget.menageEnCours.tailleMenage.toString();
+    commune.text = widget.menageEnCours.commune;
+    agg.text = widget.menageEnCours.agg;
 
     for (var i = 0; i < widget.energieCuissons.length; i++) {
       if(widget.energieCuissons[i].saison.toLowerCase().contains('seche')) {
@@ -310,6 +320,29 @@ class _MenageModificationState extends State<MenageModification> {
             bottom: true,
             child: Column(children: [
               Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Date",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: GestureDetector(
+                    onTap: ()=>_selectDate(context),
+                    child: Input(
+                      enable: false,
+                      placeholder: dateLabel,
+                      borderColor: ArgonColors.white,
+                      onTap: ()=>_selectDate(context),
+                    ),
+                  )
+              ),
+              Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 32),
                 child: Align(
                   alignment: Alignment.centerLeft,
@@ -344,31 +377,6 @@ class _MenageModificationState extends State<MenageModification> {
                   }).toList(),
                 ),
               ),
-
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Date",
-                      style: TextStyle(
-                          color: ArgonColors.text,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12)),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: GestureDetector(
-                  onTap: ()=>_selectDate(context),
-                  child: Input(
-                    enable: false,
-                    placeholder: dateLabel,
-                    borderColor: ArgonColors.white,
-                    onTap: ()=>_selectDate(context),
-                  ),
-                )
-              ),
-
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                 child: Align(
@@ -404,12 +412,55 @@ class _MenageModificationState extends State<MenageModification> {
                   }).toList(),
                 ),
               ),
-
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Commune",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
+                      enable: true,
+                      placeholder: "Entrer le nom de la commune",
+                      borderColor: ArgonColors.white,
+                      controller: commune,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                  )
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Agglomération",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
+                      enable: true,
+                      placeholder: "Entrer le nom de l'agglomération ",
+                      borderColor: ArgonColors.white,
+                      controller: agg,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                  )
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Type de ménage",
+                  child: Text("Type de consommateur",
                       style: TextStyle(
                           color: ArgonColors.text,
                           fontWeight: FontWeight.w500,
@@ -463,7 +514,6 @@ class _MenageModificationState extends State<MenageModification> {
                   ),
                 )
               ),
-              
               Visibility(
                 visible: showTailleMenage||widget.menageEnCours.typeMenage.contains('Ménage'),
                 child: Padding(
@@ -473,6 +523,8 @@ class _MenageModificationState extends State<MenageModification> {
                     placeholder: "Entrer la taille de ménage",
                     borderColor: ArgonColors.white,
                     controller: tailleDeMenageChoosed,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
                     // onTap: ()=>_selectDate(context),
                   ),
                 )
@@ -561,24 +613,6 @@ class _MenageModificationState extends State<MenageModification> {
                             },
                             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                             children: <TableRow>[
-                              if(e.value['aenergie'].length!=0) TableRow(
-                                children: <Widget>[
-                                  Text("Type de foyer :", style: TextStyle(
-                                      fontSize: 12
-                                  )
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.all(2.0),
-                                    child: Text(e.value['aenergie'],
-                                        style: TextStyle(
-                                            color: ArgonColors.text,
-                                            fontSize: 12
-                                        ),
-                                        textAlign:TextAlign.end
-                                    ),
-                                  ),
-                                ],
-                              ),
                               TableRow(
                                 children: <Widget>[
                                   Text("Quantité par mois (kg) :", style: TextStyle(
@@ -617,9 +651,27 @@ class _MenageModificationState extends State<MenageModification> {
                                   ),
                                 ],
                               ),
+                              if(e.value['aenergie']!=null && e.value['aenergie'].length!=0) TableRow(
+                                children: <Widget>[
+                                  Text("Types de foyers utilisés :", style: TextStyle(
+                                      fontSize: 12
+                                  )
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(2.0),
+                                    child: Text(e.value['aenergie'],
+                                        style: TextStyle(
+                                            color: ArgonColors.text,
+                                            fontSize: 12
+                                        ),
+                                        textAlign:TextAlign.end
+                                    ),
+                                  ),
+                                ],
+                              ),
                               TableRow(
                                 children: <Widget>[
-                                  Text("Fréquence de renouvellement de foyer par an :", style: TextStyle(
+                                  Text("Fréquence annuel de renouvellement de foyers :", style: TextStyle(
                                       color: ArgonColors.text,
                                       fontSize: 12
                                   )
@@ -698,16 +750,26 @@ class _MenageModificationState extends State<MenageModification> {
                     color: ArgonColors.text,
                     backgroundColor: Colors.white
                   ),
-                  value: energieCuissonSecheTemp,
+                  value: energieCuissonSecheTempChoosed,
                   isExpanded: true,
                   onChanged: (String nValue) {
                     setState(() {
-                      energieCuissonSecheTemp = nValue;
-                      if(energieCuissonSecheTemp.contains('Charbon de Bois')
-                          ||energieCuissonSecheTemp.contains('Bois de Chauffe')) {
+                      energieCuissonSecheTempChoosed = nValue;
+                      if(energieCuissonSecheTempChoosed.contains('Charbon de Bois')
+                          ||energieCuissonSecheTempChoosed.contains('Bois de Chauffe')) {
                         showTypeFoyer = true;
                       } else {
                         showTypeFoyer = false;
+                      }
+                      if(energieCuissonSecheTempChoosed.contains('Biogaz')){
+                        unite = '(m³)';
+                      } else if(energieCuissonSecheTempChoosed.contains('Electricite')) {
+                        unite = '(kWh)';
+                      } else if(energieCuissonSecheTempChoosed.contains('Bioéthanol')
+                          ||energieCuissonSecheTempChoosed.contains('Pétrol')) {
+                        unite = '(l)';
+                      } else {
+                        unite = '(kg)';
                       }
                     });
                   },
@@ -720,7 +782,51 @@ class _MenageModificationState extends State<MenageModification> {
                   }).toList(),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Quantité déstinée à la cuisson par mois",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
+                    enable: true,
+                    placeholder: "Entrer la quantité "+unite,
+                    borderColor: ArgonColors.white,
+                    controller: qteECSecheTemp,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                  )
+              ),
 
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Prix par mois",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
+                    enable: true,
+                    placeholder: "Entrer le coût par mois (Ar)",
+                    borderColor: ArgonColors.white,
+                    controller: prixECSecheTemp,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                  )
+              ),
               // Type foyer
               Visibility(
                   visible: showTypeFoyer,
@@ -728,7 +834,7 @@ class _MenageModificationState extends State<MenageModification> {
                     padding: const EdgeInsets.only(left: 8.0, top: 8),
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text("Type de foyer",
+                      child: Text("Types de foyers utilisés",
                           style: TextStyle(
                               color: ArgonColors.text,
                               fontWeight: FontWeight.w500,
@@ -746,11 +852,11 @@ class _MenageModificationState extends State<MenageModification> {
                         color: ArgonColors.text,
                         backgroundColor: Colors.white
                     ),
-                    value: typeFoyerTemp,
+                    value: typeFoyerTempChoosed,
                     isExpanded: true,
                     onChanged: (String newValue) {
                       setState(() {
-                        typeFoyerTemp = newValue;
+                        typeFoyerTempChoosed = newValue;
                       });
                     },
                     items: listetypeFoyer
@@ -762,48 +868,6 @@ class _MenageModificationState extends State<MenageModification> {
                     }).toList(),
                   ),
                 ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Quantité par mois (kg)",
-                      style: TextStyle(
-                          color: ArgonColors.text,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12)),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Input(
-                    enable: true,
-                    placeholder: "Entrer la quantité utilisée par mois",
-                    borderColor: ArgonColors.white,
-                    controller: qteECSecheTemp,
-                )
-              ),
-
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Prix par mois",
-                      style: TextStyle(
-                          color: ArgonColors.text,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12)),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Input(
-                    enable: true,
-                    placeholder: "Entrer le coût par mois",
-                    borderColor: ArgonColors.white,
-                    controller: prixECSecheTemp,
-                )
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
@@ -823,6 +887,8 @@ class _MenageModificationState extends State<MenageModification> {
                     placeholder: "Entrer la fréquence annuelle",
                     borderColor: ArgonColors.white,
                     controller: frequenceFoyer,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
                   )
               ),
               Padding(
@@ -840,9 +906,11 @@ class _MenageModificationState extends State<MenageModification> {
                   padding: const EdgeInsets.only(top: 4.0),
                   child: Input(
                     enable: true,
-                    placeholder: "Entrer le prix unitaire des foyers",
+                    placeholder: "Entrer le prix unitaire des foyers (Ar)",
                     borderColor: ArgonColors.white,
                     controller: puFoyer,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
                   )
               ),
               SizedBox(
@@ -855,9 +923,9 @@ class _MenageModificationState extends State<MenageModification> {
                     color: ArgonColors.secondary,
                     onPressed: () {
                       setState(() {
-                        energieCuissonSecheChoosed.putIfAbsent(energieCuissonSecheTemp, () => {
-                            "energie": energieCuissonSecheTemp,
-                            "aenergie": typeFoyerTemp,
+                        energieCuissonSecheChoosed.putIfAbsent(energieCuissonSecheTempChoosed, () => {
+                            "energie": energieCuissonSecheTempChoosed,
+                            "aenergie": typeFoyerTempChoosed,
                             "qte": qteECSecheTemp.text,
                             "prix": prixECSecheTemp.text,
                             "frequence" : frequenceFoyer.text,
@@ -919,24 +987,6 @@ class _MenageModificationState extends State<MenageModification> {
                             },
                             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                             children: <TableRow>[
-                              if(e.value['aenergie'].length!=0) TableRow(
-                                children: <Widget>[
-                                  Text("Autre energie :", style: TextStyle(
-                                      fontSize: 12
-                                  )
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.all(2.0),
-                                    child: Text(e.value['aenergie'],
-                                        style: TextStyle(
-                                            color: ArgonColors.text,
-                                            fontSize: 12
-                                        ),
-                                        textAlign:TextAlign.end
-                                    ),
-                                  ),
-                                ],
-                              ),
                               TableRow(
                                 children: <Widget>[
                                   Text("Quantité par mois (kg) :", style: TextStyle(
@@ -975,9 +1025,27 @@ class _MenageModificationState extends State<MenageModification> {
                                   ),
                                 ],
                               ),
+                              if(e.value['aenergie']!=null && e.value['aenergie'].length!=0) TableRow(
+                                children: <Widget>[
+                                  Text("Types de foyers utilisés :", style: TextStyle(
+                                      fontSize: 12
+                                  )
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(2.0),
+                                    child: Text(e.value['aenergie'],
+                                        style: TextStyle(
+                                            color: ArgonColors.text,
+                                            fontSize: 12
+                                        ),
+                                        textAlign:TextAlign.end
+                                    ),
+                                  ),
+                                ],
+                              ),
                               TableRow(
                                 children: <Widget>[
-                                  Text("Fréquence de renouvellement de foyer par an :", style: TextStyle(
+                                  Text("Fréquence annuel de renouvellement de foyers :", style: TextStyle(
                                       color: ArgonColors.text,
                                       fontSize: 12
                                   )
@@ -1056,18 +1124,28 @@ class _MenageModificationState extends State<MenageModification> {
                     color: ArgonColors.text,
                     backgroundColor: Colors.white
                   ),
-                  value: energieCuissonHumideTemp,
+                  value: energieCuissonHumideTempChoosed,
                   isExpanded: true,
                   onChanged: (String newValue) {
                     setState(() {
-                      energieCuissonHumideTemp = newValue;
-                      if(energieCuissonHumideTemp.contains('Charbon de Bois')
-                          || energieCuissonHumideTemp.contains('Bois de Chauffe')) {
+                      energieCuissonHumideTempChoosed = newValue;
+                      if(energieCuissonHumideTempChoosed.contains('Charbon de Bois')
+                          || energieCuissonHumideTempChoosed.contains('Bois de Chauffe')) {
                         showTypeFoyerHumide = true;
                       } else {
                         showTypeFoyerHumide = false;
                       }
-                      showFoyer = checkFoyer(energieCuissonHumideTemp);
+                      if(energieCuissonHumideTempChoosed.contains('Biogaz')){
+                        unite = '(m³)';
+                      } else if(energieCuissonHumideTempChoosed.contains('Electricite')) {
+                        unite = '(kWh)';
+                      } else if(energieCuissonHumideTempChoosed.contains('Bioéthanol')
+                          ||energieCuissonHumideTempChoosed.contains('Pétrol')) {
+                        unite = '(l)';
+                      } else {
+                        unite = '(kg)';
+                      }
+                      showFoyer = checkFoyer(energieCuissonHumideTempChoosed);
                     });
                   },
                   items: listeEnergieCuisson
@@ -1079,15 +1157,58 @@ class _MenageModificationState extends State<MenageModification> {
                   }).toList(),
                 ),
               ),
-
-              // Type de foyer saison Humide
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Quantité par mois (kg)",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
+                    enable: true,
+                    placeholder: "Entrer la quantité utilisée par mois",
+                    borderColor: ArgonColors.white,
+                    controller: qteECHumideTemp,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                  )
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Prix par mois",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
+                    enable: true,
+                    placeholder: "Entrer le coût par mois (Ar)",
+                    borderColor: ArgonColors.white,
+                    controller: prixECHumideTemp,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                  )
+              ),
+              // Types de foyers utilisés saison Humide
               Visibility(
                   visible: showTypeFoyerHumide,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 8.0, top: 8),
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text("Type de foyer",
+                      child: Text("Types de foyers utilisés",
                           style: TextStyle(
                               color: ArgonColors.text,
                               fontWeight: FontWeight.w500,
@@ -1105,11 +1226,11 @@ class _MenageModificationState extends State<MenageModification> {
                         color: ArgonColors.text,
                         backgroundColor: Colors.white
                     ),
-                    value: typeFoyerHumideTemp,
+                    value: typeFoyerHumideTempChoosed,
                     isExpanded: true,
                     onChanged: (String newValue) {
                       setState(() {
-                        typeFoyerHumideTemp = newValue;
+                        typeFoyerHumideTempChoosed = newValue;
                       });
                     },
                     items: listetypeFoyer
@@ -1121,48 +1242,6 @@ class _MenageModificationState extends State<MenageModification> {
                     }).toList(),
                   ),
                 ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Quantité par mois (kg)",
-                      style: TextStyle(
-                          color: ArgonColors.text,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12)),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Input(
-                    enable: true,
-                    placeholder: "Entrer la quantité utilisée par mois",
-                    borderColor: ArgonColors.white,
-                    controller: qteECHumideTemp,
-                )
-              ),
-
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Prix par mois",
-                      style: TextStyle(
-                          color: ArgonColors.text,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12)),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Input(
-                    enable: true,
-                    placeholder: "Entrer le coût par mois",
-                    borderColor: ArgonColors.white,
-                    controller: prixECHumideTemp,
-                )
               ),
               Visibility(
                   visible: showFoyer,
@@ -1187,6 +1266,8 @@ class _MenageModificationState extends State<MenageModification> {
                       placeholder: "Entrer la fréquence annuelle",
                       borderColor: ArgonColors.white,
                       controller: frequenceFoyerH,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly]
                     )
                 ),
               ),
@@ -1210,9 +1291,11 @@ class _MenageModificationState extends State<MenageModification> {
                     padding: const EdgeInsets.only(top: 4.0),
                     child: Input(
                       enable: true,
-                      placeholder: "Entrer le prix unitaire des foyers",
+                      placeholder: "Entrer le prix unitaire des foyers (Ar)",
                       borderColor: ArgonColors.white,
                       controller: puFoyerH,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly]
                     )
                 ),
               ),
@@ -1226,9 +1309,9 @@ class _MenageModificationState extends State<MenageModification> {
                     color: ArgonColors.secondary,
                     onPressed: () {
                       setState(() {
-                        energieCuissonHumideChoosed.putIfAbsent(energieCuissonHumideTemp, () => {
-                            "energie": energieCuissonHumideTemp,
-                            "aenergie": typeFoyerHumideTemp,
+                        energieCuissonHumideChoosed.putIfAbsent(energieCuissonHumideTempChoosed, () => {
+                            "energie": energieCuissonHumideTempChoosed,
+                            "aenergie": typeFoyerHumideTempChoosed,
                             "qte": qteECHumideTemp.text,
                             "prix": prixECHumideTemp.text,
                             "frequence": frequenceFoyerH.text,

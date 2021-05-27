@@ -7,6 +7,7 @@ import 'package:argon_flutter/constants/Theme.dart';
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 import 'package:argon_flutter/widgets/input.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 List<String> districts = ['Ambohidratrimo ',
@@ -129,8 +130,13 @@ List<String> agglomeration = [
 ];
 
 List<String> listeEnergieCuisson = [
-  'BC', 'CB', 'BIOGAZ', 'GAZ', 'Pétrole', 'Bioéthanol', 'Cuiseur solaire',
-  'Electricité', 'Résidus agricoles', 'Sous-produits forestiers'
+  'Bois de Chauffe', 'Charbon de Bois', 'Biogaz', 'Gaz', 'Bioéthanol',
+  'Résidus agricoles/Sous-produits', 'Electricité', 'Briquette/Charbon Vert',
+  'Pétrole'
+];
+
+List<String> listeType = [
+  'Traditionnelle', 'Améliorée'
 ];
 
 class ProducteurFoyer extends StatefulWidget {
@@ -141,7 +147,8 @@ class ProducteurFoyer extends StatefulWidget {
 class _ProducteurFoyerState extends State<ProducteurFoyer> {
   final _formKey = GlobalKey<FormState>();
 
-  bool showBiodigesteur = false;
+  // bool showBiodigesteur = false;
+  String unite = '(kg)';
 
   String dateLabel = "Choisir la date";
   
@@ -149,11 +156,12 @@ class _ProducteurFoyerState extends State<ProducteurFoyer> {
   String districtChoosed;
   String agglomerationChoosed;
   String energieChoosed;
+  String typeChoosed;
   var commune = TextEditingController();
   var agg = TextEditingController();
   var qte = TextEditingController();
-  var biodigesteur = TextEditingController();
-  var appuie = TextEditingController();
+  // var biodigesteur = TextEditingController();
+  bool appuie = false;
 
   DatabaseHelper helper = DatabaseHelper.instance;
   ProducteurFEntity ds = new ProducteurFEntity();
@@ -180,8 +188,9 @@ class _ProducteurFoyerState extends State<ProducteurFoyer> {
     ds.agg = agg.text;
     ds.energie = energieChoosed;
     ds.qte = double.tryParse(qte.text);
-    ds.biodigesteur = double.tryParse(biodigesteur.text);
-    ds.appuie = int.tryParse(appuie.text);
+    // ds.biodigesteur = double.tryParse(biodigesteur.text);
+    ds.appuie = appuie;
+    ds.type = typeChoosed;
 
     helper.insert(ds).then((value) => print(value));
   }
@@ -202,6 +211,29 @@ class _ProducteurFoyerState extends State<ProducteurFoyer> {
           child: SafeArea(
             bottom: true,
             child: Column(children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Date",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: GestureDetector(
+                    onTap: ()=>_selectDate(context),
+                    child: Input(
+                      enable: false,
+                      placeholder: dateLabel,
+                      borderColor: ArgonColors.white,
+                      onTap: ()=>_selectDate(context),
+                    ),
+                  )
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 32),
                 child: Align(
@@ -320,7 +352,7 @@ class _ProducteurFoyerState extends State<ProducteurFoyer> {
                 padding: const EdgeInsets.only(left: 8.0, top: 16.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Energie",
+                  child: Text("Type d'énergie de cuisson",
                       style: TextStyle(
                           color: ArgonColors.text,
                           fontWeight: FontWeight.w500,
@@ -340,9 +372,18 @@ class _ProducteurFoyerState extends State<ProducteurFoyer> {
                   onChanged: (String nValue) {
                     setState(() {
                       energieChoosed = nValue;
-                      if(energieChoosed.compareTo('BIOGAZ')==0) {
-                        showBiodigesteur = true;
-                      } else showBiodigesteur = false;
+                      if(energieChoosed.compareTo('Biogaz')==0) {
+                        // showBiodigesteur = true;
+                        unite = '(m³)';
+                      } //else showBiodigesteur = false;
+                      if(energieChoosed.contains('Electricite')) {
+                        unite = '(kWh)';
+                      } else if(energieChoosed.contains('Bioéthanol')
+                          ||energieChoosed.contains('Pétrol')) {
+                        unite = '(l)';
+                      } else {
+                        unite = '(kg)';
+                      }
                     });
                   },
                   items: listeEnergieCuisson
@@ -354,14 +395,46 @@ class _ProducteurFoyerState extends State<ProducteurFoyer> {
                   }).toList(),
                 ),
               ),
-
-
-
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 32),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Type de foyers produits",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
+                child: DropdownButton<String>(
+                  style: TextStyle(
+                      fontSize: 12,
+                      color: ArgonColors.text,
+                      backgroundColor: Colors.white
+                  ),
+                  value: typeChoosed,
+                  isExpanded: true,
+                  onChanged: (String newValue) {
+                    setState(() {
+                      typeChoosed = newValue;
+                    });
+                  },
+                  items: listeType
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Quantité de production",
+                  child: Text("Production annuel totale",
                       style: TextStyle(
                           color: ArgonColors.text,
                           fontWeight: FontWeight.w500,
@@ -372,44 +445,73 @@ class _ProducteurFoyerState extends State<ProducteurFoyer> {
                   padding: const EdgeInsets.only(top: 4.0),
                   child: Input(
                     enable: true,
-                    placeholder: "Entrer la quantité de production",
+                    placeholder: "Entrer la production annuel totale "+unite,
                     borderColor: ArgonColors.white,
                     controller: qte,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
                   )
               ),
 
-              Visibility(
-                  visible: showBiodigesteur,
-                  child: Padding(
+              // Visibility(
+              //     visible: showBiodigesteur,
+              //     child: Padding(
+              //       padding: const EdgeInsets.only(left: 8.0, top: 8),
+              //       child: Align(
+              //         alignment: Alignment.centerLeft,
+              //         child: Text("Capacité biodigesteur ",
+              //             style: TextStyle(
+              //                 color: ArgonColors.text,
+              //                 fontWeight: FontWeight.w500,
+              //                 fontSize: 12)),
+              //       ),
+              //     )
+              // ),
+              // Visibility(
+              //   visible: showBiodigesteur,
+              //   child: Padding(
+              //       padding: const EdgeInsets.only(top: 4.0),
+              //       child: Input(
+              //         enable: true,
+              //         placeholder: "Entrer la capacité du biodigesteur (m³)",
+              //         borderColor: ArgonColors.white,
+              //         controller: biodigesteur,
+              //         keyboardType: TextInputType.number,
+              //         inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+              //       )
+              //   ),
+              // ),
+
+              SizedBox(height: 8.0),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
                     padding: const EdgeInsets.only(left: 8.0, top: 8),
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text("Capacité biodigesteur ",
+                      child: Text("Existence d'appuie à la production",
                           style: TextStyle(
                               color: ArgonColors.text,
                               fontWeight: FontWeight.w500,
                               fontSize: 12)),
                     ),
-                  )
-              ),
-              Visibility(
-                visible: showBiodigesteur,
-                child: Padding(
-                    padding: const EdgeInsets.only(top: 4.0),
-                    child: Input(
-                      enable: true,
-                      placeholder: "Entrer la capacité du biodigesteur",
-                      borderColor: ArgonColors.white,
-                      controller: biodigesteur,
-                    )
-                ),
+                  ),
+                  Switch.adaptive(
+                    value: appuie,
+                    onChanged: (bool newValue) =>
+                        setState(() => appuie = newValue),
+                    activeColor: ArgonColors.primary,
+                  ),
+                ],
               ),
 
-              Padding(
+              /*Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Nombre d'appuie à la production",
+                  child: Text("Existence d'appuie à la production",
                       style: TextStyle(
                           color: ArgonColors.text,
                           fontWeight: FontWeight.w500,
@@ -424,7 +526,7 @@ class _ProducteurFoyerState extends State<ProducteurFoyer> {
                     borderColor: ArgonColors.white,
                     controller: appuie,
                 )
-              ),
+              ),*/
 
             SizedBox(
               width: double.infinity,
