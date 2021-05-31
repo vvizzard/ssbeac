@@ -244,7 +244,7 @@ class _CharbonnierState extends State<Charbonnier> {
           title: "Charbonnier",
           rightOptions: false,
         ),
-        backgroundColor: ArgonColors.bgColorScreen,
+        backgroundColor: ArgonColors.white,
         drawer: ArgonDrawer(currentPage: "Charbonnier"),
         body: SingleChildScrollView(
             child: Padding(
@@ -253,7 +253,7 @@ class _CharbonnierState extends State<Charbonnier> {
             bottom: true,
             child: Column(children: [
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                padding: const EdgeInsets.only(left: 8.0, top: 16),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text("Date",
@@ -264,19 +264,33 @@ class _CharbonnierState extends State<Charbonnier> {
                 ),
               ),
               Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
-                  child: GestureDetector(
-                    onTap: ()=>_selectDate(context),
-                    child: Input(
-                      enable: false,
-                      placeholder: dateLabel,
-                      borderColor: ArgonColors.white,
-                      onTap: ()=>_selectDate(context),
-                    ),
-                  )
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: GestureDetector(
+                        onTap: ()=>_selectDate(context),
+                        child: Input(
+                          enable: false,
+                          placeholder: dateLabel,
+                          onTap: ()=>_selectDate(context),
+                        ),
+                      )
+                  ),
+                ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 32),
+                padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text("District",
@@ -287,28 +301,51 @@ class _CharbonnierState extends State<Charbonnier> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Container(
+                  decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                            width: 1.0,
+                            color: Color.fromRGBO(223, 225, 229, 1),
+                            style: BorderStyle.solid
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(4.0))
+                    ),
                   ),
-                  value: districtChoosed,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      districtChoosed = newValue;
-                    });
-                  },
-                  items: districts
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  child: Padding(
+                    padding:const EdgeInsets.only(left: 8.0),
+                    child: DropdownButton<String>(
+                      hint: Text("Choisir le district",
+                        style: TextStyle(
+                          color: ArgonColors.muted,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14
+                        )
+                      ),
+                      underline: SizedBox(),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: ArgonColors.text,
+                        backgroundColor: Colors.white
+                      ),
+                      value: districtChoosed,
+                      isExpanded: true,
+                      onChanged: (String newValue) {
+                        setState(() {
+                          districtChoosed = newValue;
+                        });
+                      },
+                      items: districts
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    )
+                  )
+                )
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8.0),
@@ -322,30 +359,52 @@ class _CharbonnierState extends State<Charbonnier> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: agglomerationChoosed,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      agglomerationChoosed = newValue;
-                    });
-                  },
-                  items: agglomeration
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir l'unité d'agglomération",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: agglomerationChoosed,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              agglomerationChoosed = newValue;
+                            });
+                          },
+                          items: agglomeration
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      )
+                  )
               ),
-
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
@@ -362,7 +421,7 @@ class _CharbonnierState extends State<Charbonnier> {
                   child: Input(
                     enable: true,
                     placeholder: "Entrer le nom de la commune",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: commune,
                   )
               ),
@@ -383,7 +442,7 @@ class _CharbonnierState extends State<Charbonnier> {
                   child: Input(
                     enable: true,
                     placeholder: "Entrer le nom de l'agglomération",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: agg,
                   )
               ),
@@ -614,32 +673,54 @@ class _CharbonnierState extends State<Charbonnier> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: typeMeuleChoosed,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      typeMeuleChoosed = newValue;
-                      typeMeuleChoosed.contains("Amélioré")
-                          ?showMeuleAmeliore=true:showMeuleAmeliore=false;
-                    });
-                  },
-                  items: typeMeule
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                          padding:const EdgeInsets.only(left: 8.0),
+                          child: DropdownButton<String>(
+                            hint: Text("Choisir le type de consommateur",
+                                style: TextStyle(
+                                    color: ArgonColors.muted,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14
+                                )
+                            ),
+                            underline: SizedBox(),
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: ArgonColors.text,
+                                backgroundColor: Colors.white
+                            ),
+                            value: typeMeuleChoosed,
+                            isExpanded: true,
+                            onChanged: (String newValue) {
+                              setState(() {
+                                typeMeuleChoosed = newValue;
+                                typeMeuleChoosed.contains("Amélioré")
+                                    ?showMeuleAmeliore=true:showMeuleAmeliore=false;
+                              });
+                            },
+                            items: typeMeule
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                      )
+                  )
               ),
-
               /*// Meule ameliore
               Visibility(
                 visible: showMeuleAmeliore,
@@ -682,7 +763,6 @@ class _CharbonnierState extends State<Charbonnier> {
                   ),
                 ),
               ),*/
-
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
@@ -699,10 +779,10 @@ class _CharbonnierState extends State<Charbonnier> {
                 child: Input(
                     enable: true,
                     placeholder: "Entrer la longueur (m)",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: longueurTemp,
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                 )
               ),
 
@@ -722,10 +802,10 @@ class _CharbonnierState extends State<Charbonnier> {
                 child: Input(
                     enable: true,
                     placeholder: "Entrer la largeur (m)",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: largeurTemp,
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                 )
               ),
 
@@ -745,10 +825,10 @@ class _CharbonnierState extends State<Charbonnier> {
                 child: Input(
                     enable: true,
                     placeholder: "Entrer la hauteur (m)",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: hauteurTemp,
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                 )
               ),
               Padding(
@@ -763,32 +843,53 @@ class _CharbonnierState extends State<Charbonnier> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                      fontSize: 12,
-                      color: ArgonColors.text,
-                      backgroundColor: Colors.white
-                  ),
-                  value: zonePrelevementChoosed,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      zonePrelevementChoosed = newValue;
-                    });
-                  },
-                  items: listeZonePrelevement
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                          padding:const EdgeInsets.only(left: 8.0),
+                          child: DropdownButton<String>(
+                            hint: Text("Choisir le type de consommateur",
+                                style: TextStyle(
+                                    color: ArgonColors.muted,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14
+                                )
+                            ),
+                            underline: SizedBox(),
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: ArgonColors.text,
+                                backgroundColor: Colors.white
+                            ),
+                            value: zonePrelevementChoosed,
+                            isExpanded: true,
+                            onChanged: (String newValue) {
+                              setState(() {
+                                zonePrelevementChoosed = newValue;
+                              });
+                            },
+                            items: listeZonePrelevement
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                      )
+                  )
               ),
-
               SizedBox(height: 8.0),
-
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                 child: Align(
@@ -801,28 +902,51 @@ class _CharbonnierState extends State<Charbonnier> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                      fontSize: 12,
-                      color: ArgonColors.text,
-                      backgroundColor: Colors.white
-                  ),
-                  value: domainePrelevementChoosed,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      domainePrelevementChoosed = newValue;
-                    });
-                  },
-                  items: listeDomainePrelevement
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                          padding:const EdgeInsets.only(left: 8.0),
+                          child: DropdownButton<String>(
+                            hint: Text("Choisir le type de consommateur",
+                                style: TextStyle(
+                                    color: ArgonColors.muted,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14
+                                )
+                            ),
+                            underline: SizedBox(),
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: ArgonColors.text,
+                                backgroundColor: Colors.white
+                            ),
+                            value: domainePrelevementChoosed,
+                            isExpanded: true,
+                            onChanged: (String newValue) {
+                              setState(() {
+                                domainePrelevementChoosed = newValue;
+                              });
+                            },
+                            items: listeDomainePrelevement
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          )
+                      )
+                  )
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
@@ -840,10 +964,10 @@ class _CharbonnierState extends State<Charbonnier> {
                 child: Input(
                     enable: true,
                     placeholder: "Entrer la quantité de bois utilisé (kg)",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: qte,
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                 )
               ),
 
@@ -863,10 +987,10 @@ class _CharbonnierState extends State<Charbonnier> {
                 child: Input(
                     enable: true,
                     placeholder: "Entrer la quantité de charbon produit",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: qteC,
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                 )
               ),
               SizedBox(
@@ -890,6 +1014,14 @@ class _CharbonnierState extends State<Charbonnier> {
                           "zone": zonePrelevementChoosed,
                           "domaine": domainePrelevementChoosed
                         });
+                        typeMeuleChoosed = null;
+                        longueurTemp.text = "";
+                        largeurTemp.text = "";
+                        hauteurTemp.text = "";
+                        qte.text = "";
+                        qteC.text = "";
+                        zonePrelevementChoosed = null;
+                        domainePrelevementChoosed = null;
                       });
                     },
                     shape: RoundedRectangleBorder(
@@ -922,7 +1054,7 @@ class _CharbonnierState extends State<Charbonnier> {
                 child: Input(
                     enable: true,
                     placeholder: "Dresser la liste des espèces utilisées",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: especeBois
                 )
               ),
@@ -976,53 +1108,56 @@ class _CharbonnierState extends State<Charbonnier> {
                   ),
                 ],
               ),
-
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Formateur",
-                      style: TextStyle(
-                          color: ArgonColors.text,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12)),
-                ),
-              ),
-              Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
-                  child: Input(
-                      enable: true,
-                      placeholder: "Entrer l'institution organisatrice",
-                      borderColor: ArgonColors.white,
-                      controller: formateur
+              Visibility(
+                  visible: formation,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0, top: 8),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Formateur",
+                          style: TextStyle(
+                              color: ArgonColors.text,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12)),
+                    ),
                   )
               ),
-
-            SizedBox(
-              width: double.infinity,
-              child: Padding(
-                padding:
-                    const EdgeInsets.only(top: 8),
-                child: RaisedButton(
-                  textColor: ArgonColors.text,
-                  color: ArgonColors.success,
-                  onPressed: () {
-                    _save();
-                    Navigator.pushReplacementNamed(context, '/listecharbonnier');
-                  },
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4.0),
-                  ),
+              Visibility(
+                  visible: formation,
                   child: Padding(
-                      padding: EdgeInsets.only(
-                          left: 16.0, right: 16.0, top: 12, bottom: 12),
-                      child: Text("Enregistrer",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 16.0))),
+                      padding: const EdgeInsets.only(top: 4.0),
+                      child: Input(
+                          enable: true,
+                          placeholder: "Entrer l'institution organisatrice",
+                          borderColor: Color.fromRGBO(223, 225, 229, 1),
+                          controller: formateur
+                      )
+                  )
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.only(top: 8),
+                  child: RaisedButton(
+                    textColor: ArgonColors.text,
+                    color: ArgonColors.success,
+                    onPressed: () {
+                      _save();
+                      Navigator.pushReplacementNamed(context, '/listecharbonnier');
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                    child: Padding(
+                        padding: EdgeInsets.only(
+                            left: 16.0, right: 16.0, top: 12, bottom: 12),
+                        child: Text("Enregistrer",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 16.0))),
+                  ),
                 ),
               ),
-            ),
-          
           ]),
         ),
       )));

@@ -123,17 +123,17 @@ List<String> districts = ['Ambohidratrimo ',
 'Antalaha ',
 'Sambava ',
 'Andapa ',
-'Vohemar ',''];
+'Vohemar '];
 
 List<String> agglomeration = [
-  'Urbaine', 'Rurale',''
+  'Urbaine', 'Rurale'
 ];
 
 List<String> listTransport = ['Bicyclette', 'Charette', 'Taxi-brousse', 'Camion', 'Dos d\'homme', 'Autre'];
 
-List<String> typeDeplacement = ['Entrée', 'Sortie'];
+// List<String> typeDeplacement = ['Entrée', 'Sortie'];
 
-List<String> listeProduits = ['BC', 'CB'];
+List<String> listeProduits = ['Bois de Chauffe', 'Charbon de Bois'];
 
 class BarriereModification extends StatefulWidget {
   final BarriereEntity barriereEnCours;
@@ -159,8 +159,8 @@ class _BarriereModificationState extends State<BarriereModification> {
   String transportChoosed;
   String deplacementChoosed;
   String produitChoosed;
-  String districtProvenance = "";
-  String districtDestination = "";
+  String districtProvenance;
+  String districtDestination;
 
   // produits
   Map<String, Map<String, String>> produits = {};
@@ -184,18 +184,18 @@ class _BarriereModificationState extends State<BarriereModification> {
     String dateString = DateFormat('dd-MM-yyyy').format(date);
     dateString.compareTo(barriereEnCours.dateBarriere)!=0?barriereEnCours.dateBarriere=dateString:0;
 
-    barriereEnCours.districtBarriere = districtChoosed;
-    barriereEnCours.agglomerationBarriere = agglomerationChoosed;
-    barriereEnCours.commune = commune.text;
+    // barriereEnCours.districtBarriere = districtChoosed;
+    // barriereEnCours.agglomerationBarriere = agglomerationChoosed;
+    // barriereEnCours.commune = commune.text;
     barriereEnCours.agg = agg.text;
     barriereEnCours.axe = axe.text;
     barriereEnCours.latitude = latitude.text;
     barriereEnCours.longitude = longitude.text;
-    barriereEnCours.laisserPasser = laisserPasser;
-    barriereEnCours.transport = transportChoosed;
-    barriereEnCours.districtProvenance = districtProvenance;
+    // barriereEnCours.laisserPasser = laisserPasser;
+    // barriereEnCours.transport = transportChoosed;
+    // barriereEnCours.districtProvenance = districtProvenance;
     barriereEnCours.designationProvenance = provenance.text;
-    barriereEnCours.districtArrivee = districtDestination;
+    // barriereEnCours.districtArrivee = districtDestination;
     barriereEnCours.designationArrivee = destination.text;
 
     List<ProduitEntity> listeProduits = [];
@@ -215,7 +215,7 @@ class _BarriereModificationState extends State<BarriereModification> {
   }
 
 
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> _selectDate(BuildContext context, BarriereEntity b) async {
     final DateTime picked = await showDatePicker(
       context: context,
       initialDate: date,
@@ -225,6 +225,7 @@ class _BarriereModificationState extends State<BarriereModification> {
         setState(() {
           date = picked;
           dateLabel = DateFormat('dd-MM-yyyy').format(picked);
+          b.dateBarriere = dateLabel;
         });
   } 
 
@@ -251,10 +252,10 @@ class _BarriereModificationState extends State<BarriereModification> {
     
     return Scaffold(
         appBar: Navbar(
-          title: "Ménage",
+          title: "Barrière",
           rightOptions: false,
         ),
-        backgroundColor: ArgonColors.bgColorScreen,
+        backgroundColor: ArgonColors.white,
         drawer: ArgonDrawer(currentPage: "Menage"),
         body: SingleChildScrollView(
             child: Padding(
@@ -263,7 +264,7 @@ class _BarriereModificationState extends State<BarriereModification> {
             bottom: true,
             child: Column(children: [
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                padding: const EdgeInsets.only(left: 8.0, top: 16),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text("Date",
@@ -274,19 +275,33 @@ class _BarriereModificationState extends State<BarriereModification> {
                 ),
               ),
               Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
-                  child: GestureDetector(
-                    onTap: ()=>_selectDate(context),
-                    child: Input(
-                      enable: false,
-                      placeholder: dateLabel,
-                      borderColor: ArgonColors.white,
-                      onTap: ()=>_selectDate(context),
-                    ),
-                  )
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: GestureDetector(
+                        onTap: ()=>_selectDate(context, widget.barriereEnCours),
+                        child: Input(
+                          enable: false,
+                          placeholder: widget.barriereEnCours.dateBarriere,
+                          borderColor: Color.fromRGBO(223, 225, 229, 1),
+                        ),
+                      )
+                  ),
+                ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 32),
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text("District",
@@ -297,28 +312,51 @@ class _BarriereModificationState extends State<BarriereModification> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: widget.barriereEnCours.districtBarriere,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      widget.barriereEnCours.districtBarriere = newValue;
-                    });
-                  },
-                  items: districts
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le district",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: widget.barriereEnCours.districtBarriere,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              widget.barriereEnCours.districtBarriere = newValue;
+                            });
+                          },
+                          items: districts
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      )
+                  )
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8.0),
@@ -330,6 +368,53 @@ class _BarriereModificationState extends State<BarriereModification> {
                           fontWeight: FontWeight.w500,
                           fontSize: 12)),
                 ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir l'unité d'agglomération",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: widget.barriereEnCours.agglomerationBarriere,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              widget.barriereEnCours.agglomerationBarriere = newValue;
+                            });
+                          },
+                          items: agglomeration
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      )
+                  )
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
@@ -347,7 +432,7 @@ class _BarriereModificationState extends State<BarriereModification> {
                   child: Input(
                     enable: true,
                     placeholder: "Entrer le nom de la commune",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: commune,
                   )
               ),
@@ -368,35 +453,10 @@ class _BarriereModificationState extends State<BarriereModification> {
                   child: Input(
                     enable: true,
                     placeholder: "Entrer le nom de l'agglomération",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: agg,
                   )
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: widget.barriereEnCours.agglomerationBarriere,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      widget.barriereEnCours.agglomerationBarriere = newValue;
-                    });
-                  },
-                  items: agglomeration
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-              ),
-
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
@@ -413,7 +473,7 @@ class _BarriereModificationState extends State<BarriereModification> {
                 child: Input(
                     enable: true,
                     placeholder: "Entrer ici l'axe où se site la barrière",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: axe,
                 )
               ),
@@ -446,8 +506,10 @@ class _BarriereModificationState extends State<BarriereModification> {
                 child: Input(
                     enable: true,
                     placeholder: "Entrer ici la longitude de la situation de la barrière",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: longitude,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                 )
               ),
 
@@ -467,8 +529,10 @@ class _BarriereModificationState extends State<BarriereModification> {
                 child: Input(
                     enable: true,
                     placeholder: "Entrer ici la latitude de la situation de la barrière",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: latitude,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                 )
               ),
 
@@ -498,30 +562,52 @@ class _BarriereModificationState extends State<BarriereModification> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: transportChoosed,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      transportChoosed = newValue;
-                    });
-                  },
-                  items: listTransport
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le transport utilisé",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: transportChoosed,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              transportChoosed = newValue;
+                            });
+                          },
+                          items: listTransport
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      )
+                  )
               ),
-
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                 child: Align(
@@ -534,28 +620,51 @@ class _BarriereModificationState extends State<BarriereModification> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: transportChoosed,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      transportChoosed = newValue;
-                    });
-                  },
-                  items: districts
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le district de provenance",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: transportChoosed,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              transportChoosed = newValue;
+                            });
+                          },
+                          items: districts
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      )
+                  )
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
@@ -573,7 +682,7 @@ class _BarriereModificationState extends State<BarriereModification> {
                 child: Input(
                     enable: true,
                     placeholder: "Entrer ici la désignation du provenance",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: provenance,
                 )
               ),
@@ -590,28 +699,51 @@ class _BarriereModificationState extends State<BarriereModification> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: transportChoosed,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      transportChoosed = newValue;
-                    });
-                  },
-                  items: districts
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le district de destination",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: transportChoosed,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              transportChoosed = newValue;
+                            });
+                          },
+                          items: districts
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      )
+                  )
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
@@ -629,46 +761,46 @@ class _BarriereModificationState extends State<BarriereModification> {
                 child: Input(
                     enable: true,
                     placeholder: "Entrer ici la désignation de la déstination",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: destination,
                 )
               ),
 
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Type de déplacement",
-                      style: TextStyle(
-                          color: ArgonColors.text,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12)),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: widget.barriereEnCours.typeDeplacement,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      widget.barriereEnCours.typeDeplacement = newValue;
-                    });
-                  },
-                  items: typeDeplacement
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+              //   child: Align(
+              //     alignment: Alignment.centerLeft,
+              //     child: Text("Type de déplacement",
+              //         style: TextStyle(
+              //             color: ArgonColors.text,
+              //             fontWeight: FontWeight.w500,
+              //             fontSize: 12)),
+              //   ),
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.only(left: 8.0, top: 4.0),
+              //   child: DropdownButton<String>(
+              //     style: TextStyle(
+              //       fontSize: 12,
+              //       color: ArgonColors.text,
+              //       backgroundColor: Colors.white
+              //     ),
+              //     value: widget.barriereEnCours.typeDeplacement,
+              //     isExpanded: true,
+              //     onChanged: (String newValue) {
+              //       setState(() {
+              //         widget.barriereEnCours.typeDeplacement = newValue;
+              //       });
+              //     },
+              //     items: typeDeplacement
+              //         .map<DropdownMenuItem<String>>((String value) {
+              //       return DropdownMenuItem<String>(
+              //         value: value,
+              //         child: Text(value),
+              //       );
+              //     }).toList(),
+              //   ),
+              // ),
 
               // Produits
               Padding(
@@ -784,28 +916,51 @@ class _BarriereModificationState extends State<BarriereModification> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                      fontSize: 12,
-                      color: ArgonColors.text,
-                      backgroundColor: Colors.white
-                  ),
-                  value: produitChoosed,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      produitChoosed = newValue;
-                    });
-                  },
-                  items: listeProduits
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le type de produit",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: produitChoosed,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              produitChoosed = newValue;
+                            });
+                          },
+                          items: listeProduits
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      )
+                  )
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
@@ -823,10 +978,10 @@ class _BarriereModificationState extends State<BarriereModification> {
                   child: Input(
                     enable: true,
                     placeholder: "Entrer la quantité de produit (kg)",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: qteProduitTemp,
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                   )
               ),
 

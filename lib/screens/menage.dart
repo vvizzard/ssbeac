@@ -10,120 +10,122 @@ import 'package:argon_flutter/widgets/input.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
-List<String> districts = ['','Ambohidratrimo ',
-'Andramasina ',
-'Anjozorobe ',
-'Ankazobe ',
-'Antananarivo Atsimondrano ',
-'Antananarivo Avaradrano ',
-'Antananarivo Renivohitra ',
-'Manjakandriana ',
-'Antsirabe I ',
-'Betafo ',
-'Ambatolampy ',
-'Antanifotsy ',
-'Faratsiho ',
-'Antsirabe II ',
-'Mandoto ',
-'Soavinandriana ',
-'Arivonimamo ',
-'Miarinarivo ',
-'Tsiroanomandidy ',
-'Fenoarivobe ',
-'Ambalavao ',
-'Fianarantsoa I ',
-'Ambohimahasoa ',
-'Ikalamavony ',
-'Isandra ',
-'Lalangina ',
-'Vohibato ',
-'Ambatofinandrahana ',
-'Ambositra ',
-'Fandriana ',
-'Manandriana ',
-'Ifanadiana ',
-'Nosy-varika ',
-'Mananjary ',
-'Manakara atsimo ',
-'Ikongo ',
-'Vohipeno ',
-'Ihosy ',
-'Ivohibe ',
-'Iakora ',
-'Farafangana ',
-'Vangaindrano ',
-'Midongy-atsimo ',
-'Vondrozo ',
-'Befotaka ',
-'Toamasina I ',
-'Brickaville ',
-'Vatomandry ',
-'Mahanoro ',
-'Marolambo ',
-'Toamasina II ',
-'Antanambao manampontsy ',
-'Sainte Marie ',
-'Maroantsetra ',
-'Mananara-avaratra ',
-'FENERIVE EST ',
-'Soanierana Ivongo ',
-'Vavatenina ',
-'Amparafaravola ',
-'Ambatondrazaka ',
-'Moramanga ',
-'Andilamena ',
-'Anosibe-an’ala ',
-'Mahajanga I ',
-'Ambato boeni ',
-'Marovoay ',
-'Mitsinjo ',
-'Mahajanga II ',
-'Soalala ',
-'Port-Bergé(Boriziny-vaovao) ',
-'Mandritsara ',
-'Analalava ',
-'Befandriana nord ',
-'Antsohihy ',
-'Bealanana ',
-'Mampikony ',
-'Maevatanana ',
-'Tsaratanana ',
-'Kandreho ',
-'Ambatomainty ',
-'Antsalova ',
-'Maintirano ',
-'Morafenobe ',
-'Besalampy ',
-'Toliara-I ',
-'Toliara-II ',
-'Benenitra ',
-'Beroroha ',
-'Morombe ',
-'Ankazoabo ',
-'Betioky atsimo ',
-'Ampanihy ouest ',
-'Sakaraha ',
-'Beloha ',
-'Ambovombe-androy ',
-'Bekily ',
-'Tsihombe ',
-'Amboasary-atsimo ',
-'Taolagnaro ',
-'Betroka ',
-'Manja ',
-'Morondava ',
-'Mahabo ',
-'Belo sur Tsiribihina ',
-'Miandrivazo ',
-'Antsiranana II ',
-'Antsiranana I ',
-'Ambilobe ',
-'Nosy-Be ',
-'Ambanja ',
-'Antalaha ',
-'Sambava ',
-'Andapa ',
-'Vohemar '];
+List<String> districts = [
+  'Ambohidratrimo ',
+  'Andramasina ',
+  'Anjozorobe ',
+  'Ankazobe ',
+  'Antananarivo Atsimondrano ',
+  'Antananarivo Avaradrano ',
+  'Antananarivo Renivohitra ',
+  'Manjakandriana ',
+  'Antsirabe I ',
+  'Betafo ',
+  'Ambatolampy ',
+  'Antanifotsy ',
+  'Faratsiho ',
+  'Antsirabe II ',
+  'Mandoto ',
+  'Soavinandriana ',
+  'Arivonimamo ',
+  'Miarinarivo ',
+  'Tsiroanomandidy ',
+  'Fenoarivobe ',
+  'Ambalavao ',
+  'Fianarantsoa I ',
+  'Ambohimahasoa ',
+  'Ikalamavony ',
+  'Isandra ',
+  'Lalangina ',
+  'Vohibato ',
+  'Ambatofinandrahana ',
+  'Ambositra ',
+  'Fandriana ',
+  'Manandriana ',
+  'Ifanadiana ',
+  'Nosy-varika ',
+  'Mananjary ',
+  'Manakara atsimo ',
+  'Ikongo ',
+  'Vohipeno ',
+  'Ihosy ',
+  'Ivohibe ',
+  'Iakora ',
+  'Farafangana ',
+  'Vangaindrano ',
+  'Midongy-atsimo ',
+  'Vondrozo ',
+  'Befotaka ',
+  'Toamasina I ',
+  'Brickaville ',
+  'Vatomandry ',
+  'Mahanoro ',
+  'Marolambo ',
+  'Toamasina II ',
+  'Antanambao manampontsy ',
+  'Sainte Marie ',
+  'Maroantsetra ',
+  'Mananara-avaratra ',
+  'FENERIVE EST ',
+  'Soanierana Ivongo ',
+  'Vavatenina ',
+  'Amparafaravola ',
+  'Ambatondrazaka ',
+  'Moramanga ',
+  'Andilamena ',
+  'Anosibe-an’ala ',
+  'Mahajanga I ',
+  'Ambato boeni ',
+  'Marovoay ',
+  'Mitsinjo ',
+  'Mahajanga II ',
+  'Soalala ',
+  'Port-Bergé(Boriziny-vaovao) ',
+  'Mandritsara ',
+  'Analalava ',
+  'Befandriana nord ',
+  'Antsohihy ',
+  'Bealanana ',
+  'Mampikony ',
+  'Maevatanana ',
+  'Tsaratanana ',
+  'Kandreho ',
+  'Ambatomainty ',
+  'Antsalova ',
+  'Maintirano ',
+  'Morafenobe ',
+  'Besalampy ',
+  'Toliara-I ',
+  'Toliara-II ',
+  'Benenitra ',
+  'Beroroha ',
+  'Morombe ',
+  'Ankazoabo ',
+  'Betioky atsimo ',
+  'Ampanihy ouest ',
+  'Sakaraha ',
+  'Beloha ',
+  'Ambovombe-androy ',
+  'Bekily ',
+  'Tsihombe ',
+  'Amboasary-atsimo ',
+  'Taolagnaro ',
+  'Betroka ',
+  'Manja ',
+  'Morondava ',
+  'Mahabo ',
+  'Belo sur Tsiribihina ',
+  'Miandrivazo ',
+  'Antsiranana II ',
+  'Antsiranana I ',
+  'Ambilobe ',
+  'Nosy-Be ',
+  'Ambanja ',
+  'Antalaha ',
+  'Sambava ',
+  'Andapa ',
+  'Vohemar '
+];
 
 List<String> agglomeration = [
   'Urbaine', 'Rurale'
@@ -155,8 +157,6 @@ class Menage extends StatefulWidget {
 }
 
 class _MenageState extends State<Menage> {
-  final _formKey = GlobalKey<FormState>();  
-
   final dateFormat = DateFormat('dd-MM-yyyy');
   String unite = '(kg)';
 
@@ -262,12 +262,18 @@ class _MenageState extends State<Menage> {
 
   // true if show and false if hide
   bool checkFoyer(String newEnergie) {
+    bool valiny = true;
     energieCuissonSecheChoosed.forEach((key, value) {
+      print('seche:');
+      print(newEnergie);
+      print('humide:');
+      print(value['energie']);
       if (newEnergie.compareTo(value['energie']) == 0) {
-        return false;
+        print('mitovy');
+        valiny = false;
       }
     });
-    return true;
+    return valiny;
   }
 
   @override
@@ -275,10 +281,11 @@ class _MenageState extends State<Menage> {
     helper.checkLogin().then((value) => !value?Navigator.pushNamed(context, '/onboarding'):0);
     return Scaffold(
         appBar: Navbar(
-          title: "Ménage",
+          title: "Consommateur",
           rightOptions: false,
         ),
-        backgroundColor: ArgonColors.bgColorScreen,
+        // backgroundColor: ArgonColors.bgColorScreen,
+        backgroundColor: ArgonColors.white,
         drawer: ArgonDrawer(currentPage: "Menage"),
         body: SingleChildScrollView(
             child: Padding(
@@ -287,7 +294,7 @@ class _MenageState extends State<Menage> {
             bottom: true,
             child: Column(children: [
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                padding: const EdgeInsets.only(left: 8.0, top: 16),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text("Date",
@@ -298,19 +305,33 @@ class _MenageState extends State<Menage> {
                 ),
               ),
               Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
-                  child: GestureDetector(
-                    onTap: ()=>_selectDate(context),
-                    child: Input(
-                      enable: false,
-                      placeholder: dateLabel,
-                      borderColor: ArgonColors.white,
-                      onTap: ()=>_selectDate(context),
-                    ),
-                  )
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: GestureDetector(
+                        onTap: ()=>_selectDate(context),
+                        child: Input(
+                          enable: false,
+                          placeholder: dateLabel,
+                          onTap: ()=>_selectDate(context),
+                        ),
+                      )
+                  ),
+                ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 32),
+                padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text("District",
@@ -321,28 +342,51 @@ class _MenageState extends State<Menage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Container(
+                  decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                            width: 1.0,
+                            color: Color.fromRGBO(223, 225, 229, 1),
+                            style: BorderStyle.solid
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(4.0))
+                    ),
                   ),
-                  value: districtChoosed,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      districtChoosed = newValue;
-                    });
-                  },
-                  items: districts
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  child: Padding(
+                    padding:const EdgeInsets.only(left: 8.0),
+                    child: DropdownButton<String>(
+                      hint: Text("Choisir le district",
+                        style: TextStyle(
+                          color: ArgonColors.muted,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14
+                        )
+                      ),
+                      underline: SizedBox(),
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: ArgonColors.text,
+                          backgroundColor: Colors.white
+                      ),
+                      value: districtChoosed,
+                      isExpanded: true,
+                      onChanged: (String newValue) {
+                        setState(() {
+                          districtChoosed = newValue;
+                        });
+                      },
+                      items: districts
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    )
+                  )
+                )
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8.0),
@@ -356,28 +400,51 @@ class _MenageState extends State<Menage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Container(
+                  decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                          width: 1.0,
+                          color: Color.fromRGBO(223, 225, 229, 1),
+                          style: BorderStyle.solid
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(4.0))
+                    ),
                   ),
-                  value: agglomerationChoosedd,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      agglomerationChoosedd = newValue;
-                    });
-                  },
-                  items: agglomeration
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  child: Padding(
+                    padding:const EdgeInsets.only(left: 8.0),
+                    child: DropdownButton<String>(
+                      hint: Text("Choisir l'unité d'agglomération",
+                          style: TextStyle(
+                              color: ArgonColors.muted,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14
+                          )
+                      ),
+                      underline: SizedBox(),
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: ArgonColors.text,
+                          backgroundColor: Colors.white
+                      ),
+                      value: agglomerationChoosedd,
+                      isExpanded: true,
+                      onChanged: (String newValue) {
+                        setState(() {
+                          agglomerationChoosedd = newValue;
+                        });
+                      },
+                      items: agglomeration
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  )
+                )
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
@@ -395,10 +462,8 @@ class _MenageState extends State<Menage> {
                   child: Input(
                       enable: true,
                       placeholder: "Entrer le nom de la commune",
-                      borderColor: ArgonColors.white,
-                      controller: commune,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                      borderColor: Color.fromRGBO(223, 225, 229, 1),
+                      controller: commune
                   )
               ),
               Padding(
@@ -417,10 +482,8 @@ class _MenageState extends State<Menage> {
                   child: Input(
                       enable: true,
                       placeholder: "Entrer le nom de l'agglomération ",
-                      borderColor: ArgonColors.white,
-                      controller: agg,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                      borderColor: Color.fromRGBO(223, 225, 229, 1),
+                      controller: agg
                   )
               ),
               Padding(
@@ -435,37 +498,59 @@ class _MenageState extends State<Menage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: typeMenageChoosedd,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      typeMenageChoosedd = newValue;
-                      if(typeMenageChoosedd.contains("Ménage")) {
-                        showTailleMenage=true;
-                        showTypeGrosConsommateur=false;
-                      } else {
-                        showTailleMenage=false;
-                        showTypeGrosConsommateur=true;
-                      }
-                    });
-                  },
-                  items: typeMenage
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le type de consommateur",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: typeMenageChoosedd,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              typeMenageChoosedd = newValue;
+                              if(typeMenageChoosedd.contains("Ménage")) {
+                                showTailleMenage=true;
+                                showTypeGrosConsommateur=false;
+                              } else {
+                                showTailleMenage=false;
+                                showTypeGrosConsommateur=true;
+                              }
+                            });
+                          },
+                          items: typeMenage
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                  )
               ),
-
               // Taille de ménage
               Visibility(
                 visible: showTailleMenage,
@@ -488,10 +573,10 @@ class _MenageState extends State<Menage> {
                   child: Input(
                     // enable: false,
                     placeholder: "Entrer la taille de ménage",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: tailleDeMenageChoosed,
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                     // onTap: ()=>_selectDate(context),
                   ),
                 )
@@ -514,41 +599,61 @@ class _MenageState extends State<Menage> {
               ),
               Visibility(
                 visible: showTypeGrosConsommateur,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                  child: DropdownButton<String>(
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: ArgonColors.text,
-                      backgroundColor: Colors.white
+                child: Container(
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              width: 1.0,
+                              color: Color.fromRGBO(223, 225, 229, 1),
+                              style: BorderStyle.solid
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(4.0))
+                      ),
                     ),
-                    value: typeGrosConsommateurChoosedd,
-                    isExpanded: true,
-                    onChanged: (String newValue) {
-                      setState(() {
-                        typeGrosConsommateurChoosedd = newValue;
-                      });
-                    },
-                    items: typeGrosConsommateur
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                ),
+                    child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le type de gros consommateur",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: typeGrosConsommateurChoosedd,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              typeGrosConsommateurChoosedd = newValue;
+                            });
+                          },
+                          items: typeGrosConsommateur
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                    )
+                )
               ),
 
               // Saison sèche
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 16.0),
+                padding: const EdgeInsets.only(left: 8.0, top: 24.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Saison sèche",
+                  child: Text("Consommation en saison sèche",
                     style: TextStyle(
                       color: ArgonColors.text,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                       fontSize: 14
                     )
                   ),
@@ -569,7 +674,7 @@ class _MenageState extends State<Menage> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Table(
@@ -582,7 +687,7 @@ class _MenageState extends State<Menage> {
                             children: <TableRow>[
                               TableRow(
                                 children: <Widget>[
-                                  Text("Quantité consommée par mois :", style: TextStyle(
+                                  Text("Quantité consommée :", style: TextStyle(
                                       color: ArgonColors.text,
                                       fontSize: 10
                                     )
@@ -601,7 +706,7 @@ class _MenageState extends State<Menage> {
                               ),
                               TableRow(
                                 children: <Widget>[
-                                  Text("Prix par mois :", style: TextStyle(
+                                  Text("Prix :", style: TextStyle(
                                       color: ArgonColors.text,
                                       fontSize: 10
                                     )
@@ -638,7 +743,7 @@ class _MenageState extends State<Menage> {
                               ),
                               TableRow(
                                 children: <Widget>[
-                                  Text("Fréquence annuel de renouvellement de foyers :", style: TextStyle(
+                                  Text("Renouvellement de foyers :", style: TextStyle(
                                       color: ArgonColors.text,
                                       fontSize: 10
                                   )
@@ -709,44 +814,67 @@ class _MenageState extends State<Menage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: energieCuissonSecheTempChoosed,
-                  isExpanded: true,
-                  onChanged: (String nValue) {
-                    setState(() {
-                      energieCuissonSecheTempChoosed = nValue;
-                      if(energieCuissonSecheTempChoosed.contains('Charbon de Bois')
-                          ||energieCuissonSecheTempChoosed.contains('Bois de Chauffe')) {
-                        showTypeFoyer = true;
-                      } else {
-                        showTypeFoyer = false;
-                      }
-                      if(energieCuissonSecheTempChoosed.contains('Biogaz')){
-                        unite = '(m³)';
-                      } else if(energieCuissonSecheTempChoosed.contains('Electricite')) {
-                        unite = '(kWh)';
-                      } else if(energieCuissonSecheTempChoosed.contains('Bioéthanol')
-                          ||energieCuissonSecheTempChoosed.contains('Pétrol')) {
-                        unite = '(l)';
-                      } else {
-                        unite = '(kg)';
-                      }
-                    });
-                  },
-                  items: listeEnergieCuisson
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir l'énergie de cuisson",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: energieCuissonSecheTempChoosed,
+                          isExpanded: true,
+                          onChanged: (String nValue) {
+                            setState(() {
+                              energieCuissonSecheTempChoosed = nValue;
+                              if(energieCuissonSecheTempChoosed.contains('Charbon de Bois')
+                                  ||energieCuissonSecheTempChoosed.contains('Bois de Chauffe')) {
+                                showTypeFoyer = true;
+                              } else {
+                                showTypeFoyer = false;
+                              }
+                              if(energieCuissonSecheTempChoosed.contains('Biogaz')){
+                                unite = '(m³)';
+                              } else if(energieCuissonSecheTempChoosed.contains('Electricité')) {
+                                unite = '(kWh)';
+                              } else if(energieCuissonSecheTempChoosed.contains('Bioéthanol')
+                                  ||energieCuissonSecheTempChoosed.contains('Pétrol')) {
+                                unite = '(l)';
+                              } else {
+                                unite = '(kg)';
+                              }
+                            });
+                          },
+                          items: listeEnergieCuisson
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                  )
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
@@ -764,10 +892,10 @@ class _MenageState extends State<Menage> {
                   child: Input(
                     enable: true,
                     placeholder: "Entrer la quantité "+unite,
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: qteECSecheTemp,
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                   )
               ),
 
@@ -787,10 +915,10 @@ class _MenageState extends State<Menage> {
                   child: Input(
                     enable: true,
                     placeholder: "Entrer le coût par mois (Ar)",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: prixECSecheTemp,
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                   )
               ),
               // Type foyer
@@ -810,30 +938,50 @@ class _MenageState extends State<Menage> {
               ),
               Visibility(
                 visible: showTypeFoyer,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                  child: DropdownButton<String>(
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: ArgonColors.text,
-                      backgroundColor: Colors.white
+                child: Container(
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              width: 1.0,
+                              color: Color.fromRGBO(223, 225, 229, 1),
+                              style: BorderStyle.solid
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(4.0))
+                      ),
                     ),
-                    value: typeFoyerTempChoosed,
-                    isExpanded: true,
-                    onChanged: (String newValue) {
-                      setState(() {
-                        typeFoyerTempChoosed = newValue;
-                      });
-                    },
-                    items: listetypeFoyer
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                ),
+                    child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le type de foyer utilisé",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: typeFoyerTempChoosed,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              typeFoyerTempChoosed = newValue;
+                            });
+                          },
+                          items: listetypeFoyer
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                    )
+                )
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
@@ -851,17 +999,17 @@ class _MenageState extends State<Menage> {
                   child: Input(
                     enable: true,
                     placeholder: "Entrer la fréquence annuelle",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: frequenceFoyer,
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                   )
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Prix unitaire des foyers",
+                  child: Text("Prix annuel totale des foyers",
                       style: TextStyle(
                           color: ArgonColors.text,
                           fontWeight: FontWeight.w500,
@@ -873,10 +1021,10 @@ class _MenageState extends State<Menage> {
                   child: Input(
                     enable: true,
                     placeholder: "Entrer le prix annuel total des foyers (Ar)",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: puFoyer,
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                   )
               ),
               SizedBox(
@@ -898,6 +1046,12 @@ class _MenageState extends State<Menage> {
                             "pu" : puFoyer.text
                           }
                         );
+                        energieCuissonSecheTempChoosed = null;
+                        typeFoyerTempChoosed = null;
+                        qteECSecheTemp.text = "";
+                        prixECSecheTemp.text = "";
+                        frequenceFoyer.text = "";
+                        puFoyer.text = "";
                       });
                     },
                     shape: RoundedRectangleBorder(
@@ -915,13 +1069,13 @@ class _MenageState extends State<Menage> {
 
               // Saison humide
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 16.0),
+                padding: const EdgeInsets.only(left: 8.0, top: 24.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Saison humide",
+                  child: Text("Consommation en saison humide",
                     style: TextStyle(
                       color: ArgonColors.text,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                       fontSize: 14
                     )
                   ),
@@ -955,7 +1109,7 @@ class _MenageState extends State<Menage> {
                             children: <TableRow>[
                               TableRow(
                                 children: <Widget>[
-                                  Text("Quantité par mois (kg) :", style: TextStyle(
+                                  Text("Quantité consommée :", style: TextStyle(
                                       color: ArgonColors.text,
                                       fontSize: 10
                                     )
@@ -974,7 +1128,7 @@ class _MenageState extends State<Menage> {
                               ),
                               TableRow(
                                 children: <Widget>[
-                                  Text("Prix par mois :", style: TextStyle(
+                                  Text("Prix :", style: TextStyle(
                                       color: ArgonColors.text,
                                       fontSize: 10
                                     )
@@ -1009,9 +1163,9 @@ class _MenageState extends State<Menage> {
                                   ),
                                 ],
                               ),
-                              TableRow(
+                              if(e.value['frequence']!=null && e.value['frequence'].length!=0) TableRow(
                                 children: <Widget>[
-                                  Text("Fréquence annuel de renouvellement de foyers :", style: TextStyle(
+                                  Text("Renouvellement de foyers :", style: TextStyle(
                                       color: ArgonColors.text,
                                       fontSize: 10
                                   )
@@ -1028,7 +1182,7 @@ class _MenageState extends State<Menage> {
                                   ),
                                 ],
                               ),
-                              TableRow(
+                              if(e.value['pu']!=null && e.value['pu'].length!=0) TableRow(
                                 children: <Widget>[
                                   Text("Prix total annuel de foyer :", style: TextStyle(
                                       color: ArgonColors.text,
@@ -1082,45 +1236,69 @@ class _MenageState extends State<Menage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: energieCuissonHumideTempChoosed,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      energieCuissonHumideTempChoosed = newValue;
-                      if(energieCuissonHumideTempChoosed.contains('Charbon de Bois')
-                          || energieCuissonHumideTempChoosed.contains('Bois de Chauffe')) {
-                        showTypeFoyerHumide = true;
-                      } else {
-                        showTypeFoyerHumide = false;
-                      }
-                      if(energieCuissonHumideTempChoosed.contains('Biogaz')){
-                        unite = '(m³)';
-                      } else if(energieCuissonHumideTempChoosed.contains('Electricite')) {
-                        unite = '(kWh)';
-                      } else if(energieCuissonHumideTempChoosed.contains('Bioéthanol')
-                          ||energieCuissonHumideTempChoosed.contains('Pétrol')) {
-                        unite = '(l)';
-                      } else {
-                        unite = '(kg)';
-                      }
-                      showFoyer = checkFoyer(energieCuissonHumideTempChoosed);
-                    });
-                  },
-                  items: listeEnergieCuisson
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le type d'énergie de cuisson",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: energieCuissonHumideTempChoosed,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              energieCuissonHumideTempChoosed = newValue;
+                              if(energieCuissonHumideTempChoosed.contains('Charbon de Bois')
+                                  || energieCuissonHumideTempChoosed.contains('Bois de Chauffe')) {
+                                showTypeFoyerHumide = true;
+                              } else {
+                                showTypeFoyerHumide = false;
+                              }
+                              if(energieCuissonHumideTempChoosed.contains('Biogaz')){
+                                unite = '(m³)';
+                              } else if(energieCuissonHumideTempChoosed.contains('Electricité')) {
+                                unite = '(kWh)';
+                              } else if(energieCuissonHumideTempChoosed.contains('Bioéthanol')
+                                  ||energieCuissonHumideTempChoosed.contains('Pétrol')) {
+                                unite = '(l)';
+                              } else {
+                                unite = '(kg)';
+                              }
+                              showFoyer = checkFoyer(energieCuissonHumideTempChoosed);
+                              print(showFoyer);
+                            });
+                          },
+                          items: listeEnergieCuisson
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                  )
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
@@ -1138,10 +1316,10 @@ class _MenageState extends State<Menage> {
                   child: Input(
                     enable: true,
                     placeholder: "Entrer la quantité "+unite,
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: qteECHumideTemp,
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                   )
               ),
 
@@ -1161,10 +1339,10 @@ class _MenageState extends State<Menage> {
                   child: Input(
                     enable: true,
                     placeholder: "Entrer le coût par mois (Ar)",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: prixECHumideTemp,
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                   )
               ),
               // Types de foyers utilisés saison Humide
@@ -1184,30 +1362,50 @@ class _MenageState extends State<Menage> {
               ),
               Visibility(
                 visible: showTypeFoyerHumide,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                  child: DropdownButton<String>(
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: ArgonColors.text,
-                      backgroundColor: Colors.white
+                child: Container(
+                  decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        width: 1.0,
+                        color: Color.fromRGBO(223, 225, 229, 1),
+                        style: BorderStyle.solid
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(4.0))
                     ),
-                    value: typeFoyerHumideTempChoosed,
-                    isExpanded: true,
-                    onChanged: (String newValue) {
-                      setState(() {
-                        typeFoyerHumideTempChoosed = newValue;
-                      });
-                    },
-                    items: listetypeFoyer
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
                   ),
-                ),
+                  child: Padding(
+                    padding:const EdgeInsets.only(left: 8.0),
+                    child: DropdownButton<String>(
+                      hint: Text("Choisir le district",
+                        style: TextStyle(
+                          color: ArgonColors.muted,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14
+                        )
+                      ),
+                      underline: SizedBox(),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: ArgonColors.text,
+                        backgroundColor: Colors.white
+                      ),
+                      value: typeFoyerHumideTempChoosed,
+                      isExpanded: true,
+                      onChanged: (String newValue) {
+                        setState(() {
+                          typeFoyerHumideTempChoosed = newValue;
+                        });
+                      },
+                      items: listetypeFoyer
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  )
+                )
               ),
               Visibility(
                   visible: showFoyer,
@@ -1230,10 +1428,10 @@ class _MenageState extends State<Menage> {
                     child: Input(
                       enable: true,
                       placeholder: "Entrer la fréquence annuelle",
-                      borderColor: ArgonColors.white,
+                      borderColor: Color.fromRGBO(223, 225, 229, 1),
                       controller: frequenceFoyerH,
                       keyboardType: TextInputType.number,
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                      inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                     )
                 ),
               ),
@@ -1243,7 +1441,7 @@ class _MenageState extends State<Menage> {
                     padding: const EdgeInsets.only(left: 8.0, top: 8),
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text("Prix unitaire des foyers",
+                      child: Text("Prix total annuel des foyers",
                           style: TextStyle(
                               color: ArgonColors.text,
                               fontWeight: FontWeight.w500,
@@ -1258,10 +1456,10 @@ class _MenageState extends State<Menage> {
                     child: Input(
                       enable: true,
                       placeholder: "Entrer le prix annuel total des foyers (Ar)",
-                      borderColor: ArgonColors.white,
+                      borderColor: Color.fromRGBO(223, 225, 229, 1),
                       controller: puFoyerH,
                       keyboardType: TextInputType.number,
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                      inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                     )
                 ),
               ),
@@ -1285,6 +1483,12 @@ class _MenageState extends State<Menage> {
                           }
                         );
                         showFoyer = false;
+                        energieCuissonHumideTempChoosed = null;
+                        typeFoyerHumideTempChoosed = null;
+                        qteECHumideTemp.text = "";
+                        prixECHumideTemp.text = "";
+                        frequenceFoyerH.text = "";
+                        puFoyerH.text = "";
                       });
                     },
                     shape: RoundedRectangleBorder(

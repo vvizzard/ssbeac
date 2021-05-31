@@ -7,7 +7,6 @@ import 'package:argon_flutter/constants/Theme.dart';
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 import 'package:argon_flutter/widgets/input.dart';
-import 'package:argon_flutter/widgets/table-cell.dart';
 
 List<String> districts = ['Ambohidratrimo ',
 'Andramasina ',
@@ -219,7 +218,7 @@ class _DonneeSecondaireState extends State<DonneeSecondaire> {
           title: "Données secondaires",
           rightOptions: false,
         ),
-        backgroundColor: ArgonColors.bgColorScreen,
+        backgroundColor: ArgonColors.white,
         drawer: ArgonDrawer(currentPage: "DonneeSecondaire"),
         body: SingleChildScrollView(
             child: Padding(
