@@ -196,7 +196,7 @@ class _ProducteurEnergieState extends State<ProducteurEnergie> {
           title: "Producteur foyer",
           rightOptions: false,
         ),
-        backgroundColor: ArgonColors.bgColorScreen,
+        backgroundColor: ArgonColors.white,
         drawer: ArgonDrawer(currentPage: "ProducteurEnergie"),
         body: SingleChildScrollView(
             child: Padding(
@@ -205,7 +205,7 @@ class _ProducteurEnergieState extends State<ProducteurEnergie> {
             bottom: true,
             child: Column(children: [
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                padding: const EdgeInsets.only(left: 8.0, top: 24),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text("Date",
@@ -216,19 +216,33 @@ class _ProducteurEnergieState extends State<ProducteurEnergie> {
                 ),
               ),
               Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
-                  child: GestureDetector(
-                    onTap: ()=>_selectDate(context),
-                    child: Input(
-                      enable: false,
-                      placeholder: dateLabel,
-                      borderColor: ArgonColors.white,
-                      onTap: ()=>_selectDate(context),
-                    ),
-                  )
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: GestureDetector(
+                        onTap: ()=>_selectDate(context),
+                        child: Input(
+                          enable: false,
+                          placeholder: dateLabel,
+                          onTap: ()=>_selectDate(context),
+                        ),
+                      )
+                  ),
+                ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 32),
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text("District",
@@ -239,30 +253,52 @@ class _ProducteurEnergieState extends State<ProducteurEnergie> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: districtChoosed,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      districtChoosed = newValue;
-                    });
-                  },
-                  items: districts
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le district",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: districtChoosed,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              districtChoosed = newValue;
+                            });
+                          },
+                          items: districts
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      )
+                  )
               ),
-
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                 child: Align(
@@ -275,30 +311,52 @@ class _ProducteurEnergieState extends State<ProducteurEnergie> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: agglomerationChoosed,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      agglomerationChoosed = newValue;
-                    });
-                  },
-                  items: agglomeration
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le district",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: agglomerationChoosed,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              agglomerationChoosed = newValue;
+                            });
+                          },
+                          items: agglomeration
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      )
+                  )
               ),
-
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
@@ -315,7 +373,7 @@ class _ProducteurEnergieState extends State<ProducteurEnergie> {
                 child: Input(
                     enable: true,
                     placeholder: "Entrer le nom de la commune",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: commune,
                 )
               ),
@@ -336,7 +394,7 @@ class _ProducteurEnergieState extends State<ProducteurEnergie> {
                 child: Input(
                     enable: true,
                     placeholder: "Entrer le nom de l'agglomération",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: agg,
                 )
               ),
@@ -353,19 +411,40 @@ class _ProducteurEnergieState extends State<ProducteurEnergie> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                      fontSize: 12,
-                      color: ArgonColors.text,
-                      backgroundColor: Colors.white
-                  ),
-                  value: energieChoosed,
-                  isExpanded: true,
-                  onChanged: (String nValue) {
-                    setState(() {
-                      energieChoosed = nValue;
-                      /*if(energieChoosed.compareTo('Pétrole')==0
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le district",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: energieChoosed,
+                          isExpanded: true,
+                          onChanged: (String nValue) {
+                            setState(() {
+                              energieChoosed = nValue;
+                              /*if(energieChoosed.compareTo('Pétrole')==0
                           || energieChoosed.compareTo('Electricité') == 0) {
                         // showQteTotal = true;
                         productionLabel = "Quantité produit pour la cuisson";
@@ -373,26 +452,28 @@ class _ProducteurEnergieState extends State<ProducteurEnergie> {
                         // showQteTotal = false;
                         productionLabel = "Quantité de production";
                       }*/
-                      if(energieChoosed.contains('Biogaz')) {
-                        showBiodigesteur = true;
-                      } else showBiodigesteur = false;
-                      if(energieChoosed.contains('Biogaz')){
-                        unite = '(m³)';
-                      } else if(energieChoosed.contains('Bioéthanol')) {
-                        unite = '(l)';
-                      } else {
-                        unite = '(kg)';
-                      }
-                    });
-                  },
-                  items: listeEnergieCuisson
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                              if(energieChoosed.contains('Biogaz')) {
+                                showBiodigesteur = true;
+                              } else showBiodigesteur = false;
+                              if(energieChoosed.contains('Biogaz')){
+                                unite = '(m³)';
+                              } else if(energieChoosed.contains('Bioéthanol')) {
+                                unite = '(l)';
+                              } else {
+                                unite = '(kg)';
+                              }
+                            });
+                          },
+                          items: listeEnergieCuisson
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      )
+                  )
               ),
 
               // Visibility(
@@ -416,7 +497,7 @@ class _ProducteurEnergieState extends State<ProducteurEnergie> {
               //       child: Input(
               //         enable: true,
               //         placeholder: "Entrer la quantité de production",
-              //         borderColor: ArgonColors.white,
+              //         borderColor: Color.fromRGBO(223, 225, 229, 1),
               //         controller: qteTotal,
               //       )
               //   ),
@@ -438,7 +519,7 @@ class _ProducteurEnergieState extends State<ProducteurEnergie> {
                   child: Input(
                     enable: true,
                     placeholder: "Entrer la quantité annuelle produite "+unite,
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: qte,
                     keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly]
@@ -466,7 +547,7 @@ class _ProducteurEnergieState extends State<ProducteurEnergie> {
                     child: Input(
                         enable: true,
                         placeholder: "Entrer la capacité du biodigesteur (m³)",
-                        borderColor: ArgonColors.white,
+                        borderColor: Color.fromRGBO(223, 225, 229, 1),
                         controller: biodigesteur,
                         keyboardType: TextInputType.number,
                         inputFormatters: [FilteringTextInputFormatter.digitsOnly]

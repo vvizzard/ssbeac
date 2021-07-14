@@ -212,7 +212,7 @@ class _PepiniereState extends State<Pepiniere> {
           title: "Pepiniere",
           rightOptions: false,
         ),
-        backgroundColor: ArgonColors.bgColorScreen,
+        backgroundColor: ArgonColors.white,
         drawer: ArgonDrawer(currentPage: "Pepiniere"),
         body: SingleChildScrollView(
             child: Padding(
@@ -232,16 +232,30 @@ class _PepiniereState extends State<Pepiniere> {
                 ),
               ),
               Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
-                  child: GestureDetector(
-                    onTap: ()=>_selectDate(context),
-                    child: Input(
-                      enable: false,
-                      placeholder: dateLabel,
-                      borderColor: ArgonColors.white,
-                      onTap: ()=>_selectDate(context),
-                    ),
-                  )
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: GestureDetector(
+                        onTap: ()=>_selectDate(context),
+                        child: Input(
+                          enable: false,
+                          placeholder: dateLabel,
+                          onTap: ()=>_selectDate(context),
+                        ),
+                      )
+                  ),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 32),
@@ -255,30 +269,52 @@ class _PepiniereState extends State<Pepiniere> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: districtChoosed,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      districtChoosed = newValue;
-                    });
-                  },
-                  items: districts
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                          padding:const EdgeInsets.only(left: 8.0),
+                          child: DropdownButton<String>(
+                            hint: Text("Choisir le district",
+                                style: TextStyle(
+                                    color: ArgonColors.muted,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14
+                                )
+                            ),
+                            underline: SizedBox(),
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: ArgonColors.text,
+                                backgroundColor: Colors.white
+                            ),
+                            value: districtChoosed,
+                            isExpanded: true,
+                            onChanged: (String newValue) {
+                              setState(() {
+                                districtChoosed = newValue;
+                              });
+                            },
+                            items: districts
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                      )
+                  )
               ),
-
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                 child: Align(
@@ -291,30 +327,52 @@ class _PepiniereState extends State<Pepiniere> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: agglomerationChoosed,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      agglomerationChoosed = newValue;
-                    });
-                  },
-                  items: agglomeration
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                          padding:const EdgeInsets.only(left: 8.0),
+                          child: DropdownButton<String>(
+                            hint: Text("Choisir l'unité d'agglomération",
+                                style: TextStyle(
+                                    color: ArgonColors.muted,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14
+                                )
+                            ),
+                            underline: SizedBox(),
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: ArgonColors.text,
+                                backgroundColor: Colors.white
+                            ),
+                            value: agglomerationChoosed,
+                            isExpanded: true,
+                            onChanged: (String newValue) {
+                              setState(() {
+                                agglomerationChoosed = newValue;
+                              });
+                            },
+                            items: agglomeration
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                      )
+                  )
               ),
-
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
@@ -331,7 +389,7 @@ class _PepiniereState extends State<Pepiniere> {
                 child: Input(
                     enable: true,
                     placeholder: "Entrer le nom de la commune",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: commune,
                 )
               ),
@@ -352,7 +410,7 @@ class _PepiniereState extends State<Pepiniere> {
                 child: Input(
                     enable: true,
                     placeholder: "Entrer le nom de l'agglomération",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: agg,
                 )
               ),
@@ -372,10 +430,10 @@ class _PepiniereState extends State<Pepiniere> {
                   child: Input(
                     enable: true,
                     placeholder: "Entrer la longitude en degré décimal",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: long,
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                   )
               ),
               Padding(
@@ -394,10 +452,10 @@ class _PepiniereState extends State<Pepiniere> {
                   child: Input(
                     enable: true,
                     placeholder: "Entrer la latitude en degré décimal",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: lat,
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                   )
               ),
               Padding(
@@ -412,28 +470,51 @@ class _PepiniereState extends State<Pepiniere> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                      fontSize: 12,
-                      color: ArgonColors.text,
-                      backgroundColor: Colors.white
-                  ),
-                  value: typeChoosed,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      typeChoosed = newValue;
-                    });
-                  },
-                  items: listeTypePepiniere
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                          padding:const EdgeInsets.only(left: 8.0),
+                          child: DropdownButton<String>(
+                            hint: Text("Choisir le type de pépiniériste",
+                                style: TextStyle(
+                                    color: ArgonColors.muted,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14
+                                )
+                            ),
+                            underline: SizedBox(),
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: ArgonColors.text,
+                                backgroundColor: Colors.white
+                            ),
+                            value: typeChoosed,
+                            isExpanded: true,
+                            onChanged: (String newValue) {
+                              setState(() {
+                                typeChoosed = newValue;
+                              });
+                            },
+                            items: listeTypePepiniere
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                      )
+                  )
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
@@ -451,7 +532,7 @@ class _PepiniereState extends State<Pepiniere> {
                   child: Input(
                     enable: true,
                     placeholder: "Entrer le projet d'appuie",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: projetAppuie,
                   )
               ),
@@ -471,7 +552,7 @@ class _PepiniereState extends State<Pepiniere> {
                 child: Input(
                     enable: true,
                     placeholder: "Entrer le Nom et prénom si personne physique/Dénomination si personne morale",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: proprietaire,
                 )
               ),
@@ -487,28 +568,51 @@ class _PepiniereState extends State<Pepiniere> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: genreChoosed,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      genreChoosed = newValue;
-                    });
-                  },
-                  items: listeGenre
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                          padding:const EdgeInsets.only(left: 8.0),
+                          child: DropdownButton<String>(
+                            hint: Text("Choisir le genre",
+                                style: TextStyle(
+                                    color: ArgonColors.muted,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14
+                                )
+                            ),
+                            underline: SizedBox(),
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: ArgonColors.text,
+                                backgroundColor: Colors.white
+                            ),
+                            value: genreChoosed,
+                            isExpanded: true,
+                            onChanged: (String newValue) {
+                              setState(() {
+                                genreChoosed = newValue;
+                              });
+                            },
+                            items: listeGenre
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                      )
+                  )
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
@@ -526,7 +630,7 @@ class _PepiniereState extends State<Pepiniere> {
                 child: Input(
                     enable: true,
                     placeholder: "Entrer les essences recensées",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: especes,
                 )
               ),
@@ -547,10 +651,10 @@ class _PepiniereState extends State<Pepiniere> {
                 child: Input(
                     enable: true,
                     placeholder: "Entrer le nombre de plan total",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: nbrPlant,
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                 )
               ),
               Padding(
@@ -569,10 +673,10 @@ class _PepiniereState extends State<Pepiniere> {
                   child: Input(
                     enable: true,
                     placeholder: "Entrer le taux de réuissite de la pépinière",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: taux,
                       keyboardType: TextInputType.number,
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                      inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                   )
               ),
               Padding(
@@ -591,10 +695,10 @@ class _PepiniereState extends State<Pepiniere> {
                   child: Input(
                     enable: true,
                     placeholder: "Entrer le nombre de platebande",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: platebande,
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                   )
               ),
               Padding(
@@ -613,10 +717,10 @@ class _PepiniereState extends State<Pepiniere> {
                   child: Input(
                     enable: true,
                     placeholder: "Entrer la surface de la pépinière (ha)",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: surface,
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                   )
               ),
               SizedBox(

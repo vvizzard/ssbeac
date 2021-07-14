@@ -203,7 +203,7 @@ class _ProducteurFoyerState extends State<ProducteurFoyer> {
           title: "Producteur foyer",
           rightOptions: false,
         ),
-        backgroundColor: ArgonColors.bgColorScreen,
+        backgroundColor: ArgonColors.white,
         drawer: ArgonDrawer(currentPage: "ProducteurFoyer"),
         body: SingleChildScrollView(
             child: Padding(
@@ -212,7 +212,7 @@ class _ProducteurFoyerState extends State<ProducteurFoyer> {
             bottom: true,
             child: Column(children: [
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                padding: const EdgeInsets.only(left: 8.0, top: 24),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text("Date",
@@ -223,19 +223,33 @@ class _ProducteurFoyerState extends State<ProducteurFoyer> {
                 ),
               ),
               Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
-                  child: GestureDetector(
-                    onTap: ()=>_selectDate(context),
-                    child: Input(
-                      enable: false,
-                      placeholder: dateLabel,
-                      borderColor: ArgonColors.white,
-                      onTap: ()=>_selectDate(context),
-                    ),
-                  )
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: GestureDetector(
+                        onTap: ()=>_selectDate(context),
+                        child: Input(
+                          enable: false,
+                          placeholder: dateLabel,
+                          onTap: ()=>_selectDate(context),
+                        ),
+                      )
+                  ),
+                ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 32),
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text("District",
@@ -246,30 +260,52 @@ class _ProducteurFoyerState extends State<ProducteurFoyer> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: districtChoosed,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      districtChoosed = newValue;
-                    });
-                  },
-                  items: districts
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le district",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: districtChoosed,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              districtChoosed = newValue;
+                            });
+                          },
+                          items: districts
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      )
+                  )
               ),
-
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                 child: Align(
@@ -282,30 +318,52 @@ class _ProducteurFoyerState extends State<ProducteurFoyer> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: agglomerationChoosed,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      agglomerationChoosed = newValue;
-                    });
-                  },
-                  items: agglomeration
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le district",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: agglomerationChoosed,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              agglomerationChoosed = newValue;
+                            });
+                          },
+                          items: agglomeration
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      )
+                  )
               ),
-
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
@@ -322,7 +380,7 @@ class _ProducteurFoyerState extends State<ProducteurFoyer> {
                 child: Input(
                     enable: true,
                     placeholder: "Entrer le nom de la commune",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: commune,
                 )
               ),
@@ -343,7 +401,7 @@ class _ProducteurFoyerState extends State<ProducteurFoyer> {
                 child: Input(
                     enable: true,
                     placeholder: "Entrer le nom de l'agglomération",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: agg,
                 )
               ),
@@ -360,40 +418,63 @@ class _ProducteurFoyerState extends State<ProducteurFoyer> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                      fontSize: 12,
-                      color: ArgonColors.text,
-                      backgroundColor: Colors.white
-                  ),
-                  value: energieChoosed,
-                  isExpanded: true,
-                  onChanged: (String nValue) {
-                    setState(() {
-                      energieChoosed = nValue;
-                      if(energieChoosed.compareTo('Biogaz')==0) {
-                        // showBiodigesteur = true;
-                        unite = '(m³)';
-                      } //else showBiodigesteur = false;
-                      if(energieChoosed.contains('Electricite')) {
-                        unite = '(kWh)';
-                      } else if(energieChoosed.contains('Bioéthanol')
-                          ||energieChoosed.contains('Pétrol')) {
-                        unite = '(l)';
-                      } else {
-                        unite = '(kg)';
-                      }
-                    });
-                  },
-                  items: listeEnergieCuisson
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le district",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: energieChoosed,
+                          isExpanded: true,
+                          onChanged: (String nValue) {
+                            setState(() {
+                              energieChoosed = nValue;
+                              if(energieChoosed.compareTo('Biogaz')==0) {
+                                // showBiodigesteur = true;
+                                unite = '(m³)';
+                              } //else showBiodigesteur = false;
+                              if(energieChoosed.contains('Electricite')) {
+                                unite = '(kWh)';
+                              } else if(energieChoosed.contains('Bioéthanol')
+                                  ||energieChoosed.contains('Pétrol')) {
+                                unite = '(l)';
+                              } else {
+                                unite = '(kg)';
+                              }
+                            });
+                          },
+                          items: listeEnergieCuisson
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      )
+                  )
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 32),
@@ -407,28 +488,51 @@ class _ProducteurFoyerState extends State<ProducteurFoyer> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                      fontSize: 12,
-                      color: ArgonColors.text,
-                      backgroundColor: Colors.white
-                  ),
-                  value: typeChoosed,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      typeChoosed = newValue;
-                    });
-                  },
-                  items: listeType
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le district",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: typeChoosed,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              typeChoosed = newValue;
+                            });
+                          },
+                          items: listeType
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      )
+                  )
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
@@ -446,7 +550,7 @@ class _ProducteurFoyerState extends State<ProducteurFoyer> {
                   child: Input(
                     enable: true,
                     placeholder: "Entrer la production annuel totale "+unite,
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: qte,
                     keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly]
@@ -474,7 +578,7 @@ class _ProducteurFoyerState extends State<ProducteurFoyer> {
               //       child: Input(
               //         enable: true,
               //         placeholder: "Entrer la capacité du biodigesteur (m³)",
-              //         borderColor: ArgonColors.white,
+              //         borderColor: Color.fromRGBO(223, 225, 229, 1),
               //         controller: biodigesteur,
               //         keyboardType: TextInputType.number,
               //         inputFormatters: [FilteringTextInputFormatter.digitsOnly]
@@ -523,7 +627,7 @@ class _ProducteurFoyerState extends State<ProducteurFoyer> {
                 child: Input(
                     enable: true,
                     placeholder: "Entrer le nombre d'appuie à la production",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: appuie,
                 )
               ),*/

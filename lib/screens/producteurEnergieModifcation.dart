@@ -1,4 +1,5 @@
 import 'package:argon_flutter/helper/database_helpers.dart';
+import 'package:argon_flutter/screens/producteurEnergie.dart';
 import 'package:flutter/material.dart';
 
 import 'package:argon_flutter/constants/Theme.dart';
@@ -180,18 +181,19 @@ class _ProducteurEnergieModificationState extends State<ProducteurEnergieModific
   }
 
 
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> _selectDate(BuildContext context, ProducteurEEntity b) async {
     final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: date,
-      firstDate: DateTime(2018, 1),
-      lastDate: DateTime(2101));
-      if (picked != null && picked != date)
-        setState(() {
-          date = picked;
-          dateLabel = dateFormat.format(picked);
-        });
-  } 
+        context: context,
+        initialDate: date,
+        firstDate: DateTime(2018, 1),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != date)
+      setState(() {
+        date = picked;
+        dateLabel = DateFormat('dd-MM-yyyy').format(picked);
+        b.date = dateLabel;
+      });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -214,7 +216,7 @@ class _ProducteurEnergieModificationState extends State<ProducteurEnergieModific
         title: "Producteur Energie",
         rightOptions: false,
       ),
-      backgroundColor: ArgonColors.bgColorScreen,
+      backgroundColor: ArgonColors.white,
       drawer: ArgonDrawer(currentPage: "ProducteurEnergie"),
       body: SingleChildScrollView(
           child: Padding(
@@ -223,7 +225,7 @@ class _ProducteurEnergieModificationState extends State<ProducteurEnergieModific
           bottom: true,
           child: Column(children: [
             Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 8),
+              padding: const EdgeInsets.only(left: 8.0, top: 24),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text("Date",
@@ -234,19 +236,33 @@ class _ProducteurEnergieModificationState extends State<ProducteurEnergieModific
               ),
             ),
             Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: GestureDetector(
-                  onTap: ()=>_selectDate(context),
-                  child: Input(
-                    enable: false,
-                    placeholder: dateLabel,
-                    borderColor: ArgonColors.white,
-                    onTap: ()=>_selectDate(context),
-                  ),
-                )
+              padding: const EdgeInsets.only(top: 4.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              width: 1.0,
+                              color: Color.fromRGBO(223, 225, 229, 1),
+                              style: BorderStyle.solid
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(4.0))
+                      ),
+                    ),
+                    child: GestureDetector(
+                      onTap: ()=>_selectDate(context, widget.productionEnergieEnCours),
+                      child: Input(
+                        enable: false,
+                        placeholder: widget.productionEnergieEnCours.date,
+                        borderColor: Color.fromRGBO(223, 225, 229, 1),
+                      ),
+                    )
+                ),
+              ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 32),
+              padding: const EdgeInsets.only(left: 8.0, top: 8),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text("District",
@@ -257,30 +273,52 @@ class _ProducteurEnergieModificationState extends State<ProducteurEnergieModific
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-              child: DropdownButton<String>(
-                style: TextStyle(
-                  fontSize: 12,
-                  color: ArgonColors.text,
-                  backgroundColor: Colors.white
-                ),
-                value: widget.productionEnergieEnCours.district,
-                isExpanded: true,
-                onChanged: (String newValue) {
-                  setState(() {
-                    widget.productionEnergieEnCours.district = newValue;
-                  });
-                },
-                items: districts
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Container(
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              width: 1.0,
+                              color: Color.fromRGBO(223, 225, 229, 1),
+                              style: BorderStyle.solid
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(4.0))
+                      ),
+                    ),
+                    child: Padding(
+                      padding:const EdgeInsets.only(left: 8.0),
+                      child: DropdownButton<String>(
+                        hint: Text("Choisir le district",
+                            style: TextStyle(
+                                color: ArgonColors.muted,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14
+                            )
+                        ),
+                        underline: SizedBox(),
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: ArgonColors.text,
+                            backgroundColor: Colors.white
+                        ),
+                        value: widget.productionEnergieEnCours.district,
+                        isExpanded: true,
+                        onChanged: (String newValue) {
+                          setState(() {
+                            widget.productionEnergieEnCours.district = newValue;
+                          });
+                        },
+                        items: districts
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    )
+                )
             ),
-
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 8.0),
               child: Align(
@@ -293,28 +331,51 @@ class _ProducteurEnergieModificationState extends State<ProducteurEnergieModific
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-              child: DropdownButton<String>(
-                style: TextStyle(
-                  fontSize: 12,
-                  color: ArgonColors.text,
-                  backgroundColor: Colors.white
-                ),
-                value: widget.productionEnergieEnCours.agglomeration,
-                isExpanded: true,
-                onChanged: (String newValue) {
-                  setState(() {
-                    widget.productionEnergieEnCours.agglomeration = newValue;
-                  });
-                },
-                items: agglomeration
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Container(
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              width: 1.0,
+                              color: Color.fromRGBO(223, 225, 229, 1),
+                              style: BorderStyle.solid
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(4.0))
+                      ),
+                    ),
+                    child: Padding(
+                      padding:const EdgeInsets.only(left: 8.0),
+                      child: DropdownButton<String>(
+                        hint: Text("Choisir le district",
+                            style: TextStyle(
+                                color: ArgonColors.muted,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14
+                            )
+                        ),
+                        underline: SizedBox(),
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: ArgonColors.text,
+                            backgroundColor: Colors.white
+                        ),
+                        value: widget.productionEnergieEnCours.agglomeration,
+                        isExpanded: true,
+                        onChanged: (String newValue) {
+                          setState(() {
+                            widget.productionEnergieEnCours.agglomeration = newValue;
+                          });
+                        },
+                        items: agglomeration
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    )
+                )
             ),
 
             Padding(
@@ -333,7 +394,7 @@ class _ProducteurEnergieModificationState extends State<ProducteurEnergieModific
               child: Input(
                   enable: true,
                   placeholder: "Entrer le nom de la commune",
-                  borderColor: ArgonColors.white,
+                  borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: commune,
               )
             ),
@@ -354,7 +415,7 @@ class _ProducteurEnergieModificationState extends State<ProducteurEnergieModific
               child: Input(
                   enable: true,
                   placeholder: "Entrer le nom de l'agglomération",
-                  borderColor: ArgonColors.white,
+                  borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: agg,
               )
             ),
@@ -371,19 +432,40 @@ class _ProducteurEnergieModificationState extends State<ProducteurEnergieModific
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-              child: DropdownButton<String>(
-                style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                ),
-                value: widget.productionEnergieEnCours.energie,
-                isExpanded: true,
-                onChanged: (String nValue) {
-                  setState(() {
-                    widget.productionEnergieEnCours.energie = nValue;
-                    /*if(widget.productionEnergieEnCours.energie.compareTo('Pétrole')==0
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Container(
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              width: 1.0,
+                              color: Color.fromRGBO(223, 225, 229, 1),
+                              style: BorderStyle.solid
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(4.0))
+                      ),
+                    ),
+                    child: Padding(
+                      padding:const EdgeInsets.only(left: 8.0),
+                      child: DropdownButton<String>(
+                        hint: Text("Choisir le district",
+                            style: TextStyle(
+                                color: ArgonColors.muted,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14
+                            )
+                        ),
+                        underline: SizedBox(),
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: ArgonColors.text,
+                            backgroundColor: Colors.white
+                        ),
+                        value: widget.productionEnergieEnCours.energie,
+                        isExpanded: true,
+                        onChanged: (String nValue) {
+                          setState(() {
+                            widget.productionEnergieEnCours.energie = nValue;
+                            /*if(widget.productionEnergieEnCours.energie.compareTo('Pétrole')==0
                         || widget.productionEnergieEnCours.energie.compareTo('Electricité') == 0) {
                       // showQteTotal = true;
                       productionLabel = "Quantité produit pour la cuisson";
@@ -391,28 +473,29 @@ class _ProducteurEnergieModificationState extends State<ProducteurEnergieModific
                       // showQteTotal = false;
                       productionLabel = "Quantité de production";
                     }*/
-                    if(widget.productionEnergieEnCours.energie.contains('Biogaz')) {
-                      showBiodigesteur = true;
-                    } else showBiodigesteur = false;
-                    if(widget.productionEnergieEnCours.energie.contains('Biogaz')){
-                      unite = '(m³)';
-                    } else if(widget.productionEnergieEnCours.energie.contains('Bioéthanol')) {
-                      unite = '(l)';
-                    } else {
-                      unite = '(kg)';
-                    }
-                  });
-                },
-                items: listeEnergieCuisson
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
+                            if(widget.productionEnergieEnCours.energie.contains('Biogaz')) {
+                              showBiodigesteur = true;
+                            } else showBiodigesteur = false;
+                            if(widget.productionEnergieEnCours.energie.contains('Biogaz')){
+                              unite = '(m³)';
+                            } else if(widget.productionEnergieEnCours.energie.contains('Bioéthanol')) {
+                              unite = '(l)';
+                            } else {
+                              unite = '(kg)';
+                            }
+                          });
+                        },
+                        items: listeEnergieCuisson
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    )
+                )
             ),
-
             /*Visibility(
                 visible: showQteTotal,
                 child: Padding(
@@ -434,7 +517,7 @@ class _ProducteurEnergieModificationState extends State<ProducteurEnergieModific
                   child: Input(
                     enable: true,
                     placeholder: "Entrer la quantité de production",
-                    borderColor: ArgonColors.white,
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: qteTotal,
                   )
               ),
@@ -456,7 +539,7 @@ class _ProducteurEnergieModificationState extends State<ProducteurEnergieModific
                 child: Input(
                   enable: true,
                   placeholder: "Entrer la quantité annuelle produite "+unite,
-                  borderColor: ArgonColors.white,
+                  borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: qte,
                   keyboardType: TextInputType.number,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly]
@@ -484,7 +567,7 @@ class _ProducteurEnergieModificationState extends State<ProducteurEnergieModific
                   child: Input(
                       enable: true,
                       placeholder: "Entrer la capacité du biodigesteur (m³)",
-                      borderColor: ArgonColors.white,
+                      borderColor: Color.fromRGBO(223, 225, 229, 1),
                       controller: biodigesteur,
                       keyboardType: TextInputType.number,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly]

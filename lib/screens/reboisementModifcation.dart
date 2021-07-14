@@ -211,18 +211,19 @@ class _ReboisementModificationState extends State<ReboisementModification> {
   }
 
 
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> _selectDate(BuildContext context, ReboisementEntity b) async {
     final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: date,
-      firstDate: DateTime(2018, 1),
-      lastDate: DateTime(2101));
-      if (picked != null && picked != date)
-        setState(() {
-          date = picked;
-          dateLabel = dateFormat.format(picked);
-        });
-  } 
+        context: context,
+        initialDate: date,
+        firstDate: DateTime(2018, 1),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != date)
+      setState(() {
+        date = picked;
+        dateLabel = DateFormat('dd-MM-yyyy').format(picked);
+        b.date = dateLabel;
+      });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -252,7 +253,7 @@ class _ReboisementModificationState extends State<ReboisementModification> {
           bottom: true,
           child: Column(children: [
             Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 8),
+              padding: const EdgeInsets.only(left: 8.0, top: 24),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text("Date",
@@ -263,19 +264,33 @@ class _ReboisementModificationState extends State<ReboisementModification> {
               ),
             ),
             Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: GestureDetector(
-                  onTap: ()=>_selectDate(context),
-                  child: Input(
-                    enable: false,
-                    placeholder: dateLabel,
-                    borderColor: ArgonColors.white,
-                    onTap: ()=>_selectDate(context),
-                  ),
-                )
+              padding: const EdgeInsets.only(top: 4.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              width: 1.0,
+                              color: Color.fromRGBO(223, 225, 229, 1),
+                              style: BorderStyle.solid
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(4.0))
+                      ),
+                    ),
+                    child: GestureDetector(
+                      onTap: ()=>_selectDate(context, widget.reboisementEnCours),
+                      child: Input(
+                        enable: false,
+                        placeholder: widget.reboisementEnCours.date,
+                        borderColor: Color.fromRGBO(223, 225, 229, 1),
+                      ),
+                    )
+                ),
+              ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 32),
+              padding: const EdgeInsets.only(left: 8.0, top: 8),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text("District",
@@ -362,7 +377,7 @@ class _ReboisementModificationState extends State<ReboisementModification> {
               child: Input(
                   enable: true,
                   placeholder: "Entrer le nom de la commune",
-                  borderColor: ArgonColors.white,
+                  borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: commune,
               )
             ),
@@ -383,7 +398,7 @@ class _ReboisementModificationState extends State<ReboisementModification> {
               child: Input(
                   enable: true,
                   placeholder: "Entrer le nom de l'agglomération",
-                  borderColor: ArgonColors.white,
+                  borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: agg,
               )
             ),
@@ -404,7 +419,7 @@ class _ReboisementModificationState extends State<ReboisementModification> {
               child: Input(
                   enable: true,
                   placeholder: "Entrer le Nom et prénom si personne physique/Dénomination si personne morale",
-                  borderColor: ArgonColors.white,
+                  borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: proprietaire,
               )
             ),
@@ -421,28 +436,51 @@ class _ReboisementModificationState extends State<ReboisementModification> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-              child: DropdownButton<String>(
-                style: TextStyle(
-                  fontSize: 12,
-                  color: ArgonColors.text,
-                  backgroundColor: Colors.white
-                ),
-                value: widget.reboisementEnCours.genreChoosed,
-                isExpanded: true,
-                onChanged: (String newValue) {
-                  setState(() {
-                    widget.reboisementEnCours.genreChoosed = newValue;
-                  });
-                },
-                items: listeGenre
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Container(
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              width: 1.0,
+                              color: Color.fromRGBO(223, 225, 229, 1),
+                              style: BorderStyle.solid
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(4.0))
+                      ),
+                    ),
+                    child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le genre",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: widget.reboisementEnCours.genreChoosed,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              widget.reboisementEnCours.genreChoosed = newValue;
+                            });
+                          },
+                          items: listeGenre
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                    )
+                )
             ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 8),
@@ -460,10 +498,10 @@ class _ReboisementModificationState extends State<ReboisementModification> {
                 child: Input(
                   enable: true,
                   placeholder: "Entrer la superficie",
-                  borderColor: ArgonColors.white,
+                  borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: superficie,
                   keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                  inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                 )
             ),
             Padding(
@@ -482,7 +520,7 @@ class _ReboisementModificationState extends State<ReboisementModification> {
                 child: Input(
                   enable: true,
                   placeholder: "(ex: Agroforesterie, Arbres hors forêts, Plantation à vocation énergétique, …)",
-                  borderColor: ArgonColors.white,
+                  borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: type,
                 )
             ),
@@ -529,29 +567,52 @@ class _ReboisementModificationState extends State<ReboisementModification> {
             Visibility(
               visible: widget.reboisementEnCours.pareFeux,
               child: Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-                child: DropdownButton<String>(
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                  ),
-                  value: widget.reboisementEnCours.pareFeuxChoosed,
-                  isExpanded: true,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      widget.reboisementEnCours.pareFeuxChoosed = newValue;
-                    });
-                  },
-                  items: listeCodePareFeux
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-              ),
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le pare-feux",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: widget.reboisementEnCours.pareFeuxChoosed,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              widget.reboisementEnCours.pareFeuxChoosed = newValue;
+                            });
+                          },
+                          items: listeCodePareFeux
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      )
+                  )
+              )
             ),
 
             Padding(
@@ -564,32 +625,54 @@ class _ReboisementModificationState extends State<ReboisementModification> {
                         fontWeight: FontWeight.w500,
                         fontSize: 12)),
               ),
-            ),  
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-              child: DropdownButton<String>(
-                style: TextStyle(
-                  fontSize: 12,
-                  color: ArgonColors.text,
-                  backgroundColor: Colors.white
-                ),
-                value: widget.reboisementEnCours.cultureChoosed,
-                isExpanded: true,
-                onChanged: (String newValue) {
-                  setState(() {
-                    widget.reboisementEnCours.cultureChoosed = newValue;
-                  });
-                },
-                items: listeCulture
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
             ),
-
+            Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Container(
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              width: 1.0,
+                              color: Color.fromRGBO(223, 225, 229, 1),
+                              style: BorderStyle.solid
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(4.0))
+                      ),
+                    ),
+                    child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le type de culture",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: widget.reboisementEnCours.cultureChoosed,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              widget.reboisementEnCours.cultureChoosed = newValue;
+                            });
+                          },
+                          items: listeCulture
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                    )
+                )
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 8.0),
               child: Align(
@@ -606,7 +689,7 @@ class _ReboisementModificationState extends State<ReboisementModification> {
               child: Input(
                   enable: true,
                   placeholder: "Entrer les essences recensées",
-                  borderColor: ArgonColors.white,
+                  borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: essenceChoosed,
               )
             ),
@@ -623,30 +706,52 @@ class _ReboisementModificationState extends State<ReboisementModification> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-              child: DropdownButton<String>(
-                style: TextStyle(
-                  fontSize: 12,
-                  color: ArgonColors.text,
-                  backgroundColor: Colors.white
-                ),
-                value: widget.reboisementEnCours.provenanceSemenceChoosed,
-                isExpanded: true,
-                onChanged: (String newValue) {
-                  setState(() {
-                    widget.reboisementEnCours.provenanceSemenceChoosed = newValue;
-                  });
-                },
-                items: listeProvenanceSemmenceCulture
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Container(
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              width: 1.0,
+                              color: Color.fromRGBO(223, 225, 229, 1),
+                              style: BorderStyle.solid
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(4.0))
+                      ),
+                    ),
+                    child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir la provenance des semences",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: widget.reboisementEnCours.provenanceSemenceChoosed,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              widget.reboisementEnCours.provenanceSemenceChoosed = newValue;
+                            });
+                          },
+                          items: listeProvenanceSemmenceCulture
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                    )
+                )
             ),
-
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 8.0),
               child: Align(
@@ -659,30 +764,52 @@ class _ReboisementModificationState extends State<ReboisementModification> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-              child: DropdownButton<String>(
-                style: TextStyle(
-                  fontSize: 12,
-                  color: ArgonColors.text,
-                  backgroundColor: Colors.white
-                ),
-                value: widget.reboisementEnCours.productiviteChoosed,
-                isExpanded: true,
-                onChanged: (String newValue) {
-                  setState(() {
-                    widget.reboisementEnCours.productiviteChoosed = newValue;
-                  });
-                },
-                items: listeProductivite
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Container(
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              width: 1.0,
+                              color: Color.fromRGBO(223, 225, 229, 1),
+                              style: BorderStyle.solid
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(4.0))
+                      ),
+                    ),
+                    child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir la productivités",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: widget.reboisementEnCours.productiviteChoosed,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              widget.reboisementEnCours.productiviteChoosed = newValue;
+                            });
+                          },
+                          items: listeProductivite
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                    )
+                )
             ),
-
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 8.0),
               child: Align(
@@ -695,30 +822,52 @@ class _ReboisementModificationState extends State<ReboisementModification> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-              child: DropdownButton<String>(
-                style: TextStyle(
-                  fontSize: 12,
-                  color: ArgonColors.text,
-                  backgroundColor: Colors.white
-                ),
-                value: widget.reboisementEnCours.travauxSolChoosed,
-                isExpanded: true,
-                onChanged: (String newValue) {
-                  setState(() {
-                    widget.reboisementEnCours.travauxSolChoosed = newValue;
-                  });
-                },
-                items: listeTravauxSol
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Container(
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              width: 1.0,
+                              color: Color.fromRGBO(223, 225, 229, 1),
+                              style: BorderStyle.solid
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(4.0))
+                      ),
+                    ),
+                    child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le travail du sol",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: widget.reboisementEnCours.travauxSolChoosed,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              widget.reboisementEnCours.travauxSolChoosed = newValue;
+                            });
+                          },
+                          items: listeTravauxSol
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                    )
+                )
             ),
-
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 8),
               child: Align(
@@ -735,10 +884,10 @@ class _ReboisementModificationState extends State<ReboisementModification> {
               child: Input(
                   enable: true,
                   placeholder: "Entrer l'année de plantation",
-                  borderColor: ArgonColors.white,
+                  borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: anneePlantation,
                   keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                  inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
               )
             ),
 
@@ -758,10 +907,10 @@ class _ReboisementModificationState extends State<ReboisementModification> {
               child: Input(
                   enable: true,
                   placeholder: "Entrer la densité (nbr pieds/ha)",
-                  borderColor: ArgonColors.white,
+                  borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: densite,
                   keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                  inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
               )
             ),
 
@@ -781,10 +930,10 @@ class _ReboisementModificationState extends State<ReboisementModification> {
               child: Input(
                   enable: true,
                   placeholder: "Entrer le taux de remplissage (%)",
-                  borderColor: ArgonColors.white,
+                  borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: tauxRemplissage,
                   keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                  inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
               )
             ),
 
@@ -827,7 +976,7 @@ class _ReboisementModificationState extends State<ReboisementModification> {
               child: Input(
                   enable: true,
                   placeholder: "(ex: Institution, Individuel, Communautraie, ...)",
-                  borderColor: ArgonColors.white,
+                  borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: acteur,
               )
             ),

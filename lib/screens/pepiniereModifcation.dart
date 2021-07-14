@@ -191,18 +191,19 @@ class _PepiniereModificationState extends State<PepiniereModification> {
   }
 
 
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> _selectDate(BuildContext context, PepiniereEntity b) async {
     final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: date,
-      firstDate: DateTime(2018, 1),
-      lastDate: DateTime(2101));
-      if (picked != null && picked != date)
-        setState(() {
-          date = picked;
-          dateLabel = dateFormat.format(picked);
-        });
-  } 
+        context: context,
+        initialDate: date,
+        firstDate: DateTime(2018, 1),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != date)
+      setState(() {
+        date = picked;
+        dateLabel = DateFormat('dd-MM-yyyy').format(picked);
+        b.date = dateLabel;
+      });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -224,7 +225,7 @@ class _PepiniereModificationState extends State<PepiniereModification> {
         title: "Pepiniere",
         rightOptions: false,
       ),
-      backgroundColor: ArgonColors.bgColorScreen,
+      backgroundColor: ArgonColors.white,
       drawer: ArgonDrawer(currentPage: "Pepiniere"),
       body: SingleChildScrollView(
           child: Padding(
@@ -244,16 +245,30 @@ class _PepiniereModificationState extends State<PepiniereModification> {
               ),
             ),
             Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: GestureDetector(
-                  onTap: ()=>_selectDate(context),
-                  child: Input(
-                    enable: false,
-                    placeholder: dateLabel,
-                    borderColor: ArgonColors.white,
-                    onTap: ()=>_selectDate(context),
-                  ),
-                )
+              padding: const EdgeInsets.only(top: 4.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              width: 1.0,
+                              color: Color.fromRGBO(223, 225, 229, 1),
+                              style: BorderStyle.solid
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(4.0))
+                      ),
+                    ),
+                    child: GestureDetector(
+                      onTap: ()=>_selectDate(context, widget.pepiniereEnCours),
+                      child: Input(
+                        enable: false,
+                        placeholder: widget.pepiniereEnCours.date,
+                        borderColor: Color.fromRGBO(223, 225, 229, 1),
+                      ),
+                    )
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 32),
@@ -267,30 +282,52 @@ class _PepiniereModificationState extends State<PepiniereModification> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-              child: DropdownButton<String>(
-                style: TextStyle(
-                  fontSize: 12,
-                  color: ArgonColors.text,
-                  backgroundColor: Colors.white
-                ),
-                value: widget.pepiniereEnCours.district,
-                isExpanded: true,
-                onChanged: (String newValue) {
-                  setState(() {
-                    widget.pepiniereEnCours.district = newValue;
-                  });
-                },
-                items: districts
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Container(
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              width: 1.0,
+                              color: Color.fromRGBO(223, 225, 229, 1),
+                              style: BorderStyle.solid
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(4.0))
+                      ),
+                    ),
+                    child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le district",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: widget.pepiniereEnCours.district,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              widget.pepiniereEnCours.district = newValue;
+                            });
+                          },
+                          items: districts
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                    )
+                )
             ),
-
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 8.0),
               child: Align(
@@ -303,30 +340,52 @@ class _PepiniereModificationState extends State<PepiniereModification> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-              child: DropdownButton<String>(
-                style: TextStyle(
-                  fontSize: 12,
-                  color: ArgonColors.text,
-                  backgroundColor: Colors.white
-                ),
-                value: widget.pepiniereEnCours.agglomeration,
-                isExpanded: true,
-                onChanged: (String newValue) {
-                  setState(() {
-                    widget.pepiniereEnCours.agglomeration = newValue;
-                  });
-                },
-                items: agglomeration
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Container(
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              width: 1.0,
+                              color: Color.fromRGBO(223, 225, 229, 1),
+                              style: BorderStyle.solid
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(4.0))
+                      ),
+                    ),
+                    child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir l'unité d'agglomération",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: widget.pepiniereEnCours.agglomeration,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              widget.pepiniereEnCours.agglomeration = newValue;
+                            });
+                          },
+                          items: agglomeration
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                    )
+                )
             ),
-
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 8),
               child: Align(
@@ -343,7 +402,7 @@ class _PepiniereModificationState extends State<PepiniereModification> {
               child: Input(
                   enable: true,
                   placeholder: "Entrer le nom de la commune",
-                  borderColor: ArgonColors.white,
+                  borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: commune,
               )
             ),
@@ -364,7 +423,7 @@ class _PepiniereModificationState extends State<PepiniereModification> {
               child: Input(
                   enable: true,
                   placeholder: "Entrer le nom de l'agglomération",
-                  borderColor: ArgonColors.white,
+                  borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: agg,
               )
             ),
@@ -384,10 +443,10 @@ class _PepiniereModificationState extends State<PepiniereModification> {
                 child: Input(
                   enable: true,
                   placeholder: "Entrer la longitude en degré décimal",
-                  borderColor: ArgonColors.white,
+                  borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: long,
                   keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                  inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                 )
             ),
             Padding(
@@ -406,10 +465,10 @@ class _PepiniereModificationState extends State<PepiniereModification> {
                 child: Input(
                   enable: true,
                   placeholder: "Entrer la latitude en degré décimal",
-                  borderColor: ArgonColors.white,
+                  borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: lat,
                   keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                  inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                 )
             ),
             Padding(
@@ -424,28 +483,51 @@ class _PepiniereModificationState extends State<PepiniereModification> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-              child: DropdownButton<String>(
-                style: TextStyle(
-                    fontSize: 12,
-                    color: ArgonColors.text,
-                    backgroundColor: Colors.white
-                ),
-                value: widget.pepiniereEnCours.type,
-                isExpanded: true,
-                onChanged: (String newValue) {
-                  setState(() {
-                    widget.pepiniereEnCours.type = newValue;
-                  });
-                },
-                items: listeTypePepiniere
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Container(
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              width: 1.0,
+                              color: Color.fromRGBO(223, 225, 229, 1),
+                              style: BorderStyle.solid
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(4.0))
+                      ),
+                    ),
+                    child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le type de pépiniériste",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: widget.pepiniereEnCours.type,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              widget.pepiniereEnCours.type = newValue;
+                            });
+                          },
+                          items: listeTypePepiniere
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                    )
+                )
             ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 8),
@@ -463,7 +545,7 @@ class _PepiniereModificationState extends State<PepiniereModification> {
                 child: Input(
                   enable: true,
                   placeholder: "Entrer le nom du projet",
-                  borderColor: ArgonColors.white,
+                  borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: projetAppuie,
                 )
             ),
@@ -484,7 +566,7 @@ class _PepiniereModificationState extends State<PepiniereModification> {
               child: Input(
                   enable: true,
                   placeholder: "Entrer le Nom et prénom si personne physique/Dénomination si personne morale",
-                  borderColor: ArgonColors.white,
+                  borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: proprietaire,
               )
             ),
@@ -500,28 +582,51 @@ class _PepiniereModificationState extends State<PepiniereModification> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-              child: DropdownButton<String>(
-                style: TextStyle(
-                  fontSize: 12,
-                  color: ArgonColors.text,
-                  backgroundColor: Colors.white
-                ),
-                value: widget.pepiniereEnCours.genreChoosed,
-                isExpanded: true,
-                onChanged: (String newValue) {
-                  setState(() {
-                    widget.pepiniereEnCours.genreChoosed = newValue;
-                  });
-                },
-                items: listeGenre
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Container(
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              width: 1.0,
+                              color: Color.fromRGBO(223, 225, 229, 1),
+                              style: BorderStyle.solid
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(4.0))
+                      ),
+                    ),
+                    child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le genre",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: widget.pepiniereEnCours.genreChoosed,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              widget.pepiniereEnCours.genreChoosed = newValue;
+                            });
+                          },
+                          items: listeGenre
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                    )
+                )
             ),
             Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
@@ -539,7 +644,7 @@ class _PepiniereModificationState extends State<PepiniereModification> {
               child: Input(
                   enable: true,
                   placeholder: "Entrer les essences recensées",
-                  borderColor: ArgonColors.white,
+                  borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: especes,
               )
             ),
@@ -560,10 +665,10 @@ class _PepiniereModificationState extends State<PepiniereModification> {
               child: Input(
                   enable: true,
                   placeholder: "Entrer le nombre de plan total",
-                  borderColor: ArgonColors.white,
+                  borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: nbrPlant,
                   keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                  inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
               )
             ),
             Padding(
@@ -582,10 +687,10 @@ class _PepiniereModificationState extends State<PepiniereModification> {
                 child: Input(
                   enable: true,
                   placeholder: "Entrer le taux de réuissite de la pépinière",
-                  borderColor: ArgonColors.white,
+                  borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: taux,
                   keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                  inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                 )
             ),
             Padding(
@@ -604,10 +709,10 @@ class _PepiniereModificationState extends State<PepiniereModification> {
                 child: Input(
                   enable: true,
                   placeholder: "Entrer le nombre de platebande",
-                  borderColor: ArgonColors.white,
+                  borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: platebande,
                   keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                  inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                 )
             ),
             Padding(
@@ -626,10 +731,10 @@ class _PepiniereModificationState extends State<PepiniereModification> {
                 child: Input(
                   enable: true,
                   placeholder: "Entrer la surface de la pépinière (ha)",
-                  borderColor: ArgonColors.white,
+                  borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: surface,
                   keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+                  inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                 )
             ),
             SizedBox(
