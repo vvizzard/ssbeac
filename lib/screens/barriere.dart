@@ -125,16 +125,17 @@ List<String> districts = ['Ambohidratrimo ',
 'Sambava ',
 'Andapa ',
 'Vohemar '];
-
 List<String> agglomeration = [
   'Urbaine', 'Rurale'
 ];
-
-List<String> listTransport = ['Bicyclette', 'Charette', 'Taxi-brousse', 'Camion', 'Dos d\'homme', 'Autre'];
-
-List<String> typeDeplacement = ['Entrée', 'Sortie'];
-
-List<String> listeProduits = ['Bois de Chauffe', 'Charbon de Bois'];
+List<String> listTransport = [
+  'Bicyclette', 'Charette', 'Taxi-brousse', 'Camion',
+  'Dos d\'homme', 'Autre'
+];
+List<String> listeProduits = [
+  'Arbres Hors Forêts', 'Mangrove', 'Forêt Naturelle', 'Plantation/Reboisement'
+];
+List<String> lisetAxe = ['Fluvial', 'Routier'];
 
 class Barriere extends StatefulWidget {
   @override
@@ -157,20 +158,24 @@ class _BarriereState extends State<Barriere> {
   String produitChoosedd;
   String districtProvenanceChoosed;
   String districtDestinationChoosed;
+  String axeChoosed;
 
   // produits
   Map<String, Map<String, String>> produits = {};
 
   // text field controller
   var qteProduitTemp = TextEditingController();
-  var axe = TextEditingController();
+  var qteCBTemp = TextEditingController();
   var longitude = TextEditingController();
   var latitude = TextEditingController();
   var provenance = TextEditingController();
   var destination = TextEditingController();
-
   var commune = TextEditingController();
   var agg = TextEditingController();
+  var typeRoute = TextEditingController();
+  var numRoute = TextEditingController();
+
+  bool ristourne = false;
 
   DatabaseHelper helper = DatabaseHelper.instance;
   
@@ -186,17 +191,18 @@ class _BarriereState extends State<Barriere> {
     barriereEnCours.agglomerationBarriere = agglomerationChoosed;
     barriereEnCours.commune = commune.text;
     barriereEnCours.agg = agg.text;
-    barriereEnCours.axe = axe.text;
+    barriereEnCours.axe = axeChoosed;
     barriereEnCours.latitude = latitude.text;
     barriereEnCours.longitude = longitude.text;
     barriereEnCours.laisserPasser = laisserPasser;
     barriereEnCours.transport = transportChoosedd;
-    // // barriereEnCours.type = typeChoosed;
     barriereEnCours.districtProvenance = districtProvenanceChoosed;
     barriereEnCours.designationProvenance = provenance.text;
     barriereEnCours.districtArrivee = districtDestinationChoosed;
     barriereEnCours.designationArrivee = destination.text;
-    barriereEnCours.typeDeplacement = deplacementChoosed;
+    barriereEnCours.typeRoute = typeRoute.text;
+    barriereEnCours.numRoute = numRoute.text;
+    barriereEnCours.ristourne = ristourne;
 
     List<ProduitEntity> listeProduits = [];
 
@@ -205,6 +211,7 @@ class _BarriereState extends State<Barriere> {
       produit.typeProduit = value['type'];
       produit.produit= value['produit'];
       produit.qte = double.tryParse(value['qte']);
+      produit.cb = double.tryParse(value['cb']);
       listeProduits.add(produit);
     });
 
@@ -426,7 +433,7 @@ class _BarriereState extends State<Barriere> {
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Agglomération",
+                  child: Text("Localité",
                       style: TextStyle(
                           color: ArgonColors.text,
                           fontWeight: FontWeight.w500,
@@ -437,44 +444,11 @@ class _BarriereState extends State<Barriere> {
                   padding: const EdgeInsets.only(top: 4.0),
                   child: Input(
                     enable: true,
-                    placeholder: "Entrer le nom de l'agglomération",
+                    placeholder: "Entrer le nom de la localité",
                     borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: agg,
                   )
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Axe de la barrière",
-                      style: TextStyle(
-                          color: ArgonColors.text,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12)),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Input(
-                    enable: true,
-                    placeholder: "Entrer ici l'axe où se site la barrière",
-                    borderColor: Color.fromRGBO(223, 225, 229, 1),
-                    controller: axe,
-                )
-              ),
-
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 16, bottom: 16),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Coordonnées géographiques",
-                      style: TextStyle(
-                          color: ArgonColors.text,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16)),
-                ),
-              ),
-
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
@@ -487,15 +461,15 @@ class _BarriereState extends State<Barriere> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Input(
-                    enable: true,
-                    placeholder: "Entrer ici la longitude de la situation de la barrière",
-                    borderColor: Color.fromRGBO(223, 225, 229, 1),
-                    controller: longitude,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
-                )
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
+                      enable: true,
+                      placeholder: "Entrer ici la longitude de la situation de la barrière",
+                      borderColor: Color.fromRGBO(223, 225, 229, 1),
+                      controller: longitude,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
+                  )
               ),
 
               Padding(
@@ -510,36 +484,21 @@ class _BarriereState extends State<Barriere> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Input(
-                    enable: true,
-                    placeholder: "Entrer ici la latitude de la situation de la barrière",
-                    borderColor: Color.fromRGBO(223, 225, 229, 1),
-                    controller: latitude,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
-                )
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
+                      enable: true,
+                      placeholder: "Entrer ici la latitude de la situation de la barrière",
+                      borderColor: Color.fromRGBO(223, 225, 229, 1),
+                      controller: latitude,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
+                  )
               ),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Laisser-passer",
-                      style: TextStyle(color: ArgonColors.text, fontSize: 12)),
-                  Switch.adaptive(
-                    value: laisserPasser,
-                    onChanged: (bool newValue) =>
-                        setState(() => laisserPasser = newValue),
-                    activeColor: ArgonColors.primary,
-                  ),
-                ],
-              ),
-
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Transport",
+                  child: Text("Axe",
                       style: TextStyle(
                           color: ArgonColors.text,
                           fontWeight: FontWeight.w500,
@@ -560,38 +519,116 @@ class _BarriereState extends State<Barriere> {
                         ),
                       ),
                       child: Padding(
-                          padding:const EdgeInsets.only(left: 8.0),
-                          child: DropdownButton<String>(
-                            hint: Text("Choisir le transport utilisé",
-                                style: TextStyle(
-                                    color: ArgonColors.muted,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14
-                                )
-                            ),
-                            underline: SizedBox(),
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: ArgonColors.text,
-                                backgroundColor: Colors.white
-                            ),
-                            value: transportChoosedd,
-                            isExpanded: true,
-                            onChanged: (String newValue) {
-                              setState(() {
-                                transportChoosedd = newValue;
-                              });
-                            },
-                            items: listTransport
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir l'axe de la barrière",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
                           ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: axeChoosed,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              axeChoosed = newValue;
+                            });
+                          },
+                          items: lisetAxe
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
                       )
                   )
+              ),
+              Visibility(
+                  visible: axeChoosed == "Routier",
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0, top: 8),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Type de route",
+                          style: TextStyle(
+                              color: ArgonColors.text,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12)),
+                    ),
+                  )
+              ),
+              Visibility(
+                  visible: axeChoosed == "Routier",
+                  child: Padding(
+                      padding: const EdgeInsets.only(top: 4.0),
+                      child: Input(
+                        enable: true,
+                        placeholder: "Entrer ici le type de route",
+                        borderColor: Color.fromRGBO(223, 225, 229, 1),
+                        controller: typeRoute,
+                      )
+                  ),
+              ),
+              Visibility(
+                visible: axeChoosed == "Routier",
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0, top: 8),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("Numéro de la route",
+                        style: TextStyle(
+                            color: ArgonColors.text,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12)),
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: axeChoosed == "Routier",
+                child: Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: Input(
+                      enable: true,
+                      placeholder: "Entrer ici le numéro de la route",
+                      borderColor: Color.fromRGBO(223, 225, 229, 1),
+                      controller: numRoute,
+                    )
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Laissez-passer (Légalité)",
+                      style: TextStyle(color: ArgonColors.text, fontSize: 12)),
+                  Switch.adaptive(
+                    value: laisserPasser,
+                    onChanged: (bool newValue) =>
+                        setState(() => laisserPasser = newValue),
+                    activeColor: ArgonColors.primary,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Quittance de paiement de ristourne",
+                      style: TextStyle(color: ArgonColors.text, fontSize: 12)),
+                  Switch.adaptive(
+                    value: ristourne,
+                    onChanged: (bool newValue) =>
+                        setState(() => ristourne = newValue),
+                    activeColor: ArgonColors.primary,
+                  ),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8.0),
@@ -618,60 +655,48 @@ class _BarriereState extends State<Barriere> {
                         ),
                       ),
                       child: Padding(
-                          padding:const EdgeInsets.only(left: 8.0),
-                          child: DropdownButton<String>(
-                            hint: Text("Choisir le district de provenance",
-                                style: TextStyle(
-                                    color: ArgonColors.muted,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14
-                                )
-                            ),
-                            underline: SizedBox(),
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: ArgonColors.text,
-                                backgroundColor: Colors.white
-                            ),
-                            value: districtProvenanceChoosed,
-                            isExpanded: true,
-                            onChanged: (String newValue) {
-                              setState(() {
-                                districtProvenanceChoosed = newValue;
-                              });
-                            },
-                            items: districts
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le district de provenance",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
                           ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: districtProvenanceChoosed,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              districtProvenanceChoosed = newValue;
+                            });
+                          },
+                          items: districts
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
                       )
                   )
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Désignation",
-                      style: TextStyle(
-                          color: ArgonColors.text,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12)),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Input(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
                     enable: true,
-                    placeholder: "Entrer ici la désignation du provenance",
+                    placeholder: "Entrer ici la localité de provenance",
                     borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: provenance,
-                )
+                  )
               ),
-
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                 child: Align(
@@ -697,44 +722,53 @@ class _BarriereState extends State<Barriere> {
                         ),
                       ),
                       child: Padding(
-                          padding:const EdgeInsets.only(left: 8.0),
-                          child: DropdownButton<String>(
-                            hint: Text("Choisir le district de destination",
-                                style: TextStyle(
-                                    color: ArgonColors.muted,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14
-                                )
-                            ),
-                            underline: SizedBox(),
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: ArgonColors.text,
-                                backgroundColor: Colors.white
-                            ),
-                            value: districtDestinationChoosed,
-                            isExpanded: true,
-                            onChanged: (String newValue) {
-                              setState(() {
-                                districtDestinationChoosed = newValue;
-                              });
-                            },
-                            items: districts
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le district de destination",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
                           ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: districtDestinationChoosed,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              districtDestinationChoosed = newValue;
+                            });
+                          },
+                          items: districts
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
                       )
                   )
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
+                    enable: true,
+                    placeholder: "Entrer ici la localité de déstination",
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
+                    controller: destination,
+                  )
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Désignation",
+                  child: Text("Moyen de transport",
                       style: TextStyle(
                           color: ArgonColors.text,
                           fontWeight: FontWeight.w500,
@@ -742,57 +776,77 @@ class _BarriereState extends State<Barriere> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Input(
-                    enable: true,
-                    placeholder: "Entrer ici la désignation de la déstination",
-                    borderColor: Color.fromRGBO(223, 225, 229, 1),
-                    controller: destination,
-                )
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le moyen transport utilisé",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: transportChoosedd,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              transportChoosedd = newValue;
+                            });
+                          },
+                          items: listTransport
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      )
+                  )
               ),
 
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-              //   child: Align(
-              //     alignment: Alignment.centerLeft,
-              //     child: Text("Type de déplacement",
-              //         style: TextStyle(
-              //             color: ArgonColors.text,
-              //             fontWeight: FontWeight.w500,
-              //             fontSize: 12)),
-              //   ),
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 8.0, top: 4.0),
-              //   child: DropdownButton<String>(
-              //     style: TextStyle(
-              //       fontSize: 12,
-              //       color: ArgonColors.text,
-              //       backgroundColor: Colors.white
-              //     ),
-              //     // value: typeChoosed,
-              //     isExpanded: true,
-              //     onChanged: (String newValue) {
-              //       setState(() {
-              //         // typeChoosed = newValue;
-              //       });
-              //     },
-              //     items: typeDeplacement
-              //         .map<DropdownMenuItem<String>>((String value) {
-              //       return DropdownMenuItem<String>(
-              //         value: value,
-              //         child: Text(value),
-              //       );
-              //     }).toList(),
-              //   ),
-              // ),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
               // Produits
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 16.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Liste des produits",
+                  child: Text("Formation de prélèvement de matières premières",
                     style: TextStyle(
                       color: ArgonColors.text,
                       fontWeight: FontWeight.w500,
@@ -827,28 +881,9 @@ class _BarriereState extends State<Barriere> {
                             },
                             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                             children: <TableRow>[
-                              /*TableRow(
-                                children: <Widget>[
-                                  Text("Type :", style: TextStyle(
-                                      color: ArgonColors.text,
-                                      fontSize: 12
-                                    )
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.all(2.0),
-                                    child: Text(e.value['type'],
-                                      style: TextStyle(
-                                        color: ArgonColors.text,
-                                        fontSize: 12
-                                      ),
-                                      textAlign:TextAlign.end
-                                    ),
-                                  ),
-                                ],
-                              ),*/
                               TableRow(
                                 children: <Widget>[
-                                  Text("Quantité (kg) :", style: TextStyle(
+                                  Text("Quantité de Bois de Chauffe (kg) :", style: TextStyle(
                                       color: ArgonColors.text,
                                       fontSize: 12
                                     )
@@ -861,6 +896,25 @@ class _BarriereState extends State<Barriere> {
                                         fontSize: 12
                                       ),
                                       textAlign:TextAlign.end
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: <Widget>[
+                                  Text("Quantité de Charbon de Bois (kg) :", style: TextStyle(
+                                      color: ArgonColors.text,
+                                      fontSize: 12
+                                  )
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(2.0),
+                                    child: Text(e.value['cb'],
+                                        style: TextStyle(
+                                            color: ArgonColors.text,
+                                            fontSize: 12
+                                        ),
+                                        textAlign:TextAlign.end
                                     ),
                                   ),
                                 ],
@@ -892,7 +946,7 @@ class _BarriereState extends State<Barriere> {
                 padding: const EdgeInsets.only(left: 8.0, top: 16.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Produit",
+                  child: Text("Formation",
                       style: TextStyle(
                           color: ArgonColors.text,
                           fontWeight: FontWeight.w500,
@@ -915,7 +969,7 @@ class _BarriereState extends State<Barriere> {
                       child: Padding(
                           padding:const EdgeInsets.only(left: 8.0),
                           child: DropdownButton<String>(
-                            hint: Text("Choisir le type de produit",
+                            hint: Text("Choisir le type de formation",
                                 style: TextStyle(
                                     color: ArgonColors.muted,
                                     fontWeight: FontWeight.w400,
@@ -950,7 +1004,7 @@ class _BarriereState extends State<Barriere> {
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Quantité de produit",
+                  child: Text("Quantité de Bois de Chauffe",
                       style: TextStyle(
                           color: ArgonColors.text,
                           fontWeight: FontWeight.w500,
@@ -961,12 +1015,34 @@ class _BarriereState extends State<Barriere> {
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Input(
                     enable: true,
-                    placeholder: "Entrer la quantité de produit (kg)",
+                    placeholder: "Entrer la quantité de Bois de Chauffe (kg)",
                     borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: qteProduitTemp,
                     keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                 )
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Quantité de Charbon de Bois",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Input(
+                      enable: true,
+                      placeholder: "Entrer la quantité de Charbon de bois (kg)",
+                      borderColor: Color.fromRGBO(223, 225, 229, 1),
+                      controller: qteCBTemp,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
+                  )
               ),
 
               SizedBox(
@@ -982,6 +1058,7 @@ class _BarriereState extends State<Barriere> {
                         produits.putIfAbsent(produitChoosedd, () => {
                           "produit": produitChoosedd,
                           "qte": qteProduitTemp.text,
+                          "cb": qteCBTemp.text,
                           // "type": typeChoosed
                         });
                       });

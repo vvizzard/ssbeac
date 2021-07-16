@@ -143,6 +143,10 @@ List<String> listeZonePrelevement = [
 ];
 List<String> listeDomainePrelevement = ['Domaine\'état', 'Domaine privé', 'TG'];
 
+List<String> listeGenre = [
+  'Masculin', 'Féminin', 'Autre'
+];
+
 class CharbonnierModification extends StatefulWidget {
   final CharbonnierEntity charbonnierEnCours;
   final List<MeuleEntity> meules;
@@ -182,6 +186,9 @@ class _CharbonnierModificationState extends State<CharbonnierModification> {
   String typeMeuleChoosed;
   bool showMeuleAmeliore = false;
   String meuleAmelioreChoosed;
+
+  //Modif 5072021
+  var pratique = TextEditingController();
 
   
   _save(CharbonnierEntity charbonnierEnCours) async {
@@ -236,6 +243,7 @@ class _CharbonnierModificationState extends State<CharbonnierModification> {
     formateur.text = widget.charbonnierEnCours.formateur;
     commune.text = widget.charbonnierEnCours.commune;
     agg.text = widget.charbonnierEnCours.agg;
+    pratique.text = widget.charbonnierEnCours.pratique;
     
     for (var i = 0; i < widget.meules.length; i++) {
       meules.putIfAbsent(widget.meules[i].typeMeule, () => {
@@ -443,7 +451,7 @@ class _CharbonnierModificationState extends State<CharbonnierModification> {
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Agglomération",
+                  child: Text("Localité",
                       style: TextStyle(
                           color: ArgonColors.text,
                           fontWeight: FontWeight.w500,
@@ -454,11 +462,71 @@ class _CharbonnierModificationState extends State<CharbonnierModification> {
                   padding: const EdgeInsets.only(top: 4.0),
                   child: Input(
                     enable: true,
-                    placeholder: "Entrer le nom de l'agglomération",
+                    placeholder: "Entrer le nom de la localité",
                     borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: agg,
                   )
               ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Genre",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                        padding:const EdgeInsets.only(left: 8.0),
+                        child: DropdownButton<String>(
+                          hint: Text("Choisir le genre",
+                              style: TextStyle(
+                                  color: ArgonColors.muted,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14
+                              )
+                          ),
+                          underline: SizedBox(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ArgonColors.text,
+                              backgroundColor: Colors.white
+                          ),
+                          value: widget.charbonnierEnCours.genre,
+                          isExpanded: true,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              widget.charbonnierEnCours.genre = newValue;
+                            });
+                          },
+                          items: listeGenre
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      )
+                  )
+              ),
+
+
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 16.0),
                 child: Align(
@@ -1072,6 +1140,29 @@ class _CharbonnierModificationState extends State<CharbonnierModification> {
                     padding: const EdgeInsets.only(left: 8.0, top: 8),
                     child: Align(
                       alignment: Alignment.centerLeft,
+                      child: Text("Existence de pare-feu",
+                          style: TextStyle(
+                              color: ArgonColors.text,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12)),
+                    ),
+                  ),
+                  Switch.adaptive(
+                    value: widget.charbonnierEnCours.parefeu,
+                    onChanged: (bool newValue) =>
+                        setState(() => widget.charbonnierEnCours.parefeu = newValue),
+                    activeColor: ArgonColors.primary,
+                  ),
+                ],
+              ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0, top: 8),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
                       child: Text("Existence d'authorisation ou permis",
                           style: TextStyle(
                               color: ArgonColors.text,
@@ -1087,8 +1178,6 @@ class _CharbonnierModificationState extends State<CharbonnierModification> {
                   ),
                 ],
               ),
-
-              SizedBox(height: 8.0),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1111,6 +1200,34 @@ class _CharbonnierModificationState extends State<CharbonnierModification> {
                     activeColor: ArgonColors.primary,
                   ),
                 ],
+              ),
+              Visibility(
+                  visible: widget.charbonnierEnCours.formation,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0, top: 8),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Temps de pratique des techniques améliorées de carbonisation",
+                          style: TextStyle(
+                              color: ArgonColors.text,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12)),
+                    ),
+                  )
+              ),
+              Visibility(
+                  visible: widget.charbonnierEnCours.formation,
+                  child: Padding(
+                      padding: const EdgeInsets.only(top: 4.0),
+                      child: Input(
+                          enable: true,
+                          placeholder: "Entrer le temps de pratique (année)",
+                          borderColor: Color.fromRGBO(223, 225, 229, 1),
+                          controller: pratique,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
+                      )
+                  )
               ),
               Visibility(
                   visible: widget.charbonnierEnCours.formation,

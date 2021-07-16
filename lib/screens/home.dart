@@ -40,6 +40,11 @@ final Map<String, Map<String, String>> homeCards = {
     "image":
         "assets/img/barrier.png"
   },
+  "ForetNat": {
+    "title": "Forêt Naturelle",
+    "image":
+    "assets/img/barrier.png"
+  },
   "Pepiniere": {
     "title": "Pépiniere",
     "image":
@@ -67,7 +72,7 @@ class Home extends StatelessWidget {
     Future<int> valiny;
     helper.queryAllMenageString().then((value) => {
       
-      for (var menage in value) {
+      /*for (var menage in value) {
         synchronisation(menage, 'add.php')
       },
       helper.queryAllEnergieCuissonString().then((value1) => {
@@ -75,14 +80,28 @@ class Home extends StatelessWidget {
         for (var ec in value1) {
           synchronisation(ec, 'ec')
         }
-      }),
+      }),*/
       helper.queryAllCharbonnierString().then((value2) => {
         
         for (var ch in value2) {
-          synchronisation(ch, 'charbonnier')
+          synchronisation(<String, String>{
+            "_id" : ch["_id"],
+            "date" : ch["date"],
+            "district" : ch["district"],
+            "agglomeration" : ch["agglomeration"],
+            "espece_bois" : ch["espece_bois"],
+            "autorisation" : ch["autorisation"],
+            "formation" : ch["formation"],
+            "formateur" : ch["formateur"],
+            "commune" : ch["commune"],
+            "agg" : ch["agg"],
+            "genre" : ch["genreCharbonnier"],
+            "parefeu" : ch["parefeuCharbonnier"],
+            "pratique" : ch["pratiqueCharbonnier"],
+            "deleted" : ch["deleted"]}, 'synchro/charbonnier.php')
         }
       }),
-      helper.queryAllMeuleString().then((value3) => {
+      /*helper.queryAllMeuleString().then((value3) => {
         
         for (var m in value3) {
           synchronisation(m, 'meule')
@@ -104,30 +123,30 @@ class Home extends StatelessWidget {
         for (var ds in value6) {
           synchronisation(ds, 'donneesecondaire')
         },
-      })
+      })*/
     });
     return valiny;
   }
 
-  Future<String> synchronisation(Map toSend, String chemin) async {
+  Future<String> synchronisation(Map<String, String> toSend, String chemin) async {
+    print('send : ');
+    print(toSend);
+    print('____________');
     final response = await http.post(
-      Uri.https('temporaire.llanddev.org', chemin),
-      // headers: <String, String>{
-      //   'Content-Type': 'application/json; charset=UTF-8',
-      // },
+      Uri.https('ssbeac.llanddev.org', chemin),
       body: toSend,
-    );
-    print("result : _______________________________________________");
-    print(response.body);
-    return jsonDecode(response.body);
+    ).then((value) => {
+      print('result : '),
+      print(jsonDecode(value.body)),
+      print('____________'),
+    });
+    //return jsonDecode(response);
     // if (response.statusCode == 201) {
     //   return (jsonDecode(response.body));
     // } else {
     //   throw Exception(jsonDecode(response.body));
     // }
   }
-
-
   
   @override
   Widget build(BuildContext context) {
@@ -240,6 +259,28 @@ class Home extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 8.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CardSmall(
+                        cta: "Accéder au formulaire",
+                        title: homeCards["ForetNat"]['title'],
+                        img: homeCards["ForetNat"]['image'],
+                        tap: () {
+                          Navigator.pushNamed(context, '/foretNat');
+                        }),
+                    CardSmall(
+                        cta: "Accéder au formulaire",
+                        title: homeCards["ForetNat"]['title'],
+                        img: homeCards["ForetNat"]['image'],
+                        tap: () {
+                          Navigator.pushNamed(context, '/pepiniere');
+                        })
+                  ],
+                ),
+                SizedBox(height: 8.0),
+
+
                 GestureDetector(
                   onTap: () {
                     Navigator.pushNamed(context, '/listemenage');
@@ -292,6 +333,24 @@ class Home extends StatelessWidget {
                           ),
                         )
                       ],)
+                  ),
+                ),
+
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/listeforetnaturel');
+                  },
+                  child: Card(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Material(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("Liste Forêt naturelle"),
+                            ),
+                          )
+                        ],)
                   ),
                 ),
                 

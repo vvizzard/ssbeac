@@ -27,9 +27,10 @@ class _ListeBarriereState extends State<ListeBarriere> {
 
   void initState() {
     helper.queryAllBarriere().then((value) => setState(() {
+      print("Database Barriere : ");
+      print(value);
+      print("__________________");
       barrieresEnCours = value;
-      // print('blabla');
-      // print(value);
     }));    
     super.initState();
   }

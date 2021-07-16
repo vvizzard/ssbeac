@@ -178,7 +178,6 @@ class _MenageState extends State<Menage> {
   String districtChoosed;
   String agglomerationChoosedd;
   String typeMenageChoosedd;
-  var tailleDeMenageChoosed = TextEditingController();
   String typeGrosConsommateurChoosedd;
 
   var commune = TextEditingController();
@@ -198,6 +197,13 @@ class _MenageState extends State<Menage> {
   var qteECHumideTemp = TextEditingController();
   var prixECHumideTemp = TextEditingController();
 
+  var nbrHomme = TextEditingController();
+  var nbrFemme = TextEditingController();
+  var nbrEnfant = TextEditingController();
+  var nbrMalade = TextEditingController();
+  var nbrFemmeMalade = TextEditingController();
+  var nbrEnfantMalade = TextEditingController();
+
   DatabaseHelper helper = DatabaseHelper.instance;
 
   _save() async {
@@ -212,8 +218,13 @@ class _MenageState extends State<Menage> {
     menage.commune = commune.text;
     menage.agg = agg.text;
     menage.typeMenage = typeMenageChoosedd;
-    menage.tailleMenage = int.tryParse(tailleDeMenageChoosed.text);
     menage.typeGrosConsommateur = typeGrosConsommateurChoosedd;
+    menage.nbrHomme = int.tryParse(nbrEnfant.text);
+    menage.nbrFemme = int.tryParse(nbrEnfant.text);
+    menage.nbrEnfant = int.tryParse(nbrEnfant.text);
+    menage.nbrMalade = int.tryParse(nbrMalade.text);
+    menage.nbrEnfantMalade = int.tryParse(nbrEnfantMalade.text);
+    menage.nbrFemmeMalade = int.tryParse(nbrFemmeMalade.text);
 
     List<EnergieCuissonEntity> energies = [];
 
@@ -231,11 +242,8 @@ class _MenageState extends State<Menage> {
     energieCuissonHumideChoosed.forEach((key, value) {
       EnergieCuissonEntity energie = EnergieCuissonEntity();
       energie.energieCuisson = value['energie'];
-      energie.typeFoyer = value['aenergie'];
       energie.qte = int.tryParse(value['qte']);
       energie.prix = int.tryParse(value['prix']);
-      energie.frequenceFoyer = double.tryParse(value['frequence']);
-      energie.puFoyer = double.tryParse(value['pu']);
       energie.saison = 'humide';
       energies.add(energie);
     });
@@ -470,7 +478,7 @@ class _MenageState extends State<Menage> {
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Agglomération",
+                  child: Text("Localité",
                       style: TextStyle(
                           color: ArgonColors.text,
                           fontWeight: FontWeight.w500,
@@ -481,7 +489,7 @@ class _MenageState extends State<Menage> {
                   padding: const EdgeInsets.only(top: 4.0),
                   child: Input(
                       enable: true,
-                      placeholder: "Entrer le nom de l'agglomération ",
+                      placeholder: "Entrer le nom de la localité ",
                       borderColor: Color.fromRGBO(223, 225, 229, 1),
                       controller: agg
                   )
@@ -528,18 +536,6 @@ class _MenageState extends State<Menage> {
                           ),
                           value: typeMenageChoosedd,
                           isExpanded: true,
-                          onChanged: (String newValue) {
-                            setState(() {
-                              typeMenageChoosedd = newValue;
-                              if(typeMenageChoosedd.contains("Ménage")) {
-                                showTailleMenage=true;
-                                showTypeGrosConsommateur=false;
-                              } else {
-                                showTailleMenage=false;
-                                showTypeGrosConsommateur=true;
-                              }
-                            });
-                          },
                           items: typeMenage
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
@@ -551,40 +547,9 @@ class _MenageState extends State<Menage> {
                       ),
                   )
               ),
-              // Taille de ménage
-              Visibility(
-                visible: showTailleMenage,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8.0, top: 8),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Taille de ménage",
-                        style: TextStyle(
-                            color: ArgonColors.text,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12)),
-                  ),
-                )
-              ),
-              Visibility(
-                visible: showTailleMenage,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
-                  child: Input(
-                    // enable: false,
-                    placeholder: "Entrer la taille de ménage",
-                    borderColor: Color.fromRGBO(223, 225, 229, 1),
-                    controller: tailleDeMenageChoosed,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
-                    // onTap: ()=>_selectDate(context),
-                  ),
-                )
-              ),
-
               // Type de gros consommateur
               Visibility(
-                visible: showTypeGrosConsommateur,
+                visible: !(typeMenageChoosedd == "Ménage"),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8.0, top: 8),
                   child: Align(
@@ -598,7 +563,7 @@ class _MenageState extends State<Menage> {
                 )
               ),
               Visibility(
-                visible: showTypeGrosConsommateur,
+                visible: !(typeMenageChoosedd == "Ménage"),
                 child: Container(
                     decoration: ShapeDecoration(
                       shape: RoundedRectangleBorder(
@@ -644,13 +609,175 @@ class _MenageState extends State<Menage> {
                     )
                 )
               ),
+              Visibility(
+                  visible: !(typeMenageChoosedd == "Ménage"),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0, top: 8),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Nombre d'hommes",
+                          style: TextStyle(
+                              color: ArgonColors.text,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12)),
+                    ),
+                  )
+              ),
+              Visibility(
+                  visible: !(typeMenageChoosedd == "Ménage"),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: Input(
+                      // enable: false,
+                        placeholder: "Entrer le nombre d'hommes",
+                        borderColor: Color.fromRGBO(223, 225, 229, 1),
+                        controller: nbrHomme,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
+                      // onTap: ()=>_selectDate(context),
+                    ),
+                  )
+              ),
+              Visibility(
+                  visible: (typeMenageChoosedd == "Ménage"),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0, top: 8),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Nombre d'enfants",
+                          style: TextStyle(
+                              color: ArgonColors.text,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12)),
+                    ),
+                  )
+              ),
+              Visibility(
+                  visible: (typeMenageChoosedd == "Ménage"),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: Input(
+                      // enable: false,
+                        placeholder: "Entrer le nombre d'enfants",
+                        borderColor: Color.fromRGBO(223, 225, 229, 1),
+                        controller: nbrEnfant,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
+                      // onTap: ()=>_selectDate(context),
+                    ),
+                  )
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Nombre de femmes",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                  // enable: false,
+                    placeholder: "Entrer le nombre de femmes",
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
+                    controller: nbrFemme,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
+                  // onTap: ()=>_selectDate(context),
+                ),
+              ),
 
-              // Saison sèche
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 24.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Consommation en saison sèche",
+                  child: Text("Nombre de personnes touchées par des infections respiratoires et oculaires causées par l’utilisation de bois énergie (dans le ménage ou employées si gros consommateurs)",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Nombre total de malade",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                  // enable: false,
+                    placeholder: "Entrer le nombre",
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
+                    controller: nbrMalade,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
+                  // onTap: ()=>_selectDate(context),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Nombre de femmes",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                  // enable: false,
+                    placeholder: "Entrer le nombre de femmes malades",
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
+                    controller: nbrFemmeMalade,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
+                  // onTap: ()=>_selectDate(context),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Nombre d'enfants",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                  // enable: false,
+                    placeholder: "Entrer le nombre d'enfants malades",
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
+                    controller: nbrEnfantMalade,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
+                  // onTap: ()=>_selectDate(context),
+                ),
+              ),
+
+              // Consommation cuisson
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 24.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Consommation pour la cuisson",
                     style: TextStyle(
                       color: ArgonColors.text,
                       fontWeight: FontWeight.w600,
@@ -743,7 +870,7 @@ class _MenageState extends State<Menage> {
                               ),
                               TableRow(
                                 children: <Widget>[
-                                  Text("Renouvellement de foyers :", style: TextStyle(
+                                  Text("Renouvellement de foyers/equipement :", style: TextStyle(
                                       color: ArgonColors.text,
                                       fontSize: 10
                                   )
@@ -1039,11 +1166,8 @@ class _MenageState extends State<Menage> {
                       setState(() {
                         energieCuissonSecheChoosed.putIfAbsent(energieCuissonSecheTempChoosed, () => {
                             "energie": energieCuissonSecheTempChoosed,
-                            "aenergie": typeFoyerTempChoosed,
                             "qte": qteECSecheTemp.text,
-                            "prix": prixECSecheTemp.text,
-                            "frequence" : frequenceFoyer.text,
-                            "pu" : puFoyer.text
+                            "prix": prixECSecheTemp.text
                           }
                         );
                         energieCuissonSecheTempChoosed = null;
@@ -1067,12 +1191,12 @@ class _MenageState extends State<Menage> {
                 ),
               ),
 
-              // Saison humide
+              // AUTRE QUE LA CUISSON
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 24.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Consommation en saison humide",
+                  child: Text("Consommation autre que pour la cuisson",
                     style: TextStyle(
                       color: ArgonColors.text,
                       fontWeight: FontWeight.w600,
@@ -1145,62 +1269,6 @@ class _MenageState extends State<Menage> {
                                   ),
                                 ],
                               ),
-                              if(e.value['aenergie']!=null && e.value['aenergie'].length!=0) TableRow(
-                                children: <Widget>[
-                                  Text("Types de foyers utilisés :", style: TextStyle(
-                                      fontSize: 10
-                                  )
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.all(2.0),
-                                    child: Text(e.value['aenergie'],
-                                        style: TextStyle(
-                                            color: ArgonColors.text,
-                                            fontSize: 10
-                                        ),
-                                        textAlign:TextAlign.end
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              if(e.value['frequence']!=null && e.value['frequence'].length!=0) TableRow(
-                                children: <Widget>[
-                                  Text("Renouvellement de foyers :", style: TextStyle(
-                                      color: ArgonColors.text,
-                                      fontSize: 10
-                                  )
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.all(2.0),
-                                    child: Text(e.value['frequence'],
-                                        style: TextStyle(
-                                            color: ArgonColors.text,
-                                            fontSize: 10
-                                        ),
-                                        textAlign:TextAlign.end
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              if(e.value['pu']!=null && e.value['pu'].length!=0) TableRow(
-                                children: <Widget>[
-                                  Text("Prix total annuel de foyer :", style: TextStyle(
-                                      color: ArgonColors.text,
-                                      fontSize: 10
-                                  )
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.all(2.0),
-                                    child: Text(e.value['pu'],
-                                        style: TextStyle(
-                                            color: ArgonColors.text,
-                                            fontSize: 12
-                                        ),
-                                        textAlign:TextAlign.end
-                                    ),
-                                  ),
-                                ],
-                              ),
                             ],
                           ),
                         ),
@@ -1228,7 +1296,7 @@ class _MenageState extends State<Menage> {
                 padding: const EdgeInsets.only(left: 8.0, top: 16.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Energie de cuisson",
+                  child: Text("Energie",
                       style: TextStyle(
                           color: ArgonColors.text,
                           fontWeight: FontWeight.w500,
@@ -1251,7 +1319,7 @@ class _MenageState extends State<Menage> {
                       child: Padding(
                         padding:const EdgeInsets.only(left: 8.0),
                         child: DropdownButton<String>(
-                          hint: Text("Choisir le type d'énergie de cuisson",
+                          hint: Text("Choisir le type d'énergie",
                               style: TextStyle(
                                   color: ArgonColors.muted,
                                   fontWeight: FontWeight.w400,
@@ -1269,24 +1337,6 @@ class _MenageState extends State<Menage> {
                           onChanged: (String newValue) {
                             setState(() {
                               energieCuissonHumideTempChoosed = newValue;
-                              if(energieCuissonHumideTempChoosed.contains('Charbon de Bois')
-                                  || energieCuissonHumideTempChoosed.contains('Bois de Chauffe')) {
-                                showTypeFoyerHumide = true;
-                              } else {
-                                showTypeFoyerHumide = false;
-                              }
-                              if(energieCuissonHumideTempChoosed.contains('Biogaz')){
-                                unite = '(m³)';
-                              } else if(energieCuissonHumideTempChoosed.contains('Electricité')) {
-                                unite = '(kWh)';
-                              } else if(energieCuissonHumideTempChoosed.contains('Bioéthanol')
-                                  ||energieCuissonHumideTempChoosed.contains('Pétrol')) {
-                                unite = '(l)';
-                              } else {
-                                unite = '(kg)';
-                              }
-                              showFoyer = checkFoyer(energieCuissonHumideTempChoosed);
-                              print(showFoyer);
                             });
                           },
                           items: listeEnergieCuisson
@@ -1304,7 +1354,7 @@ class _MenageState extends State<Menage> {
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Quantité déstinée à la cuisson par mois",
+                  child: Text("Quantité autre que pour la cuisson par mois",
                       style: TextStyle(
                           color: ArgonColors.text,
                           fontWeight: FontWeight.w500,
@@ -1345,124 +1395,6 @@ class _MenageState extends State<Menage> {
                     inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
                   )
               ),
-              // Types de foyers utilisés saison Humide
-              Visibility(
-                visible: showTypeFoyerHumide,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8.0, top: 8),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Types de foyers utilisés",
-                        style: TextStyle(
-                            color: ArgonColors.text,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12)),
-                  ),
-                )
-              ),
-              Visibility(
-                visible: showTypeFoyerHumide,
-                child: Container(
-                  decoration: ShapeDecoration(
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        width: 1.0,
-                        color: Color.fromRGBO(223, 225, 229, 1),
-                        style: BorderStyle.solid
-                      ),
-                      borderRadius: BorderRadius.all(Radius.circular(4.0))
-                    ),
-                  ),
-                  child: Padding(
-                    padding:const EdgeInsets.only(left: 8.0),
-                    child: DropdownButton<String>(
-                      hint: Text("Choisir le district",
-                        style: TextStyle(
-                          color: ArgonColors.muted,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14
-                        )
-                      ),
-                      underline: SizedBox(),
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: ArgonColors.text,
-                        backgroundColor: Colors.white
-                      ),
-                      value: typeFoyerHumideTempChoosed,
-                      isExpanded: true,
-                      onChanged: (String newValue) {
-                        setState(() {
-                          typeFoyerHumideTempChoosed = newValue;
-                        });
-                      },
-                      items: listetypeFoyer
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    ),
-                  )
-                )
-              ),
-              Visibility(
-                  visible: showFoyer,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0, top: 8),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text("Fréquence de renouvellement des foyers par an",
-                          style: TextStyle(
-                              color: ArgonColors.text,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 12)),
-                    ),
-                  )
-              ),
-              Visibility(
-                visible: showFoyer,
-                child: Padding(
-                    padding: const EdgeInsets.only(top: 4.0),
-                    child: Input(
-                      enable: true,
-                      placeholder: "Entrer la fréquence annuelle",
-                      borderColor: Color.fromRGBO(223, 225, 229, 1),
-                      controller: frequenceFoyerH,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
-                    )
-                ),
-              ),
-              Visibility(
-                  visible: showFoyer,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0, top: 8),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text("Prix total annuel des foyers",
-                          style: TextStyle(
-                              color: ArgonColors.text,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 12)),
-                    ),
-                  )
-              ),
-              Visibility(
-                visible: showFoyer,
-                child: Padding(
-                    padding: const EdgeInsets.only(top: 4.0),
-                    child: Input(
-                      enable: true,
-                      placeholder: "Entrer le prix annuel total des foyers (Ar)",
-                      borderColor: Color.fromRGBO(223, 225, 229, 1),
-                      controller: puFoyerH,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
-                    )
-                ),
-              ),
               SizedBox(
                 width: double.infinity,
                 child: Padding(
@@ -1475,11 +1407,8 @@ class _MenageState extends State<Menage> {
                       setState(() {
                         energieCuissonHumideChoosed.putIfAbsent(energieCuissonHumideTempChoosed, () => {
                             "energie": energieCuissonHumideTempChoosed,
-                            "aenergie": typeFoyerHumideTempChoosed,
                             "qte": qteECHumideTemp.text,
-                            "prix": prixECHumideTemp.text,
-                            "frequence": frequenceFoyerH.text,
-                            "pu": puFoyerH.text
+                            "prix": prixECHumideTemp.text
                           }
                         );
                         showFoyer = false;

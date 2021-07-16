@@ -178,12 +178,15 @@ class _ReboisementModificationState extends State<ReboisementModification> {
   var agg = TextEditingController();
   var proprietaire = TextEditingController();
   var superficie = TextEditingController();
+  var surfaceDetruit = TextEditingController();
   var anneePlantation = TextEditingController();
   var densite = TextEditingController();
   var tauxRemplissage = TextEditingController();
   var essenceChoosed = TextEditingController();
   var acteur = TextEditingController();
   var type = TextEditingController();
+  var appui = TextEditingController();
+  var controle = TextEditingController();
 
   DatabaseHelper helper = DatabaseHelper.instance;
 
@@ -200,6 +203,9 @@ class _ReboisementModificationState extends State<ReboisementModification> {
     reboisementEnCours.densite = double.tryParse(densite.text);
     reboisementEnCours.tauxRemplissage = double.tryParse(tauxRemplissage.text);
     reboisementEnCours.type = type.text;
+    reboisementEnCours.surfaceDetruit = double.tryParse(surfaceDetruit.text);
+    reboisementEnCours.appui = appui.text;
+    reboisementEnCours.controle = double.tryParse(controle.text);
 
     if(!reboisementEnCours.pareFeux) {
       reboisementEnCours.pareFeuxChoosed=null;
@@ -238,7 +244,10 @@ class _ReboisementModificationState extends State<ReboisementModification> {
     essenceChoosed.text = widget.reboisementEnCours.essenceChoosed;
     acteur.text = widget.reboisementEnCours.acteur;
     type.text = widget.reboisementEnCours.type;
-    
+    surfaceDetruit.text = widget.reboisementEnCours.surfaceDetruit.toString();
+    appui.text = widget.reboisementEnCours.appui;
+    controle.text = widget.reboisementEnCours.controle.toString();
+
     return Scaffold(
       appBar: Navbar(
         title: "Reboisement",
@@ -386,7 +395,7 @@ class _ReboisementModificationState extends State<ReboisementModification> {
               padding: const EdgeInsets.only(left: 8.0, top: 8),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text("Agglomération",
+                child: Text("Localité",
                     style: TextStyle(
                         color: ArgonColors.text,
                         fontWeight: FontWeight.w500,
@@ -397,7 +406,7 @@ class _ReboisementModificationState extends State<ReboisementModification> {
               padding: const EdgeInsets.only(top: 4.0),
               child: Input(
                   enable: true,
-                  placeholder: "Entrer le nom de l'agglomération",
+                  placeholder: "Entrer le nom de la localité",
                   borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: agg,
               )
@@ -497,7 +506,7 @@ class _ReboisementModificationState extends State<ReboisementModification> {
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Input(
                   enable: true,
-                  placeholder: "Entrer la superficie",
+                  placeholder: "Entrer la superficie (ha)",
                   borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: superficie,
                   keyboardType: TextInputType.number,
@@ -508,7 +517,29 @@ class _ReboisementModificationState extends State<ReboisementModification> {
               padding: const EdgeInsets.only(left: 8.0, top: 8),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text("Type de reboisement",
+                child: Text("Année de plantation",
+                    style: TextStyle(
+                        color: ArgonColors.text,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12)),
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                    enable: true,
+                    placeholder: "Entrer l'année de plantation",
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
+                    controller: anneePlantation,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
+                )
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Acteurs",
                     style: TextStyle(
                         color: ArgonColors.text,
                         fontWeight: FontWeight.w500,
@@ -519,12 +550,11 @@ class _ReboisementModificationState extends State<ReboisementModification> {
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Input(
                   enable: true,
-                  placeholder: "(ex: Agroforesterie, Arbres hors forêts, Plantation à vocation énergétique, …)",
+                  placeholder: "(ex: Institution, Individuel, Communautraie, ...)",
                   borderColor: Color.fromRGBO(223, 225, 229, 1),
-                  controller: type,
+                  controller: acteur,
                 )
             ),
-
             SizedBox(height: 8.0),
 
             Row(
@@ -534,7 +564,7 @@ class _ReboisementModificationState extends State<ReboisementModification> {
                   padding: const EdgeInsets.only(left: 8.0, top: 8),
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text("Existence de pare-feux",
+                    child: Text("Existence de système de protection",
                         style: TextStyle(
                             color: ArgonColors.text,
                             fontWeight: FontWeight.w500,
@@ -549,72 +579,28 @@ class _ReboisementModificationState extends State<ReboisementModification> {
                 ),
               ],
             ),
-
-            Visibility(
-              visible: widget.reboisementEnCours.pareFeux,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Pare-feux",
-                      style: TextStyle(
-                          color: ArgonColors.text,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12)),
-                ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Surface de reboisement détruite",
+                    style: TextStyle(
+                        color: ArgonColors.text,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12)),
               ),
             ),
-            Visibility(
-              visible: widget.reboisementEnCours.pareFeux,
-              child: Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
-                  child: Container(
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                                width: 1.0,
-                                color: Color.fromRGBO(223, 225, 229, 1),
-                                style: BorderStyle.solid
-                            ),
-                            borderRadius: BorderRadius.all(Radius.circular(4.0))
-                        ),
-                      ),
-                      child: Padding(
-                        padding:const EdgeInsets.only(left: 8.0),
-                        child: DropdownButton<String>(
-                          hint: Text("Choisir le pare-feux",
-                              style: TextStyle(
-                                  color: ArgonColors.muted,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14
-                              )
-                          ),
-                          underline: SizedBox(),
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: ArgonColors.text,
-                              backgroundColor: Colors.white
-                          ),
-                          value: widget.reboisementEnCours.pareFeuxChoosed,
-                          isExpanded: true,
-                          onChanged: (String newValue) {
-                            setState(() {
-                              widget.reboisementEnCours.pareFeuxChoosed = newValue;
-                            });
-                          },
-                          items: listeCodePareFeux
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        ),
-                      )
-                  )
-              )
+            Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                    enable: true,
+                    placeholder: "Entrer la surface (ha)",
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
+                    controller: surfaceDetruit,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
+                )
             ),
-
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 8.0),
               child: Align(
@@ -640,36 +626,36 @@ class _ReboisementModificationState extends State<ReboisementModification> {
                       ),
                     ),
                     child: Padding(
-                        padding:const EdgeInsets.only(left: 8.0),
-                        child: DropdownButton<String>(
-                          hint: Text("Choisir le type de culture",
-                              style: TextStyle(
-                                  color: ArgonColors.muted,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14
-                              )
-                          ),
-                          underline: SizedBox(),
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: ArgonColors.text,
-                              backgroundColor: Colors.white
-                          ),
-                          value: widget.reboisementEnCours.cultureChoosed,
-                          isExpanded: true,
-                          onChanged: (String newValue) {
-                            setState(() {
-                              widget.reboisementEnCours.cultureChoosed = newValue;
-                            });
-                          },
-                          items: listeCulture
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
+                      padding:const EdgeInsets.only(left: 8.0),
+                      child: DropdownButton<String>(
+                        hint: Text("Choisir le type de culture",
+                            style: TextStyle(
+                                color: ArgonColors.muted,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14
+                            )
                         ),
+                        underline: SizedBox(),
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: ArgonColors.text,
+                            backgroundColor: Colors.white
+                        ),
+                        value: widget.reboisementEnCours.cultureChoosed,
+                        isExpanded: true,
+                        onChanged: (String newValue) {
+                          setState(() {
+                            widget.reboisementEnCours.cultureChoosed = newValue;
+                          });
+                        },
+                        items: listeCulture
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
                     )
                 )
             ),
@@ -685,15 +671,14 @@ class _ReboisementModificationState extends State<ReboisementModification> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 4.0),
-              child: Input(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
                   enable: true,
                   placeholder: "Entrer les essences recensées",
                   borderColor: Color.fromRGBO(223, 225, 229, 1),
                   controller: essenceChoosed,
-              )
+                )
             ),
-
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 8.0),
               child: Align(
@@ -719,94 +704,36 @@ class _ReboisementModificationState extends State<ReboisementModification> {
                       ),
                     ),
                     child: Padding(
-                        padding:const EdgeInsets.only(left: 8.0),
-                        child: DropdownButton<String>(
-                          hint: Text("Choisir la provenance des semences",
-                              style: TextStyle(
-                                  color: ArgonColors.muted,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14
-                              )
-                          ),
-                          underline: SizedBox(),
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: ArgonColors.text,
-                              backgroundColor: Colors.white
-                          ),
-                          value: widget.reboisementEnCours.provenanceSemenceChoosed,
-                          isExpanded: true,
-                          onChanged: (String newValue) {
-                            setState(() {
-                              widget.reboisementEnCours.provenanceSemenceChoosed = newValue;
-                            });
-                          },
-                          items: listeProvenanceSemmenceCulture
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
+                      padding:const EdgeInsets.only(left: 8.0),
+                      child: DropdownButton<String>(
+                        hint: Text("Choisir la provenance des semences",
+                            style: TextStyle(
+                                color: ArgonColors.muted,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14
+                            )
                         ),
-                    )
-                )
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text("Productivités",
-                    style: TextStyle(
-                        color: ArgonColors.text,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12)),
-              ),
-            ),
-            Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Container(
-                    decoration: ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                              width: 1.0,
-                              color: Color.fromRGBO(223, 225, 229, 1),
-                              style: BorderStyle.solid
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        underline: SizedBox(),
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: ArgonColors.text,
+                            backgroundColor: Colors.white
+                        ),
+                        value: widget.reboisementEnCours.provenanceSemenceChoosed,
+                        isExpanded: true,
+                        onChanged: (String newValue) {
+                          setState(() {
+                            widget.reboisementEnCours.provenanceSemenceChoosed = newValue;
+                          });
+                        },
+                        items: listeProvenanceSemmenceCulture
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
                       ),
-                    ),
-                    child: Padding(
-                        padding:const EdgeInsets.only(left: 8.0),
-                        child: DropdownButton<String>(
-                          hint: Text("Choisir la productivités",
-                              style: TextStyle(
-                                  color: ArgonColors.muted,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14
-                              )
-                          ),
-                          underline: SizedBox(),
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: ArgonColors.text,
-                              backgroundColor: Colors.white
-                          ),
-                          value: widget.reboisementEnCours.productiviteChoosed,
-                          isExpanded: true,
-                          onChanged: (String newValue) {
-                            setState(() {
-                              widget.reboisementEnCours.productiviteChoosed = newValue;
-                            });
-                          },
-                          items: listeProductivite
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        ),
                     )
                 )
             ),
@@ -835,62 +762,39 @@ class _ReboisementModificationState extends State<ReboisementModification> {
                       ),
                     ),
                     child: Padding(
-                        padding:const EdgeInsets.only(left: 8.0),
-                        child: DropdownButton<String>(
-                          hint: Text("Choisir le travail du sol",
-                              style: TextStyle(
-                                  color: ArgonColors.muted,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14
-                              )
-                          ),
-                          underline: SizedBox(),
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: ArgonColors.text,
-                              backgroundColor: Colors.white
-                          ),
-                          value: widget.reboisementEnCours.travauxSolChoosed,
-                          isExpanded: true,
-                          onChanged: (String newValue) {
-                            setState(() {
-                              widget.reboisementEnCours.travauxSolChoosed = newValue;
-                            });
-                          },
-                          items: listeTravauxSol
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
+                      padding:const EdgeInsets.only(left: 8.0),
+                      child: DropdownButton<String>(
+                        hint: Text("Choisir le travail du sol",
+                            style: TextStyle(
+                                color: ArgonColors.muted,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14
+                            )
                         ),
+                        underline: SizedBox(),
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: ArgonColors.text,
+                            backgroundColor: Colors.white
+                        ),
+                        value: widget.reboisementEnCours.travauxSolChoosed,
+                        isExpanded: true,
+                        onChanged: (String newValue) {
+                          setState(() {
+                            widget.reboisementEnCours.travauxSolChoosed = newValue;
+                          });
+                        },
+                        items: listeTravauxSol
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
                     )
                 )
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 8),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text("Année de plantation",
-                    style: TextStyle(
-                        color: ArgonColors.text,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12)),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 4.0),
-              child: Input(
-                  enable: true,
-                  placeholder: "Entrer l'année de plantation",
-                  borderColor: Color.fromRGBO(223, 225, 229, 1),
-                  controller: anneePlantation,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
-              )
-            ),
-
             Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 8),
               child: Align(
@@ -903,40 +807,16 @@ class _ReboisementModificationState extends State<ReboisementModification> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 4.0),
-              child: Input(
-                  enable: true,
-                  placeholder: "Entrer la densité (nbr pieds/ha)",
-                  borderColor: Color.fromRGBO(223, 225, 229, 1),
-                  controller: densite,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
-              )
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                    enable: true,
+                    placeholder: "Entrer la densité (nbr pieds/ha)",
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
+                    controller: densite,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
+                )
             ),
-
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 8),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text("Taux de remplissage",
-                    style: TextStyle(
-                        color: ArgonColors.text,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12)),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 4.0),
-              child: Input(
-                  enable: true,
-                  placeholder: "Entrer le taux de remplissage (%)",
-                  borderColor: Color.fromRGBO(223, 225, 229, 1),
-                  controller: tauxRemplissage,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
-              )
-            ),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -959,12 +839,11 @@ class _ReboisementModificationState extends State<ReboisementModification> {
                 ),
               ],
             ),
-
             Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 8),
+              padding: const EdgeInsets.only(left: 8.0, top: 8.0),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text("Acteurs/Opérateurs",
+                child: Text("Productivités",
                     style: TextStyle(
                         color: ArgonColors.text,
                         fontWeight: FontWeight.w500,
@@ -972,13 +851,93 @@ class _ReboisementModificationState extends State<ReboisementModification> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 4.0),
-              child: Input(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Container(
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              width: 1.0,
+                              color: Color.fromRGBO(223, 225, 229, 1),
+                              style: BorderStyle.solid
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(4.0))
+                      ),
+                    ),
+                    child: Padding(
+                      padding:const EdgeInsets.only(left: 8.0),
+                      child: DropdownButton<String>(
+                        hint: Text("Choisir la productivités",
+                            style: TextStyle(
+                                color: ArgonColors.muted,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14
+                            )
+                        ),
+                        underline: SizedBox(),
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: ArgonColors.text,
+                            backgroundColor: Colors.white
+                        ),
+                        value: widget.reboisementEnCours.productiviteChoosed,
+                        isExpanded: true,
+                        onChanged: (String newValue) {
+                          setState(() {
+                            widget.reboisementEnCours.productiviteChoosed = newValue;
+                          });
+                        },
+                        items: listeProductivite
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    )
+                )
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Organisme d'appui si existant",
+                    style: TextStyle(
+                        color: ArgonColors.text,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12)),
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
                   enable: true,
-                  placeholder: "(ex: Institution, Individuel, Communautraie, ...)",
+                  placeholder: "Entrer le nom de l'organisme",
                   borderColor: Color.fromRGBO(223, 225, 229, 1),
-                  controller: acteur,
-              )
+                  controller: appui,
+                )
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Contrôle et suivi",
+                    style: TextStyle(
+                        color: ArgonColors.text,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12)),
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Input(
+                    enable: true,
+                    placeholder: "Entrer le nombre de contrôle et de suivi",
+                    borderColor: Color.fromRGBO(223, 225, 229, 1),
+                    controller: controle,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
+                )
             ),
 
             SizedBox(

@@ -138,11 +138,7 @@ class _ListeCharbonnierState extends State<ListeCharbonnier> {
                           TextButton(
                             child: const Text('Supprimer'),
                             onPressed: () {
-                              setState(() {
-                                // energieCuissonSecheChoosed.remove(e.key);
-                                // checkFoyer('BC') ? showFoyerBC=true : showFoyerBC=false;
-                                // checkFoyer('CB') ? showFoyerCB=true : showFoyerCB=false;
-                              });
+                              helper.deleteCharbonnier(e['_id']).then((value) => Navigator.pushNamed(context, '/listecharbonnier'));
                             },
                           ),
                           const SizedBox(width: 8),

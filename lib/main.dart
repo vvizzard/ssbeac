@@ -1,5 +1,8 @@
+import 'package:argon_flutter/screens/foret.dart';
+import 'package:argon_flutter/screens/foretNaturel.dart';
 import 'package:argon_flutter/screens/listeBarriere.dart';
 import 'package:argon_flutter/screens/listeCharbonnier.dart';
+import 'package:argon_flutter/screens/listeForetNatuelle.dart';
 import 'package:argon_flutter/screens/listeMenage.dart';
 import 'package:argon_flutter/screens/listePepiniere.dart';
 import 'package:argon_flutter/screens/listeProducteurEnergie.dart';
@@ -50,8 +53,10 @@ class MyApp extends StatelessWidget {
           "/listebarriere": (BuildContext context) => new ListeBarriere(),
           "/barriere": (BuildContext context) => new Barriere(),
           "/reboisement": (BuildContext context) => new Reboisement(),
+          "/foretNat": (BuildContext context) => new Foret(),
           "/pepiniere": (BuildContext context) => new Pepiniere(),
           "/listereboisement": (BuildContext context) => new ListeReboisement(),
+          "/listeforetnaturel": (BuildContext context) => new ListeForetNaturel(),
           "/listepepiniere": (BuildContext context) => new ListePepiniere(),
           "/producteurFoyer" : (BuildContext context) => new ProducteurFoyer(),
           "/listeProductionFoyer" : (BuildContext context) => new ListeProducteurFoyer(),

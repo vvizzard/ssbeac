@@ -143,6 +143,10 @@ List<String> listeZonePrelevement = [
 ];
 List<String> listeDomainePrelevement = ['Domaine\'état', 'Domaine privé', 'TG'];
 
+List<String> listeGenre = [
+  'Masculin', 'Féminin', 'Autre'
+];
+
 class Charbonnier extends StatefulWidget {
   @override
   _CharbonnierState createState() => _CharbonnierState();
@@ -182,6 +186,11 @@ class _CharbonnierState extends State<Charbonnier> {
   int tailleDeCharbonnierChoosed;
   String typeGrosConsommateurChoosed;
 
+  //Modif 5072021
+  String genreChoosed;
+  bool parefeu = false;
+  var pratique = TextEditingController();
+
   DatabaseHelper helper = DatabaseHelper.instance;
 
   Future<void> _selectDate(BuildContext context) async {
@@ -208,6 +217,7 @@ class _CharbonnierState extends State<Charbonnier> {
     charbonnier.especeBoisCharbonnier = especeBois.text;
     charbonnier.commune = commune.text;
     charbonnier.agg = agg.text;
+    charbonnier.agglomerationCharbonnier = agglomerationChoosed;
     // charbonnier.qteBoisCharbonnier = double.tryParse(qte.text);
     // charbonnier.qteCharbonCharbonnier = double.tryParse(qteC.text);
     // charbonnier.zonePrelevelementCharbonnier = zonePrelevementChoosed;
@@ -215,6 +225,10 @@ class _CharbonnierState extends State<Charbonnier> {
     charbonnier.autorisationCharbonnier = autorisation;
     charbonnier.formation = formation;
     charbonnier.formateur = formateur.text;
+    //Modif 05072021
+    charbonnier.genre = genreChoosed;
+    charbonnier.parefeu = parefeu;
+    charbonnier.pratique = pratique.text;
 
     List<MeuleEntity> listeMeules = [];
 
@@ -231,6 +245,9 @@ class _CharbonnierState extends State<Charbonnier> {
       meule.qteC = double.tryParse(value['qteC']);
       listeMeules.add(meule);
     });
+
+    print("New charbonnier *** formulaire");
+    print(charbonnier.toMapString());
 
     int id = await helper.insertCharbonnier(charbonnier, listeMeules);
     print(id);
@@ -430,7 +447,7 @@ class _CharbonnierState extends State<Charbonnier> {
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Agglomération",
+                  child: Text("Localité",
                       style: TextStyle(
                           color: ArgonColors.text,
                           fontWeight: FontWeight.w500,
@@ -441,12 +458,69 @@ class _CharbonnierState extends State<Charbonnier> {
                   padding: const EdgeInsets.only(top: 4.0),
                   child: Input(
                     enable: true,
-                    placeholder: "Entrer le nom de l'agglomération",
+                    placeholder: "Entrer le nom de la localité",
                     borderColor: Color.fromRGBO(223, 225, 229, 1),
                     controller: agg,
                   )
               ),
-
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Genre",
+                      style: TextStyle(
+                          color: ArgonColors.text,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12)),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color.fromRGBO(223, 225, 229, 1),
+                                style: BorderStyle.solid
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(4.0))
+                        ),
+                      ),
+                      child: Padding(
+                          padding:const EdgeInsets.only(left: 8.0),
+                          child: DropdownButton<String>(
+                            hint: Text("Choisir le genre",
+                                style: TextStyle(
+                                    color: ArgonColors.muted,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14
+                                )
+                            ),
+                            underline: SizedBox(),
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: ArgonColors.text,
+                                backgroundColor: Colors.white
+                            ),
+                            value: genreChoosed,
+                            isExpanded: true,
+                            onChanged: (String newValue) {
+                              setState(() {
+                                genreChoosed = newValue;
+                              });
+                            },
+                            items: listeGenre
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          )
+                      )
+                  )
+              ),
               // Liste des meules
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 16.0),
@@ -665,7 +739,7 @@ class _CharbonnierState extends State<Charbonnier> {
                 padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Type de meule de carbonisation utilisée",
+                  child: Text("Type de technique de carbonisation utilisée",
                       style: TextStyle(
                           color: ArgonColors.text,
                           fontWeight: FontWeight.w500,
@@ -1037,6 +1111,7 @@ class _CharbonnierState extends State<Charbonnier> {
                 ),
               ),
 
+              SizedBox(height: 8.0),
 
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, top: 8),
@@ -1059,7 +1134,28 @@ class _CharbonnierState extends State<Charbonnier> {
                 )
               ),
 
-              SizedBox(height: 8.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0, top: 8),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Existence de pare-feu",
+                          style: TextStyle(
+                              color: ArgonColors.text,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12)),
+                    ),
+                  ),
+                  Switch.adaptive(
+                    value: parefeu,
+                    onChanged: (bool newValue) =>
+                        setState(() => parefeu = newValue),
+                    activeColor: ArgonColors.primary,
+                  ),
+                ],
+              ),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1084,8 +1180,6 @@ class _CharbonnierState extends State<Charbonnier> {
                 ],
               ),
 
-              SizedBox(height: 8.0),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -1108,6 +1202,36 @@ class _CharbonnierState extends State<Charbonnier> {
                   ),
                 ],
               ),
+
+              Visibility(
+                  visible: formation,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0, top: 8),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Temps de pratique des techniques améliorées de carbonisation",
+                          style: TextStyle(
+                              color: ArgonColors.text,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12)),
+                    ),
+                  )
+              ),
+              Visibility(
+                  visible: formation,
+                  child: Padding(
+                      padding: const EdgeInsets.only(top: 4.0),
+                      child: Input(
+                          enable: true,
+                          placeholder: "Entrer le temps de pratique (année)",
+                          borderColor: Color.fromRGBO(223, 225, 229, 1),
+                          controller: pratique,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [FilteringTextInputFormatter.allow((RegExp("[.0-9]")))]
+                      )
+                  )
+              ),
+
               Visibility(
                   visible: formation,
                   child: Padding(
